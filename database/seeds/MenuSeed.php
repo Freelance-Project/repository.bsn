@@ -63,5 +63,41 @@ class MenuSeed extends Seeder
                     'order'         => '1'
                 ],['index','create','update','delete']
         ); 
+		
+		 \helper::addMenu([ 
+                    'parent_id'     => 'master',
+                    'title'         => 'Data Pendukung',
+                    'controller'    => 'Master\DataPendukungController',
+                    'slug'          => 'data-pendukung',
+                    'order'         => '1'
+                ],['index','create','update','delete']
+        );
+		
+		\helper::addMenu([ 
+                    'parent_id'     => 'master',
+                    'title'         => 'Data Publikasi',
+                    'controller'    => 'Master\PublikasiController',
+                    'slug'          => 'data-publikasi',
+                    'order'         => '1'
+                ],['index','create','update','delete']
+        );
+		
+		\helper::addMenu([ 
+                    'parent_id'     => 'master',
+                    'title'         => 'Data Personel',
+                    'controller'    => 'Master\PersonelController',
+                    'slug'          => 'data-personel',
+                    'order'         => '1'
+                ],['index','create','update','delete']
+        );
+		
+		\helper::addMenu([ 
+                    'parent_id'     => 'master',
+                    'title'         => 'Program Pendukung',
+                    'controller'    => 'Master\ProgramController',
+                    'slug'          => 'data-program',
+                    'order'         => '1'
+                ],['index','create','update','delete']
+        );
     }
 }
