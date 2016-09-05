@@ -41,7 +41,7 @@ class DataPendukungController extends Controller
 		$model = $this->model;
 		$date = '';
 
-		return view('backend.master.penelitian.form', ['model' => $model,'date' => $date]);
+		return view('backend.master.datapendukung.form', ['model' => $model,'date' => $date]);
 	}
 
 
@@ -92,7 +92,7 @@ class DataPendukungController extends Controller
 		$model  = $this->model->find($id);
 		$date = \Helper::dbToDate($model->created_at);
 		
-		return view('backend.master.penelitian.form' , [
+		return view('backend.master.datapendukung.form' , [
 
 			'model' => $model,
 			'date' => $date,

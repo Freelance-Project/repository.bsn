@@ -16,48 +16,35 @@
 
                     {!! Form::model($model,['files' => true]) !!} 
 					
-					<div class="form-group">
+					<div class="form-group col-md-12">
 						<label>Judul</label>
-                        {!! Form::text('title' , $model->title ,['class' => 'form-control']) !!}
+                        {!! Form::text('judul' , $model->judul ,['class' => 'form-control']) !!}
 					</div>
-                      
-					<div class="form-group">
-                        <label>Ringkasan</label>
-                        {!! Form::text('intro' , $model->intro ,['class' => 'form-control']) !!}
+                    
+					<div class="form-group col-md-6">
+						<label>Tahun</label>
+                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control']) !!}
 					</div>
-					  
-					<div class="form-group">
-						<label>Deskripsi</label>
-						{!! Form::textarea('description' , $model->description ,['class' => 'form-control','id'=>'description']) !!}
+			
+					<div class="form-group col-md-6">
+						<label>Bentuk File</label><br>
+                        {!!  Form::select('bentuk_file',['soft'=>'Softcopy','hard'=>'Hardcopy'], null, ['class'=>'form-control']) !!}
 					</div>
-					
-					<div class="form-group">
+					<div class="form-group col-md-12">
 						<label>File</label>
 						<div>
-							<a class="Wbutton" onclick = "return browseElfinder('image'  , 'image_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
-							Suggestion Image Size (726,449)
+							<a class="Wbutton" onclick = "return browseElfinder('filename'  , 'file_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
+							Suggestion PDF Size (726,449)
 						</div>
-						<input type = 'hidden' name = 'image' id = 'image' />
-						
-					</div>
-					<div id="image_tempel" style = 'margin-top:30px;'>
-						@if(!empty($model->image))
-							<img src="{{ asset('contents/news/thumbnail').'/'.$model->image }}" width="200" height="200" />
-						@endif
-					</div>
-
-					<div class="form-group">
-						<label>Date</label>
-						{!!  Form::text('date', $date , ['id' => 'datepicker', 'class'=>'form-control']) !!}
+						<input type = 'hidden' name = 'filename' id = 'filename' />
 					</div>
 					
-					<div class="form-group">
-						<label>Status</label>
-						{!! Form::select('status' , ['publish' => 'Publish' , 'unpublish' => 'Un Publish'] , null ,['class' => 'form-control']) !!}
-					</div>
-
-					<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-                    
+										
+					<div class="form-group col-md-12">
+						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+                    </div>
+					
+					
                     {!! Form::close() !!}
 
                 </div>

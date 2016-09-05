@@ -44,7 +44,7 @@
 					</div>			
 										
 					<div class="form-group col-md-3">
-						<label>Nama Peneliti</label>
+					<label>Nama Peneliti</label>
 						{!!  Form::select('user_id',[1=>1], null, ['class'=>'form-control']) !!}
 					</div>
 					
