@@ -14,8 +14,7 @@ class PenelitianController extends Controller
 	public function __construct()
 	{
 		$this->model = new ArchiveContent;
-		$this->category = 18;
-		$this->imagePrefix = 'iklan';
+		
 	}
 
 
@@ -48,14 +47,18 @@ class PenelitianController extends Controller
 	public function postCreate(Request $request)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules());
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules());
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
 		$values = [
 			'user_id' => \Auth::user()->id,
 			'title' => $request->title,
+			'year' => $request->year,
 			'intro' => $request->intro,
 			'description' => $request->description,
+			'purpose' => $request->purpose,
+			'summary' => $request->summary,
+			'recomendation' => $request->recomendation,
 			'created_at' => \Helper::dateToDb($request->date),
 			'slug' => str_slug($request->title),
 			'status' => $request->status,
@@ -91,7 +94,7 @@ class PenelitianController extends Controller
 	{
 		$model  = $this->model->find($id);
 		$date = \Helper::dbToDate($model->created_at);
-		
+		// dd($model);
 		return view('backend.master.penelitian.form' , [
 
 			'model' => $model,
@@ -109,9 +112,14 @@ class PenelitianController extends Controller
 		
 		$dataid = $this->model->whereId($id)->first();
 		$values = [
+			'user_id' => \Auth::user()->id,
 			'title' => $request->title,
+			'year' => $request->year,
 			'intro' => $request->intro,
 			'description' => $request->description,
+			'purpose' => $request->purpose,
+			'summary' => $request->summary,
+			'recomendation' => $request->recomendation,
 			'created_at' => \Helper::dateToDb($request->date),
 			'slug' => str_slug($request->title),
 			'status' => $request->status,

@@ -1,0 +1,23 @@
+[
+    {
+        "image": "/image1_200x150.jpg",
+        "thumb": "/image1_thumb.jpg",
+        "folder": "Small"
+    },
+    {
+        "image": "/image2_200x150.jpg",
+        "thumb": "/image2_thumb.jpg",
+        "folder": "Small"
+    },
+
+    {
+        "image": "/image1_full.jpg",
+        "thumb": "/image1_thumb.jpg",
+        "folder": "Large"
+    },
+    {
+        "image": "/image2_full.jpg",
+        "thumb": "/image2_thumb.jpg",
+        "folder": "Large"
+    }
+]

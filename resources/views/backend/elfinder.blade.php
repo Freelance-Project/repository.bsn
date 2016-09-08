@@ -6,7 +6,7 @@
 	var validation_upload = "<?php echo sha1(date('Y-m-d').env('APP_SALT'))?>";
     $('document').ready(function(){
          $(".cancel-button").click(function(){
-            document.location.href = '{{ \webarq::urlAction("index") }}';
+            document.location.href = '{{ \helper::urlAction("index") }}';
             return false;
         });
     });
@@ -111,8 +111,6 @@
 	window.onload = function()
 	{
 		  CKEDITOR.replace( 'ckeditor_upload',{
-		  filebrowserBrowseUrl: '{{ \webarq::urlAction("getElfinder")}}'});
-		  
-		  
+		  filebrowserBrowseUrl: '{{ \helper::urlAction("getElfinder")}}'});
 	}
 </script> 

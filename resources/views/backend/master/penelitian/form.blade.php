@@ -18,24 +18,24 @@
 					                
 					<div class="form-group col-md-12">
 						<label>Judul</label>
-                        {!! Form::text('judul' , $model->judul ,['class' => 'form-control']) !!}
+                        {!! Form::text('title' , $model->title ,['class' => 'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Kelompok Bidang Penelitian</label><br>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							</div>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Lingkungan dan Serbaneka (LS)<br>
+								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Lingkungan dan Serbaneka (LS)<br>
 							</div>
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Tahun Publikasi</label>
-                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control']) !!}
+                        {!! Form::text('year' , $model->year ,['class' => 'form-control']) !!}
 					</div>
 
 					<div class="form-group col-md-12">
@@ -75,22 +75,22 @@
 					
 					<div class="form-group col-md-12">
                         <label>Ringkasan Eksekutif</label>
-                        {!! Form::textarea('ringkasan' , $model->ringkasan ,['class' => 'form-control','id'=>'ringkasan']) !!}
+                        {!! Form::textarea('intro' , $model->intro ,['class' => 'form-control','id'=>'intro']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Latar Belakang</label>
-						{!! Form::textarea('background' , $model->background ,['class' => 'form-control','id'=>'background']) !!}
+						{!! Form::textarea('description' , $model->description ,['class' => 'form-control','id'=>'description']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Tujuan</label>
-						{!! Form::textarea('tujuan' , $model->tujuan ,['class' => 'form-control','id'=>'tujuan']) !!}
+						{!! Form::textarea('purpose' , $model->purpose ,['class' => 'form-control','id'=>'purpose']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Kesimpulan</label>
-						{!! Form::textarea('conclusion' , $model->conclusion ,['class' => 'form-control','id'=>'conclusion']) !!}
+						{!! Form::textarea('summary' , $model->summary ,['class' => 'form-control','id'=>'summary']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -107,10 +107,13 @@
 						<input type = 'hidden' name = 'filename' id = 'filename' />
 					</div>
 					
+					<!--
 					<div class="form-group col-md-12">
 						<br><label>Daftar Data Pendukung Penelitian</label>
 					</div>
 					
+					
+
 					<div class="form-group col-md-8">
 						<label>Nama File</label>
 						{!!  Form::text('ref_data_pendukung_id',$model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
@@ -120,7 +123,15 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
                     </div>
-					
+					-->
+					<div class="form-group col-md-12">
+						<label>Date</label>
+						{!!  Form::text('date', $date , ['id' => 'datepicker', 'class'=>'form-control']) !!}
+					</div>
+					<div class="form-group col-md-12">
+						<label>Status</label>
+						{!! Form::select('status' , ['publish'=>'Publish','unpublish'=>'Unpublish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
+					</div>
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
                     </div>
@@ -141,9 +152,20 @@
   
   window.onload = function()
   {
-		CKEDITOR.replace( 'description',{
+		CKEDITOR.replace( 'intro',{
 		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 		
+		CKEDITOR.replace( 'description',{
+		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+
+		CKEDITOR.replace( 'purpose',{
+		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+
+  		CKEDITOR.replace( 'summary',{
+		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+
+  		CKEDITOR.replace( 'recomendation',{
+		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
   }
 </script>
 @endsection

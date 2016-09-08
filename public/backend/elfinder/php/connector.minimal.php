@@ -7,7 +7,7 @@ date_default_timezone_set('Asia/Jakarta');
 $valid = false;
 if (isset($_GET['token'])) {
 	$token = $_GET['token'];
-	$validToken = sha1(date('Y-m-d'). 'webarq-valid');
+	$validToken = sha1(date('Y-m-d'). 'valid-token');
 	if ($token == $validToken) {
 		$valid = true;
 	}

@@ -11,9 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-	return view('welcome');
-});
+Route::get('/','DefaultController@getIndex');
+Route::controller('profile','ProfileController');
+Route::controller('request','RequestController');
+Route::controller('search','SearchController');
 
 /*
 |--------------------------------------------------------------------------

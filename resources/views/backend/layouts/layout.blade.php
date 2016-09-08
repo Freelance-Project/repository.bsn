@@ -1,5 +1,5 @@
 @include('backend.layouts.header')
-
+@include('backend.elfinder')
     <div id="app_navigation">
         <link type="text/css" href="{{ asset(null) }}backend/css/style.css" rel="stylesheet"/>
         <script type="text/javascript" src="{{ asset(null) }}backend/js/script.js"></script>

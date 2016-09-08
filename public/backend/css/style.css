@@ -198,3 +198,28 @@ ul.child.active {display:block;}
 ul.child li {float:left;height: 27px;line-height: 17px;padding: 0 4px;}
 ul.child li a {color: #666666;}
 ul.child li a#active,ul.child li a:hover{color: #14C005;}
+
+/* elfinder */
+.Wbutton {
+	display: block;
+	width: 84px;
+	height: 40px;
+	background: #4E9CAF;
+	padding: 10px;
+	text-align: center;
+	border-radius: 5px;
+	color: white;
+	font-weight: bold;
+cursor:pointer;
+}
+
+.pop_back
+{
+	top:0px;
+	left: 0px;
+	z-index: 9999999999999;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0 ,0.7);
+	position: fixed;
+}

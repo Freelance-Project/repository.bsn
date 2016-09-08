@@ -25,11 +25,15 @@
     </div>
 @endsection
 @section('script')
+  
+  
 
   <script type="text/javascript" charset="utf-8">
+      var validation_upload = "<?php echo sha1(date('Y-m-d').env('APP_SALT'))?>";
       $().ready(function() {
+          var urlImage = '{{ url("/backend/elfinder/php/connector.minimal.php") }}';
           var elf = $('#elfinder').elfinder({
-              url : '{{ url("backend/elfinder/php/connector.minimal.php") }}'
+              url :  urlImage + '?token='+validation_upload ,
           }).elfinder('instance');             
       });
   </script>
