@@ -25,7 +25,7 @@
                 <div class="wg-header header-right">
                     <div class="wg-header header-center">
                         <div id="inner-header-right">
-                            <div class="logo-client">
+                            <div class="logo-client_">
                                 &nbsp;
                             </div>
                             <div class="clear"></div>
