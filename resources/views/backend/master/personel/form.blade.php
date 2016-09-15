@@ -18,17 +18,17 @@
 					
 					<div class="form-group col-md-12">
 						<label>Nama</label>
-                        {!! Form::text('name' , $model->name ,['class' => 'form-control']) !!}
+                        {!! Form::text('name' , $model->name ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Tempat Lahir</label>
-                        {!! Form::text('tempat_lahir' , $model->tempat_lahir ,['class' => 'form-control']) !!}
+                        {!! Form::text('tempat_lahir' , $model->tempat_lahir ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Tanggal Lahir</label>
-						{!!  Form::text('datebirth', null , ['id' => 'datepicker', 'class'=>'form-control']) !!}
+						{!!  Form::text('datebirth', null , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
@@ -38,7 +38,7 @@
 											
 					<div class="form-group col-md-6">
 						<label>Golongan</label>
-                        {!! Form::text('golongan' , $model->golongan ,['class' => 'form-control']) !!}
+                        {!! Form::text('golongan' , $model->golongan ,['class' => 'form-control', 'required']) !!}
 					</div>
 										
 					<div class="form-group col-md-12">
@@ -61,27 +61,27 @@
 					
 					<div class="form-group col-md-12">
 						<label>Alamat</label>
-                        {!! Form::text('address' , $model->address ,['class' => 'form-control']) !!}
+                        {!! Form::text('address' , $model->address ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>No. Handphone</label>
-                        {!! Form::text('nohp' , $model->nohp ,['class' => 'form-control']) !!}
+                        {!! Form::text('nohp' , $model->nohp ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Email</label>
-                        {!! Form::text('email' , $model->email ,['class' => 'form-control']) !!}
+                        {!! Form::text('email' , $model->email ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Pendidikan (Perguruan Tinggi)</label>
-                        {!! Form::text('education' , $model->education ,['class' => 'form-control']) !!}
+                        {!! Form::text('education' , $model->education ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Pengalaman Kerja</label>
-						{!! Form::textarea('experience' , $model->experience ,['class' => 'form-control','id'=>'experience']) !!}
+						{!! Form::textarea('experience' , $model->experience ,['class' => 'form-control','id'=>'experience', 'required']) !!}
 					</div>	
 								
 					<div class="form-group col-md-12">

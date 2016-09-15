@@ -70,32 +70,32 @@
 					
 					<div class="form-group col-md-4">
 						<label>Nama Peneliti</label>
-						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-4">
 						<label>Jabatan Peneliti</label>
-						{!!  Form::select('jabatan_peneliti', $model, null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('jabatan_peneliti', $model, null, ['class'=>'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-4">
 						<label>Jabatan Fungsional Peneliti</label>
-						{!!  Form::select('jabatan_fungsional', $model, null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('jabatan_fungsional', $model, null, ['class'=>'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-4">
 						<label>Asal Instansi</label>
-						{!!  Form::text('instansi',$model->instansi ,['class' => 'form-control', 'required']) !!}
+						{!!  Form::text('instansi',$model->instansi ,['class' => 'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-4">
 						<label>Kelompok Minat</label>
-						{!!  Form::select('kelompok_bidang',['kp'=>'KP', 'mek'=>'MEK', 'ppk'=>'PPK', 'ls'=>'LS'], null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('kelompok_bidang',['kp'=>'KP', 'mek'=>'MEK', 'ppk'=>'PPK', 'ls'=>'LS'], null, ['class'=>'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-4">
 						<label>Bidang Kepakaran</label>
-						{!!  Form::text('bidang_kepakaran',$model->bidang_kepakaran ,['class' => 'form-control', 'required']) !!}
+						{!!  Form::text('bidang_kepakaran',$model->bidang_kepakaran ,['class' => 'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -150,7 +150,7 @@
 															
 					<div class="form-group col-md-10">
 						<label>Data Pendukung Penelitian</label>
-                        {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
 					</div>
 					
 					<div class="form-group col-md-2">
