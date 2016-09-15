@@ -19,11 +19,11 @@
                     </div><!--end.search--input-->
                      </form>
                     <div class="cat-search text-center">
-                    	<a href="search_result.php" class="btn btn-primary">Buku</a>
-                        <a href="search_result.php" class="btn btn-success">Jurnal</a>
-                        <a href="search_result.php" class="btn btn-info">Penelitian</a>
-                        <a href="search_result.php" class="btn btn-warning">Paper</a>
-                        <a href="search_result.php" class="btn btn-danger">Majalah</a>
+                    	<a href="search_result.php" class="btn btn-primary">Penelitian</a>
+                        <a href="search_result.php" class="btn btn-success">Publikasi</a>
+                        <a href="search_result.php" class="btn btn-info">Data Pendukung</a>
+                        <a href="search_result.php" class="btn btn-warning">Data Personel</a>
+                        <!--a href="search_result.php" class="btn btn-danger">Program Pendukung</a-->
                     </div>
                 </div><!--end.imaginary-->
             </div><!--end.col6-->
