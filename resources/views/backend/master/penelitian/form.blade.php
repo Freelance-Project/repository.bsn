@@ -35,7 +35,7 @@
 					
 					<div class="form-group col-md-12">
 						<label>Tahun Publikasi</label>
-                        {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					

@@ -22,9 +22,10 @@
                 <table class = 'table' id = 'tableNews'>
                     <thead>
                         <tr>
-                            <th width = '40%'>Title</th>
-                            <th width = '40%'>Intro</th>
-                            <th width = '20%'>Action</th>
+                            <th width = '30%'>Judul Penelitian</th>
+                            <th width = '30%'>Tahun Penelitian</th>
+							<th width = '30%'>Lokasi Survei</th>
+                            <th width = '10%'>Action</th>
                         </tr>
                     </thead>
                     
@@ -47,8 +48,9 @@
                 serverSide: true,
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
-                    { data: 'title', name: 'title' },
-                    { data: 'intro', name: 'intro' },
+                    { data: 'judul', name: 'judul' },
+                    { data: 'tahun', name: 'tahun' },
+					{ data: 'lokasi', name: 'lokasi' },
                     { data: 'action', name: 'action' , searchable :false},
                     
                 ]
