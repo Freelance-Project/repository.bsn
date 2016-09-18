@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost:3306
--- Generation Time: Sep 05, 2016 at 07:26 AM
+-- Generation Time: Sep 15, 2016 at 09:15 AM
 -- Server version: 10.1.9-MariaDB-log
 -- PHP Version: 5.6.16
 
@@ -33,14 +33,17 @@ CREATE TABLE `penelitian` (
   `ringkasan` text NOT NULL,
   `tujuan` text NOT NULL,
   `tahun` varchar(200) NOT NULL,
-  `jabatan_peneliti` enum('ketua','wakil','anggota','sekre','lainnya') NOT NULL,
-  `jabatan_fungsional` enum('utama','madya','muda','pertama','non') NOT NULL,
+  `jabatan_peneliti` int(11) NOT NULL,
+  `jabatan_fungsional` int(11) NOT NULL,
   `instansi` varchar(200) NOT NULL,
   `kelompok_bidang` enum('kp','mek','ppk','ls') NOT NULL,
   `background` text NOT NULL,
   `conclusion` text NOT NULL,
   `recomendation` text NOT NULL,
-  `filename` varchar(200) NOT NULL
+  `filename` varchar(200) NOT NULL,
+  `bidang_kepakaran` varchar(200) NOT NULL,
+  `target` text NOT NULL,
+  `lokasi` varchar(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -97,7 +100,11 @@ CREATE TABLE `publikasi` (
   `abstract` text NOT NULL,
   `conclusion` text NOT NULL,
   `recomendation` text NOT NULL,
-  `filename` varchar(200) NOT NULL
+  `filename` varchar(200) NOT NULL,
+  `volume` varchar(200) NOT NULL,
+  `kelompok_bidang` enum('kp','mek','ppk','ls') NOT NULL,
+  `bidang_kepakaran` varchar(200) NOT NULL,
+  `jabatan` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -149,7 +156,8 @@ CREATE TABLE `ref_data_pendukung` (
 
 CREATE TABLE `ref_jabatan` (
   `id` int(11) NOT NULL,
-  `name` int(11) NOT NULL
+  `name` int(11) NOT NULL,
+  `type` enum('peneliti','fungsional') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

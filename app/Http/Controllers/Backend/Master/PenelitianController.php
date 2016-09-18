@@ -25,7 +25,7 @@ class PenelitianController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'intro');
+		$model = $this->model->select('id' , 'judul' , 'tahun', 'lokasi');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';

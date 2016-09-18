@@ -1,0 +1,101 @@
+
+users
+- id
+- email
+- name
+- password
+- type (admin, member)
+
+
+article_contents
+- id
+- slug
+- judul
+- intro
+- description
+- image
+- category (penelitian, publikasi)
+- author_id
+- view
+- tahun
+- status (publish, unpublish)
+
+article_content_repos
+- id
+- judul
+- intro
+- description
+- file
+- article_content_id
+
+penelitian
+- id
+- article_content_id
+- ringkasan
+- latar_belakang
+- tujuan
+- kesimpulan
+- rekomendasi
+- target_rekomendasi
+- lokasi
+- file
+
+kelompok_penelitian
+- id
+- name (kp, mek, ppk, ls)
+- type (penelitian, publikasi)
+- other_id (penelitian/publikasi id)
+
+peneliti
+- id
+- nama
+- tempat_lahir
+- bod
+- jabatan (peneliti utama, madya, muda, pertama, non peneliti)
+- golongan
+- kelompok_minat
+- kelompok_kepakaran
+- alamat
+- no_hp
+- email
+- pendidikan
+- pengalaman_kerja
+
+tim_peneliti
+- id
+- peneliti_id
+- jabatan_peneliti (ketua, wakil, anggota, sekretariat, lainnya)
+- jabatan_fungsional (utama, madya, muda, pertama, non peneliti)
+- asal_instansi
+- kelompok_minat (kp, mek, ppk, ls)
+- bidang_kepakaran
+- type (penelitian, publikasi)
+- other_id (penelitian/publikasi id)
+
+data_pendukung
+- id
+- judul
+- tahun
+- file
+- ketersediaan (soft, hard)
+- format
+- penelitian_id/publikasi_id
+- type (penelitian, publikasi)
+
+publikasi
+- id
+- article_content_id
+- kategori (jurnal, prosiding, lainnya)
+- volume
+- abstrak
+- kesimpulan
+- rekomendasi
+- file
+
+peneliti_training
+- id
+- nama
+- waktu
+- penyelenggara
+- sertifikat (y,t)
+- type (training, seminar)

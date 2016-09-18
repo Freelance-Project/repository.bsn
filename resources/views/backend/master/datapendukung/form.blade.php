@@ -18,23 +18,23 @@
 					
 					<div class="form-group col-md-12">
 						<label>Judul</label>
-                        {!! Form::text('judul' , $model->judul ,['class' => 'form-control']) !!}
+                        {!! Form::text('judul' , $model->judul ,['class' => 'form-control', 'required']) !!}
 					</div>
                     
 					<div class="form-group col-md-6">
 						<label>Tahun</label>
-                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control']) !!}
+                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control', 'required']) !!}
 					</div>
 			
 					<div class="form-group col-md-6">
 						<label>Bentuk File</label><br>
-                        {!!  Form::select('bentuk_file',['soft'=>'Softcopy','hard'=>'Hardcopy'], null, ['class'=>'form-control']) !!}
+                        {!!  Form::select('bentuk_file',['soft'=>'Softcopy','hard'=>'Hardcopy'], null, ['class'=>'form-control', 'required']) !!}
 					</div>
 					<div class="form-group col-md-12">
 						<label>File</label>
 						<div>
 							<a class="Wbutton" onclick = "return browseElfinder('filename'  , 'file_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
-							Suggestion PDF Size (726,449)
+							Suggestion Ms. Word / Excel / PDF / JPG / MP3  Size (726,449)
 						</div>
 						<input type = 'hidden' name = 'filename' id = 'filename' />
 					</div>
