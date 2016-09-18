@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AchiveRepo;
+use App\Models\Research;
 
-class ArchiveContent extends Model
+class ResearchGroup extends Model
 {
-    protected $table = 'archive_contents';
+    protected $table = 'research_groups';
 
     public $guarded = [];
 
@@ -27,20 +27,15 @@ class ArchiveContent extends Model
 
     	$rules = [
 
-    		'title' => 'required|max:200|unique:archive_contents'.$plus,
+    		'title' => 'required|max:200|unique:research_groups'.$plus,
 			'intro' => 'max:300',
 		];
 
 		return $rules;
     }
 
-    public function user()
+	public function research()
     {
-    	return $this->belongsTo('App\Models\User' , 'author_id');
-    }
-	
-	public function repo()
-    {
-    	return $this->hasMany(AchiveRepo::class , 'archive_content_id');
+    	return $this->hasMany(ResearchGroup::class , 'other_id');
     }
 }

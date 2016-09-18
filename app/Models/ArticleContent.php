@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AchiveRepo;
+use App\Models\ActicleContentRepo;
+use App\Models\Research;
 
-class ArchiveContent extends Model
+class ArticleContent extends Model
 {
-    protected $table = 'archive_contents';
+    protected $table = 'article_contents';
 
     public $guarded = [];
 
-
+	/*
     public function rules($id = "")
     {
 
@@ -27,12 +28,13 @@ class ArchiveContent extends Model
 
     	$rules = [
 
-    		'title' => 'required|max:200|unique:archive_contents'.$plus,
+    		'title' => 'required|max:200|unique:article_contents'.$plus,
 			'intro' => 'max:300',
 		];
 
 		return $rules;
     }
+	*/
 
     public function user()
     {
@@ -41,6 +43,11 @@ class ArchiveContent extends Model
 	
 	public function repo()
     {
-    	return $this->hasMany(AchiveRepo::class , 'archive_content_id');
+    	return $this->hasMany(ActicleContentRepo::class , 'archive_content_id');
     }
+	
+	public function research()
+	{
+		return $this->belongsTo(Research::class, 'article_content_id');
+	}
 }

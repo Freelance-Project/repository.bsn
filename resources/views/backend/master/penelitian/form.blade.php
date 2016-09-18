@@ -24,12 +24,12 @@
 					<div class="form-group col-md-12">
 						<label>Kelompok Bidang Penelitian</label><br>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'kp') !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek') !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							</div>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Lingkungan dan Serbaneka (LS)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ppk') !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls') !!} Lingkungan dan Serbaneka (LS)<br>
 							</div>
 					</div>
 					
@@ -41,7 +41,7 @@
 					
 					<div class="form-group col-md-12">
 						<label>Lokasi Survei</label>
-                        {!! Form::text('lokasi' , $model->lokasi ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('location' , $model->location ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -68,6 +68,7 @@
 						</table>
 					</div>	
 					
+					{{--
 					<div class="form-group col-md-4">
 						<label>Nama Peneliti</label>
 						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control']) !!}
@@ -102,36 +103,36 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
-					
+					--}}
 					
 					<div class="form-group col-md-12">
                         <label>Ringkasan Eksekutif</label>
-                        {!! Form::textarea('ringkasan' , $model->ringkasan ,['class' => 'form-control','id'=>'ringkasan', 'required']) !!}
+                        {!! Form::textarea('intro' , $model->intro ,['class' => 'form-control','id'=>'intro', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Latar Belakang</label>
-						{!! Form::textarea('description' , $model->description ,['class' => 'form-control','id'=>'description', 'required']) !!}
+						{!! Form::textarea('background' , $model->background ,['class' => 'form-control','id'=>'background', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Tujuan</label>
-						{!! Form::textarea('purpose' , $model->purpose ,['class' => 'form-control','id'=>'purpose', 'required']) !!}
+						{!! Form::textarea('goal' , $model->goal ,['class' => 'form-control','id'=>'goal', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Kesimpulan</label>
-						{!! Form::textarea('summary' , $model->summary ,['class' => 'form-control','id'=>'summary', 'required']) !!}
+						{!! Form::textarea('conclusion' , $model->conclusion ,['class' => 'form-control','id'=>'conclusion', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Rekomendasi</label>
-						{!! Form::textarea('recomendation' , $model->recomendation ,['class' => 'form-control','id'=>'recomendation', 'required']) !!}
+						{!! Form::textarea('recommendation' , $model->recommendation ,['class' => 'form-control','id'=>'recommendation', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">	
 						<label>Target Rekomendasi</label>
-						{!! Form::textarea('target' , $model->target ,['class' => 'form-control','id'=>'target', 'required']) !!}
+						{!! Form::textarea('recommendation_target' , $model->recommendation_target ,['class' => 'form-control','id'=>'recommendation_target', 'required']) !!}
 					</div>
 										
 					<div class="form-group col-md-12">
@@ -147,7 +148,8 @@
 							</tr> 
 						</table>
 					</div>	
-															
+					
+					{{--					
 					<div class="form-group col-md-10">
 						<label>Data Pendukung Penelitian</label>
                         {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
@@ -157,20 +159,25 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
+					--}}
+					
 					
 					<div class="form-group col-md-12">
 						<label>File</label>
 						<div>
-							<a class="Wbutton" onclick = "return browseElfinder('filename'  , 'file_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
+							<a class="Wbutton" onclick = "return browseElfinder('file'  , 'file_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
 							Suggestion PDF Size (726,449)
 						</div>
-						<input type = 'hidden' name = 'filename' id = 'filename' />
+						<input type = 'hidden' name = 'file' id = 'file' />
 					</div>
 					
+					{{--
 					<div class="form-group col-md-6">
 						<label>Date</label>
 						{!!  Form::text('date', $date , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
 					</div>
+					--}}
+					
 					<div class="form-group col-md-6">
 						<label>Status</label>
 						{!! Form::select('status' , ['publish'=>'Publish','unpublish'=>'Unpublish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}

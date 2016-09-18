@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\ArticleContent;
 use App\Models\Research;
+use App\Models\ResearchGroup;
 use Table;
 
 class PenelitianController extends Controller
@@ -39,6 +40,7 @@ class PenelitianController extends Controller
 	{
 		$model = $this->model;
 		$penelitian = Research::where(1);
+		$researchgroup = ResearchGroup::where(1);
 		$date = '';
 
 		return view('backend.master.penelitian.form', ['model' => $model,'date' => $date]);
@@ -47,36 +49,51 @@ class PenelitianController extends Controller
 
 	public function postCreate(Request $request)
 	{
-		$inputs = $request->all();
+		//$inputs = $request->all();
 		// $validation = \Validator::make($inputs , $this->model->rules());
 		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		
 		
 		$valuesArticle = [
 			'author_id' => \Auth::user()->id,
 			'slug' => str_slug($request->title),
 			'title' => $request->title,
-			'year' => $request->year,
 			'intro' => $request->intro,
+			'year' => $request->year,
 			'category' => $request->category,
 			'status' => $request->status
 		];
 			
-		$valuesResearch = [
-			'description' => $request->description,
-			'purpose' => $request->purpose,
-			'summary' => $request->summary,
-			'recomendation' => $request->recomendation,
-			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
-			'status' => $request->status,
-		];
+		$saveArticle = $this->model->create($valuesArticle);
+		if ($saveArticle) {
+			$valuesResearch = [
+				'article_content_id' => $saveArticle->id,
+				'background' => $request->background,
+				'goal' => $request->goal,
+				'conclusion' => $request->conclusion,
+				'recommendation' => $request->recommendation,
+				'recommendation_target' => $request->recommendation_target,
+				'created_at' => \Helper::dateToDb($request->date),
+				'status' => $request->status
+			];
 			
-		$save = $this->model->create($valuesArticle);
-		$save = $this->model->create($valuesResearch);
+			$saveResearch = Research::create($valuesResearch);
+			
+			if ($request->research_groups_id) {
+				foreach($request->research_groups_id as $val){
+					$valuesResearchGroup = [
+						'other_id' => $saveResearch->id,
+						'name' => $val,
+						'type' => 'penelitian'
+					];
+					$save = ResearchGroup::create($valuesResearchGroup);
+				}
+			}
+			
+		}
+		
 
-		
-		
-		
+		/*
 		$image = str_replace("%20", " ", $request->image);
         if(!empty($image))
         {
@@ -88,6 +105,7 @@ class PenelitianController extends Controller
             ]);
         }
 		
+		
 		if ($request->maps) {
 			
 			$filemaps = \Helper::globalUpload($request, 'maps');
@@ -95,6 +113,7 @@ class PenelitianController extends Controller
             		'image' => $filemaps['filename'],
             ]);
 		}
+		*/
 		
         return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
