@@ -35,7 +35,7 @@
 					
 					<div class="form-group col-md-12">
 						<label>Tahun Publikasi</label>
-                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					
@@ -177,6 +177,8 @@
 					</div>
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+						<input type ='hidden' name='category' value='penelitian'>
+						<input type ='hidden' name='status' value='publish'>
                     </div>
 					
 					

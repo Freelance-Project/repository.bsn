@@ -7,18 +7,18 @@ users
 - type (admin, member)
 
 
-article_contents
+article_contents (penelitian, data_pendukung)
 - id
-- slug
-- judul
+- slug 
+- title 
 - intro
 - description
 - image
 - category (penelitian, publikasi)
 - author_id
 - view
-- tahun
-- status (publish, unpublish)
+- year
+- status (publish, unpublish) 
 
 article_content_repos
 - id
@@ -99,3 +99,4 @@ peneliti_training
 - penyelenggara
 - sertifikat (y,t)
 - type (training, seminar)
+- peneliti_id 

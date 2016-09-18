@@ -6,15 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
-use App\Models\ArchiveContent;
+use App\Models\ArticleContent;
+use App\Models\Research;
 use Table;
 
 class PenelitianController extends Controller
 {
 	public function __construct()
 	{
-		$this->model = new ArchiveContent;
-		
+		$this->model = new ArticleContent;
 	}
 
 
@@ -25,7 +25,7 @@ class PenelitianController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'judul' , 'tahun', 'lokasi');
+		$model = $this->model->select('id' , 'title' , 'year');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -38,6 +38,7 @@ class PenelitianController extends Controller
 	public function getCreate()
 	{
 		$model = $this->model;
+		$penelitian = Research::where(1);
 		$date = '';
 
 		return view('backend.master.penelitian.form', ['model' => $model,'date' => $date]);
@@ -50,11 +51,17 @@ class PenelitianController extends Controller
 		// $validation = \Validator::make($inputs , $this->model->rules());
 		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
-		$values = [
-			'user_id' => \Auth::user()->id,
+		$valuesArticle = [
+			'author_id' => \Auth::user()->id,
+			'slug' => str_slug($request->title),
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
+			'category' => $request->category,
+			'status' => $request->status
+		];
+			
+		$valuesResearch = [
 			'description' => $request->description,
 			'purpose' => $request->purpose,
 			'summary' => $request->summary,
@@ -64,7 +71,9 @@ class PenelitianController extends Controller
 			'status' => $request->status,
 		];
 			
-		$save = $this->model->create($values);
+		$save = $this->model->create($valuesArticle);
+		$save = $this->model->create($valuesResearch);
+
 		
 		
 		
