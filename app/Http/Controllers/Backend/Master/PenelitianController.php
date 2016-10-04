@@ -10,6 +10,7 @@ use App\Models\ArticleContent;
 use App\Models\Research;
 use App\Models\ResearchGroup;
 use Table;
+use Excel;
 
 class PenelitianController extends Controller
 {
@@ -194,6 +195,15 @@ class PenelitianController extends Controller
 
             return redirect('404');
         }
+    }
+
+    public function getTest()
+    {
+    	$path = public_path('contents/excel'). '/TIRE.xlsx';
+    	Excel::load($path, function($reader) {
+    		$results = $reader->get();
+    		dd($results);
+		})->get();
     }
 
     

@@ -160,6 +160,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Oblagio\Highcharts\Provider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -211,6 +212,7 @@ return [
         'Table' => Yajra\Datatables\Datatables::class,
         'Image' => Intervention\Image\Facades\Image::class,
         'Chart' => Oblagio\Highcharts\Facade::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];
