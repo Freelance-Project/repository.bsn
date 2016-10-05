@@ -3,44 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AchiveRepo;
+use App\Models\ArticleContent;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArchiveContent extends Model
 {
-    protected $table = 'archive_contents';
+    use SoftDeletes;
+    protected $table = 'article_content_repos';
 
     public $guarded = [];
 
-
-    public function rules($id = "")
-    {
-
-    	if(!empty($id))
-    	{
-    		$plus = ',title,'.$id;
-    	
-    	}else{
-    	
-    		$plus = '';
-    	
-    	}
-
-    	$rules = [
-
-    		'title' => 'required|max:200|unique:archive_contents'.$plus,
-			'intro' => 'max:300',
-		];
-
-		return $rules;
-    }
 
     public function user()
     {
     	return $this->belongsTo('App\Models\User' , 'author_id');
     }
 	
-	public function repo()
+	public function article()
     {
-    	return $this->hasMany(AchiveRepo::class , 'archive_content_id');
+    	return $this->belongsTo(ArticleContent::class , 'article_content_id');
     }
 }

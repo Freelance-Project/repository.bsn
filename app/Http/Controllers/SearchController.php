@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use \App\Models\ArticleContent;
 
 class SearchController extends Controller
 {
@@ -19,7 +20,9 @@ class SearchController extends Controller
     public function getIndex()
     {
 		
-		return view('frontend.search.search-result');
+		$data = ArticleContent::whereStatus('publish')->paginate(10);
+		// dd($getData);
+		return view('frontend.search.search-result', compact('data'));
     }
 
     public function getCategory()

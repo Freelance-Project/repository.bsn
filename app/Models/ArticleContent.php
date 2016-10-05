@@ -5,9 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ActicleContentRepo;
 use App\Models\Research;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleContent extends Model
 {
+    use SoftDeletes;
+    
     protected $table = 'article_contents';
 
     public $guarded = [];
@@ -43,7 +46,7 @@ class ArticleContent extends Model
 	
 	public function repo()
     {
-    	return $this->hasMany(ActicleContentRepo::class , 'archive_content_id');
+    	return $this->hasMany(ActicleContentRepo::class , 'article_content_id');
     }
 	
 	public function research()

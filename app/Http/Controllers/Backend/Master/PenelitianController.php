@@ -11,12 +11,14 @@ use App\Models\Research;
 use App\Models\ResearchGroup;
 use Table;
 use Excel;
+use App\Helper\Src\UploadArea;
 
 class PenelitianController extends Controller
 {
-	public function __construct()
+	public function __construct(UploadArea $upload)
 	{
 		$this->model = new ArticleContent;
+		$this->upload = $upload;
 	}
 
 
@@ -199,11 +201,8 @@ class PenelitianController extends Controller
 
     public function getTest()
     {
-    	$path = public_path('contents/excel'). '/TIRE.xlsx';
-    	Excel::load($path, function($reader) {
-    		$results = $reader->get();
-    		dd($results);
-		})->get();
+    	$path = public_path('contents/excel'). '/DATA_PENELITIAN.xls';
+    	$this->upload->parsePenelitian($path);
     }
 
     

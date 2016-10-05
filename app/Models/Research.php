@@ -5,38 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ArticleContent;
 use App\Models\ResearchGroup;
+use App\Models\ActicleContent;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Research extends Model
 {
+    use SoftDeletes;
     protected $table = 'researches';
 
     public $guarded = [];
 
-	/*
-    public function rules($id = "")
-    {
-
-    	if(!empty($id))
-    	{
-    		$plus = ',title,'.$id;
-    	
-    	}else{
-    	
-    		$plus = '';
-    	
-    	}
-
-    	$rules = [
-
-    		'title' => 'required|max:200|unique:research_groups'.$plus,
-			'intro' => 'max:300',
-		];
-
-		return $rules;
-    }
-	*/
-
-	public function acticlecontent()
+	public function article()
     {
 		return $this->belongsTo(ActicleContent::class, 'article_content_id');
     }
