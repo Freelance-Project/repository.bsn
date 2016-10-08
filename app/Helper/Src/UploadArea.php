@@ -6,16 +6,18 @@ use App\Models\Research;
 use App\Models\ResearchGroup;
 use App\Models\AdditionalData;
 use App\Models\Researcher;
+use App\Models\Publication;
 use App\Models\Expertise;
 use App\Models\ResearcherTeam;
 use App\Models\ResearcherWorkshop;
 
 class UploadArea
 {
-	public function __construct(ArticleContent $article, Research $research)
+	public function __construct(ArticleContent $article, Research $research, Publication $publication)
 	{
 		$this->article = $article;	
 		$this->research = $research;	
+		$this->publication = $publication;	
 		
 		$this->articleField = ['slug', 'title', 'intro','description','year','status','author_id'];
 		$this->researchField = ['article_content_id', 'intro', 'summary','background','goal','conclusion','recommendation','recommendation_target','location','file'];
@@ -87,7 +89,62 @@ class UploadArea
 
 		})->get();
 
-		
+		return true;
+	}
+
+	public function parsePublikasi($path)
+	{
+		Excel::selectSheets('Sheet1')->load($path, function($reader) {
+    		$results = $reader->get();
+    		
+    		$publikasi = [];
+    		$index = 0;
+    		foreach ($results as $key => $value) {
+
+    			if ($value->judul) {
+    				$index++;
+
+    				$publikasi[$index]['publikasi']['judul'] = $value->judul;
+	    			$publikasi[$index]['publikasi']['kategori_publikasi'] = $value->kategori_publikasi;
+	    			$publikasi[$index]['publikasi']['tahun_publikasi'] = $value->tahun_publikasi;
+	    			$publikasi[$index]['publikasi']['abstraksi'] = $value->abstraksi;
+	    			$publikasi[$index]['publikasi']['kesimpulan'] = $value->kesimpulan;
+	    			$publikasi[$index]['publikasi']['rekomendasi'] = $value->rekomendasi;
+	    			
+	    			$publikasi[$index]['kelompok']['kimia'] = $value->kimia_dan_pertambangan_kp;
+	    			$publikasi[$index]['kelompok']['mekanika'] = $value->mekanika_elektronika_dan_konstruksi_mek;
+	    			$publikasi[$index]['kelompok']['pertanian'] = $value->pertanian_pangan_dan_kesehatan_ppk;
+	    			$publikasi[$index]['kelompok']['lingkungan'] = $value->lingkungan_dan_serbaneka_ls;
+
+	    			$publikasi[$index]['peneliti']['nama'][] = $value->nama_peneliti;
+	    			$publikasi[$index]['peneliti']['penulis'][] = $value->penulis;
+	    			$publikasi[$index]['peneliti']['asal_instansi'][] = $value->asal_instansi;
+	    			
+	    				
+    			} else {
+    				if ($value->nama_peneliti) {
+
+    					$publikasi[$index]['peneliti']['nama'][] = $value->nama_peneliti;
+		    			$publikasi[$index]['peneliti']['penulis'][] = $value->penulis;
+		    			$publikasi[$index]['peneliti']['asal_instansi'][] = $value->asal_instansi;
+	    			
+    				} 
+    				
+    			}
+
+    			
+    			
+    		}
+
+    		foreach ($publikasi as $key => $val) {
+    			
+    			$savePublikasi = $this->articleContent($val, 'publikasi');
+    		}
+    		
+
+		})->get();
+
+		return true;
 	}
 
 	public function parsePersonel($path)
@@ -171,7 +228,7 @@ class UploadArea
 	public function articleContent($data, $table='penelitian')
 	{
 
-		// dd($data);
+		
 		switch ($table) {
 			case 'penelitian':
 
@@ -213,6 +270,41 @@ class UploadArea
 				return false;
 				break;
 			
+			case 'publikasi' :
+				// dd($data);
+				if (!$this->existContent(str_slug($data['publikasi']['judul']))) {
+
+					$input['slug'] = str_slug($data['publikasi']['judul']);
+					$input['title'] = $data['publikasi']['judul'];
+					$input['intro'] = $data['publikasi']['abstraksi'];
+					$input['description'] = $data['publikasi']['abstraksi'];
+					$input['year'] = $data['publikasi']['tahun_publikasi'];
+					$input['status'] = 'unpublish';
+					$input['author_id'] = \Auth::user()->id;
+
+					$save = $this->article->create($input);
+					if ($save) {
+
+						$publication['article_content_id'] = $save->id;
+						$publication['category'] = $data['publikasi']['kategori_publikasi'];
+						$publication['abstract'] = $data['publikasi']['abstraksi'];
+						$publication['conclusion'] = $data['publikasi']['kesimpulan'];
+						$publication['recommendation'] = $data['publikasi']['rekomendasi'];
+						
+						$savePublication = $this->savePublication($publication);
+						
+						$saveResearchGroup = $this->saveResearchGroup(['kelompok' => $data['kelompok'], 'other_id'=>$savePublication], 'publikasi');
+						
+						// $saveAdditionalData = $this->saveAdditionalData(['additional' => $data['pendukung'],'research'=>$data['penelitian'], 'other_id'=>$saveResearch]);
+						
+						$saveResearcherTeam = $this->saveResearcherTeam(['peneliti' => $data['peneliti'], 'other_id'=>$savePublication], 'publikasi');
+						
+						
+					}
+					usleep(100);
+				}
+					
+				break;
 			default:
 				# code...
 				break;
@@ -345,6 +437,18 @@ class UploadArea
 		return $save->id;
 	}
 
+	public function savePublication($data)
+	{
+
+		$category = ['Jurnal'=>'jurnal','Prosiding'=>'prosiding','Lainnya'=>'lainnya'];
+
+		$data['category'] = $category[$data['category']];
+
+		$save = $this->publication->create($data);
+		
+		return $save->id;
+	}
+
 	public function saveResearchGroup($data, $type='penelitian')
 	{
 
@@ -366,7 +470,7 @@ class UploadArea
 		return true;
 	}
 
-	public function saveResearcherTeam($data)
+	public function saveResearcherTeam($data, $type='penelitian')
 	{	
 		$dataResearcher = $data['peneliti'];
 		// $bidang = ['kimia'=>'kp', 'mekanika'=>'mek', 'pertanian'=>'ppk', 'lingkungan'=>'ls'];
@@ -374,12 +478,19 @@ class UploadArea
 
 		foreach ($dataResearcher['nama'] as $key => $value) {
 			$researcher['other_id'] = $data['other_id'];
-			$researcher['researcher_id'] = $this->getResearcher(false, $value)->id;
-			$researcher['position'] = $dataResearcher['jabatan'][$key];
-			$researcher['functional'] = $functional[trim($dataResearcher['jabatan_fungsional'][$key])];
-			$researcher['instance'] = $dataResearcher['instansi'][$key];
-			$researcher['interest_category'] = $dataResearcher['bidang'][$key];
+			$researcher['researcher_id'] = $this->getResearcher(false, trim($value))->id;
+			$researcher['type'] = $type;
 
+			if ($type == 'penelitian') {
+				$researcher['position'] = $dataResearcher['jabatan'][$key];
+				$researcher['functional'] = $functional[trim($dataResearcher['jabatan_fungsional'][$key])];
+				$researcher['instance'] = $dataResearcher['instansi'][$key];
+				$researcher['interest_category'] = $dataResearcher['bidang'][$key];
+			} else {
+				$researcher['writer'] = $dataResearcher['penulis'][$key];
+				$researcher['instance'] = $dataResearcher['asal_instansi'][$key];
+			}
+			
 			ResearcherTeam::create($researcher);
 		}
 		

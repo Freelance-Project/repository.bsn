@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
-use App\Models\ArchiveContent;
+use App\Models\ArticleContent;
 use Table;
+use App\Helper\Src\UploadArea;
 
 class PublikasiController extends Controller
 {
-	public function __construct()
+	public function __construct(UploadArea $upload)
 	{
-		$this->model = new ArchiveContent;
-		$this->category = 18;
-		$this->imagePrefix = 'iklan';
+		$this->model = new ArticleContent;
+		$this->uploadArea = $upload;
 	}
 
 
@@ -160,5 +160,19 @@ class PublikasiController extends Controller
         }
     }
 
+    public function getImport()
+    {
+    	$model = $this->model;
+    	return view('backend.master.publikasi.import', ['model' => $model]);
+    }
+
+    public function postImport()
+    {
+    	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
+    	
+    	$path = public_path('contents/excel'). '/DATA_PUBLIKASI.xls';
+    	$savePublikasi = $this->uploadArea->parsePublikasi($path);
+    	if ($savePublikasi) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    }
     
 }
