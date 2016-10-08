@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
-use App\Models\ArchiveContent;
+use App\Models\Researcher;
 use Table;
+use App\Helper\Src\UploadArea;
 
 class PersonelController extends Controller
 {
-	public function __construct()
+	public function __construct(UploadArea $upload)
 	{
-		$this->model = new ArchiveContent;
-		$this->category = 18;
-		$this->imagePrefix = 'iklan';
+		$this->model = new Researcher;
+		$this->uploadArea = $upload;
 	}
 
 
@@ -26,7 +26,7 @@ class PersonelController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'intro');
+		$model = $this->model->select('id' ,'name' , 'email');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -160,5 +160,18 @@ class PersonelController extends Controller
         }
     }
 
+    public function getImport()
+    {
+    	$model = $this->model;
+    	return view('backend.master.personel.import', ['model' => $model]);
+    }
+
+    public function postImport()
+    {
+    	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
+    	$path = public_path('contents/excel'). '/DATA_PERSONEL.xls';
+    	$savePerson = $this->uploadArea->parsePersonel($path);
+    	if ($savePerson) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    }
     
 }

@@ -432,4 +432,15 @@ class Helper
 		
 		return ($url == "no") ? $generate : url($generate);
 	}
+
+	public function logFile($contents=null, $fileName=false)
+	{
+		$path = public_path('logs');
+		
+		if (!\File::isDirectory($path)) \File::makeDirectory($path, 0775, true);
+		if (!$fileName) $fileName = 'Log-'.date('d-m-Y').'.txt';
+		$handle = fopen($path.'/'.$fileName, "a");
+		fwrite($handle, "{$contents}"."\n");
+		fclose($handle);
+	}
 }

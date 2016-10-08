@@ -14,6 +14,7 @@
            <div class = 'col-md-12'>
 
                     {!! helper::buttonCreate() !!}
+                    {!! helper::buttonCreateCustom(false, 'import','Import Data') !!}
                 
                 
                 <p>&nbsp;</p>

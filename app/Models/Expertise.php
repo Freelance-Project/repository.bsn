@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\AchiveRepo;
 
-class ResearcherTeam extends Model
+class Expertise extends Model
 {
-    protected $table = 'researcher_teams';
+    protected $table = 'expertises';
 
     public $guarded = [];
-    
+
+
 }

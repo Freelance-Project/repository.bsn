@@ -18,7 +18,7 @@ class PenelitianController extends Controller
 	public function __construct(UploadArea $upload)
 	{
 		$this->model = new ArticleContent;
-		$this->upload = $upload;
+		$this->uploadArea = $upload;
 	}
 
 
@@ -199,10 +199,18 @@ class PenelitianController extends Controller
         }
     }
 
-    public function getTest()
+    public function getImport()
     {
+    	$model = $this->model;
+    	return view('backend.master.penelitian.import', ['model' => $model]);
+    }
+
+    public function postImport()
+    {
+    	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
     	$path = public_path('contents/excel'). '/DATA_PENELITIAN.xls';
-    	$this->upload->parsePenelitian($path);
+    	$savePenelitian = $this->uploadArea->parsePenelitian($path);
+    	if ($savePenelitian) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
     }
 
     

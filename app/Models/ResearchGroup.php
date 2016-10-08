@@ -12,30 +12,8 @@ class ResearchGroup extends Model
     public $guarded = [];
 
 
-    public function rules($id = "")
+    public function research()
     {
-
-    	if(!empty($id))
-    	{
-    		$plus = ',title,'.$id;
-    	
-    	}else{
-    	
-    		$plus = '';
-    	
-    	}
-
-    	$rules = [
-
-    		'title' => 'required|max:200|unique:research_groups'.$plus,
-			'intro' => 'max:300',
-		];
-
-		return $rules;
-    }
-
-	public function research()
-    {
-    	return $this->hasMany(ResearchGroup::class , 'other_id');
+    	return $this->belongsTo(Research::class , 'other_id');
     }
 }
