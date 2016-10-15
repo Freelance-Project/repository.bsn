@@ -14,7 +14,7 @@
            <div class = 'col-md-12'>
 
                     {!! helper::buttonCreate() !!}
-                
+                    {!! helper::buttonCreateCustom(false, 'import','Import Data') !!}
                 
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
@@ -48,7 +48,7 @@
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
                     { data: 'title', name: 'title' },
-                    { data: 'intro', name: 'intro' },
+                    { data: 'year', name: 'year' },
                     { data: 'action', name: 'action' , searchable :false},
                     
                 ]

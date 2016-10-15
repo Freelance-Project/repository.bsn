@@ -11,7 +11,7 @@ use App\Models\Research;
 use App\Models\ResearchGroup;
 use Table;
 use Excel;
-use App\Helper\Src\UploadArea;
+use App\Repositories\UploadArea;
 
 class PenelitianController extends Controller
 {
@@ -205,12 +205,20 @@ class PenelitianController extends Controller
     	return view('backend.master.penelitian.import', ['model' => $model]);
     }
 
-    public function postImport()
+    public function postImport(Request $request)
     {
-    	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
-    	$path = public_path('contents/excel'). '/DATA_PENELITIAN.xls';
-    	$savePenelitian = $this->uploadArea->parsePenelitian($path);
-    	if ($savePenelitian) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    	
+    	if ($request->template) {
+    		
+			$fileTemplate = \Helper::globalUpload($request, 'template', 'excel/penelitian');
+			
+            $path = public_path('contents/excel/penelitian'). '/'.$fileTemplate['filename'];
+	    	
+	    	$savePenelitian = $this->uploadArea->parsePenelitian($path);
+    		if ($savePenelitian) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+		}
+
+    	return redirect(urlBackendAction('index'))->withSuccess('Failed');
     }
 
     

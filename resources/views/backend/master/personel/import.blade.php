@@ -18,7 +18,7 @@
 					                
 					<div class="form-group col-md-12">
 						<label>File XLS</label>
-                        {!! Form::file('penelitian', ['class' => 'form-control', 'required']) !!}
+                        {!! Form::file('template', ['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">

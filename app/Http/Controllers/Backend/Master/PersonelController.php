@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\Researcher;
 use Table;
-use App\Helper\Src\UploadArea;
+use App\Repositories\UploadArea;
 
 class PersonelController extends Controller
 {
@@ -166,12 +166,19 @@ class PersonelController extends Controller
     	return view('backend.master.personel.import', ['model' => $model]);
     }
 
-    public function postImport()
+    public function postImport(Request $request)
     {
-    	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
-    	$path = public_path('contents/excel'). '/DATA_PERSONEL.xls';
-    	$savePerson = $this->uploadArea->parsePersonel($path);
-    	if ($savePerson) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    	if ($request->template) {
+    		
+			$fileTemplate = \Helper::globalUpload($request, 'template', 'excel/personel');
+			
+            $path = public_path('contents/excel/personel'). '/'.$fileTemplate['filename'];
+	    	
+	    	$savePerson = $this->uploadArea->parsePersonel($path);
+    		if ($savePerson) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+		}
+
+    	return redirect(urlBackendAction('index'))->withSuccess('Failed');
     }
     
 }

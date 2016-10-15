@@ -6,16 +6,16 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
-use App\Models\ArchiveContent;
+use App\Models\AdditionalData;
 use Table;
+use App\Repositories\UploadArea;
 
 class DataPendukungController extends Controller
 {
-	public function __construct()
+	public function __construct(UploadArea $upload)
 	{
-		$this->model = new ArchiveContent;
-		$this->category = 18;
-		$this->imagePrefix = 'iklan';
+		$this->model = new AdditionalData;
+		$this->uploadArea = $upload;
 	}
 
 
@@ -26,7 +26,7 @@ class DataPendukungController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'intro');
+		$model = $this->model->select('id' , 'title' , 'year');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -160,5 +160,25 @@ class DataPendukungController extends Controller
         }
     }
 
-    
+    public function getImport()
+    {
+    	$model = $this->model;
+    	return view('backend.master.datapendukung.import', ['model' => $model]);
+    }
+
+    public function postImport(Request $request)
+    {
+    	
+    	if ($request->template) {
+    		
+			$fileTemplate = \Helper::globalUpload($request, 'template', 'excel/pendukung');
+			
+            $path = public_path('contents/excel/pendukung'). '/'.$fileTemplate['filename'];
+	    	
+	    	$savePendukung = $this->uploadArea->parseDataPendukung($path);
+	    	if ($savePendukung) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+		}
+    	
+    	return redirect(urlBackendAction('index'))->withSuccess('Failed');
+    }
 }

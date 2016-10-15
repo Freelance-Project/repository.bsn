@@ -1,4 +1,4 @@
-<?php namespace App\Helper\Src;
+<?php namespace App\Repositories;
 
 use Excel;
 use App\Models\ArticleContent;
@@ -10,6 +10,8 @@ use App\Models\Publication;
 use App\Models\Expertise;
 use App\Models\ResearcherTeam;
 use App\Models\ResearcherWorkshop;
+use App\Models\ResearchLocation;
+use App\Models\InterestGroup;
 
 class UploadArea
 {
@@ -44,7 +46,7 @@ class UploadArea
 	    			$penelitian[$index]['penelitian']['tujuan'] = $value->tujuan;
 	    			$penelitian[$index]['penelitian']['kesimpulan'] = $value->kesimpulan;
 	    			$penelitian[$index]['penelitian']['rekomendasi'] = $value->rekomendasi;
-	    			$penelitian[$index]['penelitian']['file'] = $value->upload_full_text_related_to_data_pendukung;
+	    			$penelitian[$index]['penelitian']['file'] = $value->upload_full_text;
 	    			
 	    			$penelitian[$index]['kelompok']['kimia'] = $value->kimia_dan_pertambangan_kp;
 	    			$penelitian[$index]['kelompok']['mekanika'] = $value->mekanika_elektronika_dan_konstruksi_mek;
@@ -55,10 +57,13 @@ class UploadArea
 	    			$penelitian[$index]['peneliti']['jabatan'][] = $value->jabatan_peneliti;
 	    			$penelitian[$index]['peneliti']['jabatan_fungsional'][] = $value->jabatan_fungsional_peneliti;
 	    			$penelitian[$index]['peneliti']['instansi'][] = $value->asal_instansi;
-	    			$penelitian[$index]['peneliti']['bidang'][] = $value->kelompok_bidang_peneliti;
+	    			$penelitian[$index]['peneliti']['bidang'][] = $value->bidang_kepakaran;
+	    			$penelitian[$index]['peneliti']['minat'][] = $value->kelompok_minat;
 	    			
 	    			$penelitian[$index]['pendukung']['nama_file'][] = $value->nama_file;
 	    			$penelitian[$index]['pendukung']['format'][] = $value->format_file;
+	    			
+	    			$penelitian[$index]['lokasi'][] = $value->lokasi_survei;
 
 	    			
 	    				
@@ -68,12 +73,17 @@ class UploadArea
 		    			$penelitian[$index]['peneliti']['jabatan'][] = $value->jabatan_peneliti;
 		    			$penelitian[$index]['peneliti']['jabatan_fungsional'][] = $value->jabatan_fungsional_peneliti;
 		    			$penelitian[$index]['peneliti']['instansi'][] = $value->asal_instansi;
-		    			$penelitian[$index]['peneliti']['bidang'][] = $value->kelompok_bidang_peneliti;
+		    			$penelitian[$index]['peneliti']['bidang'][] = $value->bidang_kepakaran;
+		    			$penelitian[$index]['peneliti']['minat'][] = $value->kelompok_minat;
 	    			
     				} 
     				if ($value->nama_file) {
     					$penelitian[$index]['pendukung']['nama_file'][] = $value->nama_file;
     					$penelitian[$index]['pendukung']['format'][] = $value->format_file;
+    				}
+
+    				if ($value->lokasi_survei) {
+    					$penelitian[$index]['lokasi'][] = $value->lokasi_survei;
     				}
     			}
 
@@ -81,6 +91,7 @@ class UploadArea
     			
     		}
 
+    		// dd($penelitian);
     		foreach ($penelitian as $key => $val) {
     			
     			$savePenelitian = $this->articleContent($val, 'penelitian');
@@ -164,31 +175,47 @@ class UploadArea
 	    			$personel[$index]['peneliti']['tanggal_lahir'] = $value->tanggal_lahir;
 	    			$personel[$index]['peneliti']['jabatan'] = $value->jabatan;
 	    			$personel[$index]['peneliti']['golongan'] = $value->golongan;
-	    			$personel[$index]['peneliti']['kelompok_bidang_peneliti'] = $value->kelompok_bidang_peneliti;
+	    			// $personel[$index]['peneliti']['kelompok_bidang_peneliti'] = $value->kelompok_bidang_peneliti;
 	    			$personel[$index]['peneliti']['alamat'] = $value->alamat;
 	    			$personel[$index]['peneliti']['no_hp'] = $value->no_hp;
 	    			$personel[$index]['peneliti']['email'] = $value->email;
 	    			$personel[$index]['peneliti']['pendidikan_perguruan_tinggi'] = $value->pendidikan_perguruan_tinggi;
 	    			$personel[$index]['peneliti']['pengalaman_kerja'] = $value->pengalaman_kerja;
-	    			$personel[$index]['peneliti']['mekanika'] = $value->mekanika;
-	    			$personel[$index]['peneliti']['elektronika'] = $value->elektronika;
-	    			$personel[$index]['peneliti']['pertanian'] = $value->pertanian;
-	    			$personel[$index]['peneliti']['pangan'] = $value->pangan;
-	    			$personel[$index]['peneliti']['kesehatan'] = $value->kesehatan;
-	    			$personel[$index]['peneliti']['kimia'] = $value->kimia;
-	    			$personel[$index]['peneliti']['pertambangan'] = $value->pertambangan;
-	    			$personel[$index]['peneliti']['lingkungan'] = $value->lingkungan;
-	    			$personel[$index]['peneliti']['lainnya'] = $value->lainnya;
+	    			$personel[$index]['ketertarikan']['mekanika'] = $value->mekanika_elektronika_dan_konstruksi_mek;
+	    			$personel[$index]['ketertarikan']['lingkungan'] = $value->lingkungan_dan_serbaneka_ls;
+	    			$personel[$index]['ketertarikan']['pertanian'] = $value->pertanian_pangan_dan_kesehatan_ppk;
+	    			$personel[$index]['ketertarikan']['kimia'] = $value->kimia_dan_pertambangan_kp;
+
+	    			$personel[$index]['kepakaran']['mekanika'] = $value->mekanika;
+	    			$personel[$index]['kepakaran']['kelistrikan'] = $value->kelistrikan;
+	    			$personel[$index]['kepakaran']['konstruksi'] = $value->konstruksi;
+	    			$personel[$index]['kepakaran']['pertanian'] = $value->pertanian;
+	    			$personel[$index]['kepakaran']['peternakan'] = $value->peternakan;
+	    			$personel[$index]['kepakaran']['perikanan'] = $value->perikanan;
+	    			$personel[$index]['kepakaran']['perkebunan'] = $value->perkebunan;
+	    			$personel[$index]['kepakaran']['kehutanan'] = $value->kehutanan;
+	    			$personel[$index]['kepakaran']['pangan'] = $value->pangan;
+	    			$personel[$index]['kepakaran']['kesehatan'] = $value->kesehatan;
+	    			$personel[$index]['kepakaran']['kimia'] = $value->kimia;
+	    			$personel[$index]['kepakaran']['fisika'] = $value->fisika;
+	    			$personel[$index]['kepakaran']['pertambangan'] = $value->pertambangan;
+	    			$personel[$index]['kepakaran']['lingkungan'] = $value->lingkungan;
+	    			$personel[$index]['kepakaran']['manajemen'] = $value->manajemen;
+	    			$personel[$index]['kepakaran']['teknologi_informasi'] = $value->teknologi_informasi;
+	    			$personel[$index]['kepakaran']['ekonomi'] = $value->ekonomi;
+	    			$personel[$index]['kepakaran']['statistika'] = $value->statistika;
+	    			$personel[$index]['kepakaran']['lainnya'] = $value->lainnya;
+	    			
 	    			
 	    			$personel[$index]['training']['nama_diklattraining'][] = $value->nama_diklattraining;
-	    			$personel[$index]['training']['waktutanggal_pelaksanaan_training'][] = $value->waktutanggal_pelaksanaan_training;
-	    			$personel[$index]['training']['nama_penyelenggara_dan_tempat_taining'][] = $value->nama_penyelenggara_dan_tempat_taining;
-	    			$personel[$index]['training']['sertifikat_training'][] = $value->sertifikat_training;
+	    			$personel[$index]['training']['waktutanggal_pelaksanaan_diklattraining'][] = $value->waktutanggal_pelaksanaan_diklattraining;
+	    			$personel[$index]['training']['nama_penyelenggara_dan_tempat_diklattraining'][] = $value->nama_penyelenggara_dan_tempat_diklattraining;
+	    			$personel[$index]['training']['sertifikat_diklattraining'][] = $value->sertifikat_diklattraining;
 
 	    			$personel[$index]['seminar']['nama_workshopseminar'][] = $value->nama_workshopseminar;
-	    			$personel[$index]['seminar']['waktutanggal_pelaksanaan_seminar'][] = $value->waktutanggal_pelaksanaan_seminar;
-	    			$personel[$index]['seminar']['nama_penyelenggara_dan_tempat_seminar'][] = $value->nama_penyelenggara_dan_tempat_seminar;
-	    			$personel[$index]['seminar']['sertifikat_seminar'][] = $value->sertifikat_seminar;
+	    			$personel[$index]['seminar']['waktutanggal_pelaksanaan_workshopseminar'][] = $value->waktutanggal_pelaksanaan_workshopseminar;
+	    			$personel[$index]['seminar']['nama_penyelenggara_dan_tempat_workshopseminar'][] = $value->nama_penyelenggara_dan_tempat_workshopseminar;
+	    			$personel[$index]['seminar']['sertifikat_workshopseminar'][] = $value->sertifikat_workshopseminar;
 	    			
 
 	    			
@@ -196,17 +223,17 @@ class UploadArea
     			} else {
     				if ($value->nama_diklattraining) {
     					$personel[$index]['training']['nama_diklattraining'][] = $value->nama_diklattraining;
-		    			$personel[$index]['training']['waktutanggal_pelaksanaan_training'][] = $value->waktutanggal_pelaksanaan_training;
-		    			$personel[$index]['training']['nama_penyelenggara_dan_tempat_taining'][] = $value->nama_penyelenggara_dan_tempat_taining;
-		    			$personel[$index]['training']['sertifikat_training'][] = $value->sertifikat_training;
+		    			$personel[$index]['training']['waktutanggal_pelaksanaan_diklattraining'][] = $value->waktutanggal_pelaksanaan_diklattraining;
+		    			$personel[$index]['training']['nama_penyelenggara_dan_tempat_diklattraining'][] = $value->nama_penyelenggara_dan_tempat_diklattraining;
+		    			$personel[$index]['training']['sertifikat_diklattraining'][] = $value->sertifikat_diklattraining;
 
     				} 
     				if ($value->nama_workshopseminar) {
     					$personel[$index]['seminar']['nama_workshopseminar'][] = $value->nama_workshopseminar;
-		    			$personel[$index]['seminar']['waktutanggal_pelaksanaan_seminar'][] = $value->waktutanggal_pelaksanaan_seminar;
-		    			$personel[$index]['seminar']['nama_penyelenggara_dan_tempat_seminar'][] = $value->nama_penyelenggara_dan_tempat_seminar;
-		    			$personel[$index]['seminar']['sertifikat_seminar'][] = $value->sertifikat_seminar;
-		    			
+		    			$personel[$index]['seminar']['waktutanggal_pelaksanaan_workshopseminar'][] = $value->waktutanggal_pelaksanaan_workshopseminar;
+		    			$personel[$index]['seminar']['nama_penyelenggara_dan_tempat_workshopseminar'][] = $value->nama_penyelenggara_dan_tempat_workshopseminar;
+		    			$personel[$index]['seminar']['sertifikat_workshopseminar'][] = $value->sertifikat_workshopseminar;
+	    			
     				}
     			}
 
@@ -214,6 +241,7 @@ class UploadArea
     			
     		}
 
+    		// dd($personel);
     		foreach ($personel as $key => $val) {
     			
     			$savePersonel = $this->researcher($val);
@@ -223,6 +251,69 @@ class UploadArea
 		})->get();
 
 		return true;
+	}
+
+	public function parseDataPendukung($path)
+	{
+		Excel::selectSheets('Sheet1')->load($path, function($reader) {
+    		$results = $reader->all();
+    		// dd($results);
+    		$pendukung = [];
+    		$index = 0;
+    		foreach ($results as $key => $value) {
+
+    			if ($value->judul) {
+    				$index++;
+
+    				$pendukung[$index]['pendukung']['judul'] = $value->judul;
+	    			$pendukung[$index]['pendukung']['tahun'] = $value->tahun;
+	    			$pendukung[$index]['pendukung']['nama_file'] = $value->nama_file;
+	    			$pendukung[$index]['pendukung']['format_file'] = $value->format_file;
+	    			$pendukung[$index]['pendukung']['keterangan_fill_blank'] = $value->keterangan_fill_blank;
+
+    			} 
+    			
+    		}
+
+    		// dd($pendukung);
+    		foreach ($pendukung as $key => $val) {
+    			
+    			$savePendukung = $this->additionalData($val);
+    		}
+    		
+    		
+		})->get();
+
+		return true;
+	}
+
+	public function additionalData($data)
+	{
+
+		$pendukung = $data['pendukung'];
+		$add = [];
+
+		if (!$this->isExistAdditionalData(false, str_slug($pendukung['judul']))) {
+
+			$add['title'] = $pendukung['judul'];
+			$add['slug'] = str_slug($pendukung['judul']);
+			$add['year'] = $pendukung['tahun'];
+			$add['file'] = $pendukung['nama_file'];
+			$add['format'] = $pendukung['format_file'];
+
+			$save = AdditionalData::create($add);
+			return $save->id;
+		}
+		
+	}
+
+	public function isExistAdditionalData($id=false, $slug=false)
+	{
+		if ($id) $get = AdditionalData::whereId($id)->count();
+		if ($slug) $get = AdditionalData::whereSlug($slug)->count();
+		
+		if ($get > 0) return true;
+		else return false;
 	}
 
 	public function articleContent($data, $table='penelitian')
@@ -255,6 +346,8 @@ class UploadArea
 						$research['file'] = $data['penelitian']['file'];
 						
 						$saveResearch = $this->saveResearch($research);
+						
+						$saveResearchLocation = $this->saveResearchLocation(['lokasi' => $data['lokasi'], 'other_id'=>$saveResearch]);
 						
 						$saveResearchGroup = $this->saveResearchGroup(['kelompok' => $data['kelompok'], 'other_id'=>$saveResearch]);
 						
@@ -323,24 +416,19 @@ class UploadArea
 		$person['dob'] = $data['peneliti']['tanggal_lahir'];
 		$person['position'] = $position[$data['peneliti']['jabatan']];
 		$person['grade'] = $data['peneliti']['golongan'];
-		$person['interest_category'] = $data['peneliti']['kelompok_bidang_peneliti'];
+		// $person['interest_category'] = $data['peneliti']['kelompok_bidang_peneliti'];
 		$person['address'] = $data['peneliti']['alamat'];
 		$person['phone'] = $data['peneliti']['no_hp'];
 		$person['email'] = $data['peneliti']['email'];
 		$person['education'] = $data['peneliti']['pendidikan_perguruan_tinggi'];
 		$person['experience'] = $data['peneliti']['pengalaman_kerja'];
 
-		if ($data['peneliti']['mekanika']) $expert[] = $this->getExpertise(false, 'Mekanika')->id;
-		if ($data['peneliti']['elektronika']) $expert[] = $this->getExpertise(false, 'Elektronika')->id;
-		if ($data['peneliti']['pertanian']) $expert[] = $this->getExpertise(false, 'Pertanian')->id;
-		if ($data['peneliti']['pangan']) $expert[] = $this->getExpertise(false, 'Pangan')->id;
-		if ($data['peneliti']['kesehatan']) $expert[] = $this->getExpertise(false, 'Kesehatan')->id;
-		if ($data['peneliti']['kimia']) $expert[] = $this->getExpertise(false, 'Kimia')->id;
-		if ($data['peneliti']['pertambangan']) $expert[] = $this->getExpertise(false, 'Pertambangan')->id;
-		if ($data['peneliti']['lingkungan']) $expert[] = $this->getExpertise(false, 'Lingkungan')->id;
-		if ($data['peneliti']['lainnya']) $expert[] = $this->getExpertise(false, $data['peneliti']['lainnya'])->id;
-		
-		if (count($expert) > 0) $person['expert_category'] = implode(',', $expert);
+		foreach ($data['kepakaran'] as $key => $value) {
+			if ($value == "V") $expert[] = $this->getExpertise(false, ucfirst($key))->id;
+		}
+
+
+		if (isset($expert) and count($expert) > 0) $person['expert_category'] = implode(',', $expert);
 		
 		if (!$this->isExistPerson($data['peneliti']['email'])) {
 			$savePerson = Researcher::create($person);
@@ -349,12 +437,41 @@ class UploadArea
 			
 			$saveSeminar = $this->saveResearchTraining(['seminar'=>$data['seminar'], 'researcher_id'=>$savePerson->id], 'seminar');
 
+			$saveInterestGroup = $this->getInterestGroup(['ketertarikan'=>$data['ketertarikan'], 'researcher_id'=>$savePerson->id]);
 			
 			return true;
 		}
 		
 		return false;
 		
+	}
+
+	public function saveResearcherInterest($data)
+	{
+		$dataInterest = $data['ketertarikan'];
+
+		$interestList = ['mekanika'=>'MEK','lingkungan'=>'LS','pertanian'=>'PPK','kimia'=>'KP'];
+		foreach ($dataInterest as $key => $value) {
+			
+			if ($value == "V") {
+
+				$getInterest = $this->getInterestGroup(false, $interestList[$key]);
+
+				$interest['researcher_id'] = $data['researcher_id'];
+				$interest['interest_group_id'] = $getInterest->id;
+
+				$save = InterestGroup::create($interest);
+			} 
+		}
+
+		return true;
+	}
+
+	public function getInterestGroup($id = false, $code=false)
+	{
+		if ($id) return InterestGroup::whereId($id)->first();
+		if ($code) return InterestGroup::whereCode($code)->first();
+		else return InterestGroup::get();
 	}
 
 	public function saveResearchTraining($data, $type='training')
@@ -371,14 +488,14 @@ class UploadArea
 			$training['researcher_id'] = $data['researcher_id'];
 			$training['name'] = $value;
 			if ($type == 'training') {
-				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_training'][$key];
-				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_taining'][$key];
-				$training['sertificate'] = $certificate[$dataTraining['sertifikat_training'][$key]];
+				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_diklattraining'][$key];
+				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_diklattraining'][$key];
+				$training['sertificate'] = $certificate[$dataTraining['sertifikat_diklattraining'][$key]];
 				
 			} else {
-				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_seminar'][$key];
-				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_seminar'][$key];
-				$training['sertificate'] = $certificate[$dataTraining['sertifikat_seminar'][$key]];
+				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_workshopseminar'][$key];
+				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_workshopseminar'][$key];
+				$training['sertificate'] = $certificate[$dataTraining['sertifikat_workshopseminar'][$key]];
 				
 			}
 
@@ -449,6 +566,19 @@ class UploadArea
 		return $save->id;
 	}
 
+	public function saveResearchLocation($data)
+	{
+		$dataLokasi = $data['lokasi'];
+
+		foreach ($dataLokasi as $key => $value) {
+			$location['location'] = $value;
+			$location['research_id'] = $data['other_id'];
+			$save = ResearchLocation::create($location);
+		}
+		
+		return true;
+	}
+
 	public function saveResearchGroup($data, $type='penelitian')
 	{
 
@@ -475,7 +605,7 @@ class UploadArea
 		$dataResearcher = $data['peneliti'];
 		// $bidang = ['kimia'=>'kp', 'mekanika'=>'mek', 'pertanian'=>'ppk', 'lingkungan'=>'ls'];
 		$functional = ['Peneliti Utama' => 'p_utama', 'Peneliti Madya'=>'p_madya','Peneliti Muda'=>'p_muda','Peneliti Pertama'=>'p_pertama','Non Peneliti'=>'non_p'];
-
+		// dd($dataResearcher);
 		foreach ($dataResearcher['nama'] as $key => $value) {
 			$researcher['other_id'] = $data['other_id'];
 			$researcher['researcher_id'] = $this->getResearcher(false, trim($value))->id;

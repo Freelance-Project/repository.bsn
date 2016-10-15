@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\ArticleContent;
 use Table;
-use App\Helper\Src\UploadArea;
+use App\Repositories\UploadArea;
 
 class PublikasiController extends Controller
 {
@@ -166,13 +166,23 @@ class PublikasiController extends Controller
     	return view('backend.master.publikasi.import', ['model' => $model]);
     }
 
-    public function postImport()
+    public function postImport(Request $request)
     {
     	// return redirect(urlBackendAction('index'))->withSuccess('Sukses Import');
     	
-    	$path = public_path('contents/excel'). '/DATA_PUBLIKASI.xls';
-    	$savePublikasi = $this->uploadArea->parsePublikasi($path);
-    	if ($savePublikasi) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    	if ($request->template) {
+    		
+			$fileTemplate = \Helper::globalUpload($request, 'template', 'excel/publikasi');
+			
+            $path = public_path('contents/excel/publikasi'). '/'.$fileTemplate['filename'];
+	    	
+	    	$savePublikasi = $this->uploadArea->parsePublikasi($path);
+	    	if ($savePublikasi) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+		}
+    	
+
+    	return redirect(urlBackendAction('index'))->withSuccess('Failed');
+    	
     }
     
 }
