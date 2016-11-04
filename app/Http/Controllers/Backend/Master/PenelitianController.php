@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\HelperController;
 use App\Models\ArticleContent;
 use App\Models\Research;
 use App\Models\ResearchGroup;
+use App\Models\ResearchStandard;
 use Table;
 use Excel;
 use App\Repositories\UploadArea;
@@ -29,7 +30,7 @@ class PenelitianController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'year');
+		$model = Research::select('id' , 'title' , 'status')->orderBy('created_at', 'desc');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -55,13 +56,14 @@ class PenelitianController extends Controller
 		$inputs = $request->all();
 		// $validation = \Validator::make($inputs , $this->model->rules());
 		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
-		dd($inputs);
+		
 		$valuesArticle = [
-			'author_id' => \Auth::user()->id,
+			
 			'slug' => str_slug($request->title),
 			'title' => $request->title,
-			'intro' => $request->intro,
 			'year' => $request->year,
+			'intro' => $request->intro,
+			'author_id' => \Auth::user()->id,
 			'category' => $request->category,
 			'status' => $request->status
 		];
@@ -70,7 +72,8 @@ class PenelitianController extends Controller
 		if ($saveArticle) {
 			$valuesResearch = [
 				'article_content_id' => $saveArticle->id,
-				'summary' => $request->intro,
+				'title' => $request->title,
+				'year' => $request->year,
 				'background' => $request->background,
 				'goal' => $request->goal,
 				'conclusion' => $request->conclusion,
@@ -94,6 +97,20 @@ class PenelitianController extends Controller
 				}
 			}
 			
+			if ($request->research_standards_id) {
+				
+				ResearchStandard::whereOtherId($saveResearch->id)->delete();
+				
+				foreach($request->research_standards_id as $val){
+					$valuesResearchStandard = [
+						'other_id' => $saveResearch->id,
+						'name' => $val,
+						'type' => 'penelitian'
+					];
+					$save = ResearchStandard::create($valuesResearchStandard);
+				}
+			}
+			
 		} else {
 			return redirect(urlBackendAction('index'))->withSuccess('Data already exist');
 		}
@@ -104,13 +121,17 @@ class PenelitianController extends Controller
 
 	public function getUpdate($id)
 	{
-		$model  = $this->model->find($id);
+		$model  = Research::find($id);
 		$date = \Helper::dbToDate($model->created_at);
-		dd($model->research);
+		$resGroup = ResearchGroup::whereOtherId($model->id)->get();
+		$resStandard = ResearchStandard::whereOtherId($model->id)->get();
+		// dd($resStandard);
 		return view('backend.master.penelitian.form' , [
 
 			'model' => $model,
 			'date' => $date,
+			'group' => $resGroup,
+			'standard' => $resStandard,
 			
 		]);
 	}
@@ -119,27 +140,69 @@ class PenelitianController extends Controller
 	public function postUpdate(Request $request , $id)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules($id));
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules($id));
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
-		$dataid = $this->model->whereId($id)->first();
-		$values = [
-			'user_id' => \Auth::user()->id,
+		$dataid = Research::whereId($id)->first();
+		
+		$article = $this->model->whereId($dataid->article_content_id)->first();
+		$valuesArticle = [
+			
+			'slug' => str_slug($request->title),
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
-			'description' => $request->description,
-			'purpose' => $request->purpose,
-			'summary' => $request->summary,
-			'recomendation' => $request->recomendation,
+			'status' => $request->status
+		];
+			
+		$saveArticle = $article->update($valuesArticle);
+		
+		
+		$values = [
+			'title' => $request->title,
+			'year' => $request->year,
+			'intro' => $request->intro,
+			'background' => $request->background,
+			'goal' => $request->goal,
+			'conclusion' => $request->conclusion,
+			'recommendation_target' => $request->recommendation_target,
+			'recommendation' => $request->recommendation,
+			'location' => $request->location,
 			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
 			'status' => $request->status,
 		];
 
 
-		$update = $this->model->whereId($dataid->id)->update($values);
+		$update = $dataid->update($values);
 		
+		if ($request->research_groups_id) {
+			// dd($dataid);
+			ResearchGroup::whereOtherId($dataid->id)->delete();
+			
+			foreach($request->research_groups_id as $val){
+				$valuesResearchGroup = [
+					'other_id' => $dataid->id,
+					'name' => $val,
+					'type' => 'penelitian'
+				];
+				$save = ResearchGroup::create($valuesResearchGroup);
+			}
+		}
+		
+		if ($request->research_standards_id) {
+			// dd($dataid);
+			ResearchStandard::whereOtherId($dataid->id)->delete();
+			
+			foreach($request->research_standards_id as $val){
+				$valuesResearchStandard = [
+					'other_id' => $dataid->id,
+					'name' => $val,
+					'type' => 'penelitian'
+				];
+				$save = ResearchStandard::create($valuesResearchStandard);
+			}
+		}
+			
 		$image = str_replace("%20", " ", $request->image);
 
         if(!empty($image))
@@ -153,25 +216,20 @@ class PenelitianController extends Controller
             ]);
         }
 		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
-		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
 
 	
     public function getDelete($id)
     {
-        $model = $this->model->find($id);
+        $model = Research::find($id);
+		// dd($model);
+		$article = $this->model->whereId($model->article_content_id);
 		
         if(!empty($model->id))
         {
 			$model->delete();
+			$article->delete();
             return redirect(urlBackendAction('index'))->withSuccess('Data has been deleted');
 
         }else{

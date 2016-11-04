@@ -23,8 +23,10 @@
                     <thead>
                         <tr>
                             <th width = '40%'>Title</th>
-                            <th width = '40%'>Intro</th>
-                            <th width = '20%'>Action</th>
+                            <th width = '20%'>Year</th>
+                            <th width = '20%'>Bentuk File</th>
+                            <th width = '10%'>Status</th>
+                            <th width = '10%'>Action</th>
                         </tr>
                     </thead>
                     
@@ -47,8 +49,10 @@
                 serverSide: true,
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
-                    { data: 'title', name: 'title' },
+                    { data: 'title', name: 'title', render: function(data, type, full, meta){ return '<a href="update/'+full.id+'">'+data+'</a>';}},
                     { data: 'year', name: 'year' },
+					{ data: 'availability', name: 'availability' },
+					{ data: 'status', name: 'status' },
                     { data: 'action', name: 'action' , searchable :false},
                     
                 ]

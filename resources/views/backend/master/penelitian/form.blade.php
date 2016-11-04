@@ -10,7 +10,7 @@
             
             <div class = 'row'>
 
-                <div class = 'col-md-8'>
+                <div class = 'col-md-10'>
 
                     @include('backend.common.errors')
 
@@ -23,13 +23,44 @@
 					
 					<div class="form-group col-md-12">
 						<label>Kelompok Bidang Penelitian</label><br>
+							<?php
+							if ($group) {
+								foreach($group as $val) {
+									$groupList[] = $val->name;
+								}
+								(in_array('kp', $groupList)) ? $kp = true : $kp = false;
+								(in_array('mek', $groupList)) ? $mek = true : $mek = false;
+								(in_array('ppk', $groupList)) ? $ppk = true : $ppk = false;
+								(in_array('ls', $groupList)) ? $ls = true : $ls = false;
+							}
+							?>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('research_groups_id[]', 'kp') !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('research_groups_id[]', 'mek') !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'kp', $kp) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek', $mek) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							</div>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('research_groups_id[]', 'ppk') !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('research_groups_id[]', 'ls') !!} Lingkungan dan Serbaneka (LS)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ppk', $ppk) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls', $ls) !!} Lingkungan dan Serbaneka (LS)<br>
+							</div>
+					</div>
+					
+					<div class="form-group col-md-12">
+						<label>Kelompok Standardisasi dan Penilaian Kesesuaian</label><br>
+							<?php
+							if ($standard) {
+								$standardList = [];
+								foreach($standard as $val) {
+									$standardList[] = $val->name;
+								}
+								(in_array('standardisasi', $standardList)) ? $standardisasi = true : $standardisasi = false;
+								(in_array('kesesuaian', $standardList)) ? $kesesuaian = true : $kesesuaian = false;
+								(in_array('snsu', $standardList)) ? $snsu = true : $snsu = false;
+							}
+							?>
+							<div class="form-group col-md-12">
+								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', $standardisasi) !!} Standardisasi<br>
+								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', $kesesuaian) !!} Penilaian Kesesuaian<br>
+								{!!  Form::checkbox('research_standards_id[]', 'snsu', $snsu) !!} SNSU<br>
 							</div>
 					</div>
 					
@@ -39,10 +70,7 @@
 					</div>
 					
 					
-					<div class="form-group col-md-12">
-						<label>Lokasi Survei</label>
-                        {!! Form::text('location' , $model->location ,['class' => 'form-control', 'required']) !!}
-					</div>
+					
 					
 					<div class="form-group col-md-12">
 						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
@@ -68,7 +96,7 @@
 						</table>
 					</div>	
 					
-					{{--
+					
 					<div class="form-group col-md-4">
 						<label>Nama Peneliti</label>
 						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control']) !!}
@@ -103,7 +131,7 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
-					--}}
+					
 					
 					<div class="form-group col-md-12">
                         <label>Ringkasan Eksekutif</label>
@@ -134,6 +162,11 @@
 						<label>Target Rekomendasi</label>
 						{!! Form::textarea('recommendation_target' , $model->recommendation_target ,['class' => 'form-control','id'=>'recommendation_target', 'required']) !!}
 					</div>
+					
+					<div class="form-group col-md-12">
+						<label>Lokasi Survei</label>
+                        {!! Form::text('location' , $model->location ,['class' => 'form-control', 'required']) !!}
+					</div>
 										
 					<div class="form-group col-md-12">
 						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
@@ -149,7 +182,7 @@
 						</table>
 					</div>	
 					
-					{{--					
+										
 					<div class="form-group col-md-10">
 						<label>Data Pendukung Penelitian</label>
                         {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
@@ -159,7 +192,7 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
-					--}}
+					
 					
 					
 					<div class="form-group col-md-12">
@@ -170,22 +203,22 @@
 						</div>
 						<input type = 'hidden' name = 'file' id = 'file' />
 					</div>
-					
+
 					{{--
 					<div class="form-group col-md-6">
-						<label>Date</label>
-						{!!  Form::text('date', $date , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
+						<label>Publication Date</label>
+						{!!  Form::text('created_at', $created_at , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
 					</div>
 					--}}
 					
 					<div class="form-group col-md-6">
 						<label>Status</label>
-						{!! Form::select('status' , ['publish'=>'Publish','unpublish'=>'Unpublish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
+						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
 					</div>
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 						<input type ='hidden' name='category' value='penelitian'>
-						<input type ='hidden' name='status' value='publish'>
+						
                     </div>
 					
 					

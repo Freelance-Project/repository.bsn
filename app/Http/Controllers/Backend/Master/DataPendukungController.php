@@ -26,7 +26,9 @@ class DataPendukungController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'year');
+		$model = $this->model->select('id' , 'title' , 'year', 'availability', 'status');
+		
+		
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -34,6 +36,8 @@ class DataPendukungController extends Controller
 			->addColumn('action' , function($model){
 			return \helper::buttons($model->id);
 		})->make(true);
+		
+		
 	}
 
 	public function getCreate()
@@ -48,14 +52,15 @@ class DataPendukungController extends Controller
 	public function postCreate(Request $request)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules());
+		/*$validation = \Validator::make($inputs , $this->model->rules());
 		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		*/
 		
 		$values = [
-			'user_id' => \Auth::user()->id,
+			
 			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
+			'year' => $request->year,
+			'availability' => $request->availability, 
 			'created_at' => \Helper::dateToDb($request->date),
 			'slug' => str_slug($request->title),
 			'status' => $request->status,
@@ -72,17 +77,9 @@ class DataPendukungController extends Controller
 			$uploadImage = \Helper::handleUpload($request, $imageName);
 			
 			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
+            		'thumbnail' => $uploadImage['file'],            		
             ]);
         }
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
 		
         return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
