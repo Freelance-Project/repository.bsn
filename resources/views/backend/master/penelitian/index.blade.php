@@ -24,7 +24,7 @@
                     <thead>
                         <tr>
                             <th width = '50%'>Judul Penelitian</th>
-                            <th width = '30%'>Tahun Penelitian</th>
+                            <th width = '30%'>Status Penelitian</th>
                             <th width = '20%'>Action</th>
                         </tr>
                     </thead>
@@ -49,7 +49,7 @@
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
                     { data: 'title', name: 'title' },
-                    { data: 'year', name: 'year' },
+                    { data: 'status', name: 'status' },
                     { data: 'action', name: 'action' , searchable :false},
                     
                 ]
