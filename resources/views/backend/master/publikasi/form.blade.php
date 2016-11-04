@@ -10,7 +10,7 @@
             
             <div class = 'row'>
 
-                <div class = 'col-md-8'>
+                <div class = 'col-md-10'>
 
                     @include('backend.common.errors')
 
@@ -18,29 +18,61 @@
 					
 					<div class="form-group col-md-12">
 						<label>Judul</label>
-                        {!! Form::text('judul' , $model->judul ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('title' , $model->title ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
-						<label>Kelompok Bidang Publikasi</label><br>
+						<label>Kelompok Bidang Penelitian</label><br>
+							<?php
+							if ($group) {
+								$groupList=[];
+								foreach($group as $val) {
+									$groupList[] = $val->name;
+								}
+								(in_array('kp', $groupList)) ? $kp = true : $kp = false;
+								(in_array('mek', $groupList)) ? $mek = true : $mek = false;
+								(in_array('ppk', $groupList)) ? $ppk = true : $ppk = false;
+								(in_array('ls', $groupList)) ? $ls = true : $ls = false;
+							}
+							?>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'kp', isset($kp) ? $kp : null) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek', isset($mek) ? $mek : null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							</div>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null , false) !!} Lingkungan dan Serbaneka (LS)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ppk', isset($ppk) ? $ppk : null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls', isset($ls) ? $ls : null) !!} Lingkungan dan Serbaneka (LS)<br>
+							</div>
+					</div>
+					
+					<div class="form-group col-md-12">
+						<label>Kelompok Standardisasi dan Penilaian Kesesuaian</label><br>
+							<?php
+							if ($standard) {
+								$standardList = [];
+								foreach($standard as $val) {
+									$standardList[] = $val->name;
+								}
+								(in_array('standardisasi', $standardList)) ? $standardisasi = true : $standardisasi = false;
+								(in_array('kesesuaian', $standardList)) ? $kesesuaian = true : $kesesuaian = false;
+								(in_array('snsu', $standardList)) ? $snsu = true : $snsu = false;
+							}
+							?>
+							<div class="form-group col-md-12">
+								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', isset($standardisasi) ? $standardisasi : null) !!} Standardisasi<br>
+								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', isset($kesesuaian) ? $kesesuaian : null) !!} Penilaian Kesesuaian<br>
+								{!!  Form::checkbox('research_standards_id[]', 'snsu', isset($snsu) ? $snsu : null) !!} SNSU<br>
 							</div>
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Kategori Publikasi</label>
-						{!!  Form::select('kategori',['jurnal'=>'Jurnal', 'prosiding'=>'Prosiding', 'lainnya'=>'Lainnya'], null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('category',['jurnal'=>'Jurnal', 'prosiding'=>'Prosiding', 'lainnya'=>'Lainnya'], null, ['class'=>'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Tahun Publikasi</label>
-                        {!! Form::text('tahun' , $model->tahun ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
 					</div>	
 					
 					<div class="form-group col-md-12">
@@ -70,6 +102,8 @@
 						</table>
 					</div>
 					
+					
+					{{--
 					<div class="form-group col-md-4">
 					<label>Nama Penulis</label>
 						{!!  Form::select('user_id',[1=>1], null, ['class'=>'form-control']) !!}
@@ -99,10 +133,12 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
+					--}}
+					
 					
 					<div class="form-group col-md-12">
                         <label>Abstrak</label>
-                        {!! Form::textarea('abstract' , $model->abstract ,['class' => 'form-control','id'=>'abstract', 'required']) !!}
+                        {!! Form::textarea('intro' , $model->intro ,['class' => 'form-control','id'=>'intro', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -112,7 +148,7 @@
 					
 					<div class="form-group col-md-12">
 						<label>Rekomendasi</label>
-						{!! Form::textarea('recomendation' , $model->recomendation ,['class' => 'form-control','id'=>'recomendation', 'required']) !!}
+						{!! Form::textarea('recommendation' , $model->recommendation ,['class' => 'form-control','id'=>'recommendation', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -128,11 +164,15 @@
 							</tr> 
 						</table>
 					</div>	
-															
+					
+
+					{{--
 					<div class="form-group col-md-10">
 						<label>Data Pendukung Publikasi</label>
                         {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
 					</div>
+					--}}
+					
 					
 					<div class="form-group col-md-2">
 						<br>
@@ -148,10 +188,15 @@
 						<input type = 'hidden' name = 'filename' id = 'filename' />
 					</div>
 					
+					<div class="form-group col-md-12">
+						<label>Status</label>
+						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
+					</div>
                     
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-                    </div>
+						<input type ='hidden' name='category_article' value='publikasi'>
+					</div>
 					
                     {!! Form::close() !!}
 

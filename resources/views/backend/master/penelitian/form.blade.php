@@ -25,6 +25,7 @@
 						<label>Kelompok Bidang Penelitian</label><br>
 							<?php
 							if ($group) {
+								$groupList=[];
 								foreach($group as $val) {
 									$groupList[] = $val->name;
 								}
@@ -35,12 +36,12 @@
 							}
 							?>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('research_groups_id[]', 'kp', $kp) !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('research_groups_id[]', 'mek', $mek) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'kp', isset($kp) ? $kp : null) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek', isset($mek) ? $mek : null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							</div>
 							<div class="form-group col-md-6">
-								{!!  Form::checkbox('research_groups_id[]', 'ppk', $ppk) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('research_groups_id[]', 'ls', $ls) !!} Lingkungan dan Serbaneka (LS)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ppk', isset($ppk) ? $ppk : null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls', isset($ls) ? $ls : null) !!} Lingkungan dan Serbaneka (LS)<br>
 							</div>
 					</div>
 					
@@ -58,18 +59,16 @@
 							}
 							?>
 							<div class="form-group col-md-12">
-								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', $standardisasi) !!} Standardisasi<br>
-								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', $kesesuaian) !!} Penilaian Kesesuaian<br>
-								{!!  Form::checkbox('research_standards_id[]', 'snsu', $snsu) !!} SNSU<br>
+								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', isset($standardisasi) ? $standardisasi : null) !!} Standardisasi<br>
+								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', isset($kesesuaian) ? $kesesuaian : null) !!} Penilaian Kesesuaian<br>
+								{!!  Form::checkbox('research_standards_id[]', 'snsu', isset($snsu) ? $snsu : null) !!} SNSU<br>
 							</div>
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Tahun Publikasi</label>
                         {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
-					</div>
-					
-					
+					</div>			
 					
 					
 					<div class="form-group col-md-12">
@@ -96,7 +95,7 @@
 						</table>
 					</div>	
 					
-					
+					{{--
 					<div class="form-group col-md-4">
 						<label>Nama Peneliti</label>
 						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control']) !!}
@@ -131,7 +130,8 @@
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
-					
+					--}}
+
 					
 					<div class="form-group col-md-12">
                         <label>Ringkasan Eksekutif</label>
@@ -211,10 +211,11 @@
 					</div>
 					--}}
 					
-					<div class="form-group col-md-6">
+					<div class="form-group col-md-12">
 						<label>Status</label>
 						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
 					</div>
+					
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 						<input type ='hidden' name='category' value='penelitian'>
