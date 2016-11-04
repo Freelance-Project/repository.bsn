@@ -22,11 +22,6 @@ class DefaultController extends Controller
 		return view('frontend.default.index');
     }
 
-    public function getSearch($search)
-    {
-    	dd($search);
-    	// $getArticle = $this->model->where('title','','')get();
-		// dd($getArticle);
-    }
+    
 
 }

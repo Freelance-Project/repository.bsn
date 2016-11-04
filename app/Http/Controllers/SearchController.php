@@ -115,4 +115,10 @@ class SearchController extends Controller
 		
 		return view('frontend.search.search-category', compact('data'));
     }
+
+    public function getAdvance()
+    {
+    	$year = [1=>2010];
+    	return view('frontend.search.search-advance', compact('year'));
+    }
 }
