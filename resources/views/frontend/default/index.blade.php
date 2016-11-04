@@ -8,10 +8,11 @@
 	    	<div class="row vertical-center-row">
 	            <div class="text-center col-md-6 col-md-offset-3">
 	                <div id="imaginary_container">
-	                	<form action="{{url('search')}}"> 
+	                	
+	                	{!! Form::open(['url'=>'search/find','method'=>'get']) !!} 
 	                    <div class="input-group stylish-input-group">
 	                    	
-	                        <input type="text" class="form-control"  placeholder="Search" >
+	                        <input type="text" name="request" class="form-control"  placeholder="Search" >
 	                        <span class="input-group-addon">
 	                            <button type="submit">
 	                                <span class="glyphicon glyphicon-search"></span>
@@ -19,12 +20,12 @@
 	                        </span>
 	                       
 	                    </div><!--end.search--input-->
-	                     </form>
+	                    {!! Form::close() !!}
 	                    <div class="cat-search text-center">
-	                    	<a href="{{url('search/category')}}" class="btn btn-primary">Penelitian</a>
-	                        <a href="{{url('search/category')}}" class="btn btn-success">Publikasi</a>
-	                        <a href="{{url('search/category')}}" class="btn btn-info">Data Pendukung</a>
-	                        <a href="{{url('search/category')}}" class="btn btn-warning">Data Personel</a>
+	                    	<a href="{{url('search/penelitian')}}" class="btn btn-primary">Penelitian</a>
+	                        <a href="{{url('search/publikasi')}}" class="btn btn-success">Publikasi</a>
+	                        <a href="{{url('search/pendukung')}}" class="btn btn-info">Data Pendukung</a>
+	                        <a href="{{url('search/personel')}}" class="btn btn-warning">Data Personel</a>
 	                        <!--a href="search_result.php" class="btn btn-danger">Program Pendukung</a-->
 	                    </div>
 	                </div><!--end.imaginary-->

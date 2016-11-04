@@ -58,10 +58,11 @@
             <li><a href="{{url('request')}}">Daftar Permintaan</a></li>
             <li><a href="{{url('profile')}}">Profile</a></li>
           </ul>		
+          <!--
           <ul class="nav navbar-nav navbar-right">
             <li><a href="#" data-toggle="modal" data-target="#RegisterForm"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
             <li><a href="#" data-toggle="modal" data-target="#loginForm"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          </ul>
+          </ul>-->
         </div><!--/.nav-collapse -->
       </div>
     </nav>

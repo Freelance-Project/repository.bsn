@@ -12,6 +12,8 @@
 */
 
 Route::get('/','DefaultController@getIndex');
+Route::get('search/find/{request?}','SearchController@getFind');
+Route::get('search/detail/{slug}','SearchController@getDetail');
 Route::controller('profile','ProfileController');
 Route::controller('request','RequestController');
 Route::controller('search','SearchController');

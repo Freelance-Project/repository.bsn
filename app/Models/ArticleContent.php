@@ -15,31 +15,7 @@ class ArticleContent extends Model
 
     public $guarded = [];
 
-	/*
-    public function rules($id = "")
-    {
-
-    	if(!empty($id))
-    	{
-    		$plus = ',title,'.$id;
-    	
-    	}else{
-    	
-    		$plus = '';
-    	
-    	}
-
-    	$rules = [
-
-    		'title' => 'required|max:200|unique:article_contents'.$plus,
-			'intro' => 'max:300',
-		];
-
-		return $rules;
-    }
-	*/
-
-    public function user()
+	public function user()
     {
     	return $this->belongsTo('App\Models\User' , 'author_id');
     }
@@ -51,6 +27,6 @@ class ArticleContent extends Model
 	
 	public function research()
 	{
-		return $this->belongsTo(Research::class, 'article_content_id');
+		return $this->hasOne(Research::class, 'article_content_id');
 	}
 }

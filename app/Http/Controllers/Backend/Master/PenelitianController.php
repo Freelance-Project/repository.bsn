@@ -52,11 +52,10 @@ class PenelitianController extends Controller
 
 	public function postCreate(Request $request)
 	{
-		//$inputs = $request->all();
+		$inputs = $request->all();
 		// $validation = \Validator::make($inputs , $this->model->rules());
 		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
-		
-		
+		dd($inputs);
 		$valuesArticle = [
 			'author_id' => \Auth::user()->id,
 			'slug' => str_slug($request->title),
@@ -71,11 +70,13 @@ class PenelitianController extends Controller
 		if ($saveArticle) {
 			$valuesResearch = [
 				'article_content_id' => $saveArticle->id,
+				'summary' => $request->intro,
 				'background' => $request->background,
 				'goal' => $request->goal,
 				'conclusion' => $request->conclusion,
 				'recommendation' => $request->recommendation,
 				'recommendation_target' => $request->recommendation_target,
+				'location' => $request->location,
 				'created_at' => \Helper::dateToDb($request->date),
 				'status' => $request->status
 			];
@@ -93,31 +94,11 @@ class PenelitianController extends Controller
 				}
 			}
 			
+		} else {
+			return redirect(urlBackendAction('index'))->withSuccess('Data already exist');
 		}
 		
 
-		/*
-		$image = str_replace("%20", " ", $request->image);
-        if(!empty($image))
-        {
-            $imageName = $this->imagePrefix."-".$content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
-		*/
-		
         return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
 
@@ -125,7 +106,7 @@ class PenelitianController extends Controller
 	{
 		$model  = $this->model->find($id);
 		$date = \Helper::dbToDate($model->created_at);
-		// dd($model);
+		dd($model->research);
 		return view('backend.master.penelitian.form' , [
 
 			'model' => $model,

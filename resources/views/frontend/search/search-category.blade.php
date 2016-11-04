@@ -44,71 +44,24 @@
             <div class="row search-list">
                  <hgroup class="mb20">
                     <h1>&nbsp;</h1>
-                    <h2 class="lead"><strong class="text-danger">3</strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+                    <h2 class="lead"><strong class="text-danger">{{$data['result']->total()}}</strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
                 </hgroup>
                 <section class="col-xs-12 col-sm-6 col-md-12">
-            
+                    
+                    @if ($data['result']->total() > 0)
+                    @foreach($data['result'] as $val)
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
+                            @if($data['category'] != 4) <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
+                            @if($data['category'] == 4) <h3><a href="{{url('search/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3> @endif
+                            @if($data['category'] == 1 || $data['category'] == 2) <p>{!! substr($val->intro, 0, 300) !!}...</p> @endif
+                            
                         </div>
                         <span class="clearfix border"></span>
                     </article>
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>	
-                    
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>	
-                    
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>	
-                    
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>	
-                    
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>	
-                    
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="#" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>				
+                    @endforeach
+                    @endif
+                    			
             
                 </section>
             </div><!--end.row-->
@@ -116,23 +69,7 @@
             <div class="row text-center">
             	<div class="col-md-12">
                     <nav aria-label="Page navigation">
-                      <ul class="pagination">
-                        <li>
-                          <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                          </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                          <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                          </a>
-                        </li>
-                      </ul>
+                      {!! with(new \App\Helper\Src\Pagination($data['result']))->render() !!}
                     </nav>
                 </div>
             </div><!--end.row-->

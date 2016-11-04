@@ -8,11 +8,12 @@
         	<ol class="breadcrumb">
               <li class="active">Search</li>
             </ol>
+            {!! Form::open(['url'=>'search/find','method'=>'get']) !!} 
         	<div class="row">
             	<div class="col-md-6">
                 	<div id="imaginary_container"> 
                         <div class="input-group stylish-input-group">
-                            <input type="text" class="form-control"  placeholder="Search" >
+                            <input type="text" class="form-control" name="request" placeholder="Search" >
                             <span class="input-group-addon">
                                 <button type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
@@ -25,105 +26,40 @@
                 	</div><!--end.imaginary_container-->
             	</div><!--end.col-3-->
             </div><!--end.row-->
-            
+            {!! Form::close() !!}
             <div class="row search-list">
                  <hgroup class="mb20">
                     <h1>&nbsp;</h1>
-                    <h2 class="lead"><strong class="text-danger">3</strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+                    <h2 class="lead"><strong class="text-danger">{{$data['result']->total()}}</strong> data ditemukan untuk kata kunci <strong class="text-danger">{{$data['request']}}</strong></h2>								
                 </hgroup>
                 <section class="col-xs-12 col-sm-6 col-md-12">
-                	<article class="search-result row">
+                	@if ($data['result']->total() > 0)
+                    @foreach($data['result'] as $val)
+                    <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{{ucfirst($val->category)}}</strong></span></li>
                                 <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
+                                <li><i class="glyphicon glyphicon-calendar"></i> <span>{{$val->year}}</span></li>
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
+                            <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>
+                            <p>{!! substr($val->intro, 0, 300) !!}...</p>						
                         </div>
                         <span class="clearfix borda"></span>
                     </article>
-            
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix borda"></span>
-                    </article>
-            
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>
-                    <article class="search-result row">
-                        <div class="col-xs-12 col-sm-12 col-md-2">
-                            <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Beternak Bebek</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>2016</span></li>
-                            </ul>
-                        </div>
-                        <div class="col-xs-12 col-sm-12 col-md-7">
-                            <h3><a href="{{url('search/detail')}}" title="">Voluptatem, exercitationem, suscipit, distinctio</a></h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem, exercitationem, suscipit, distinctio, qui sapiente aspernatur molestiae non corporis magni sit sequi iusto debitis delectus doloremque.</p>						
-                        </div>
-                        <span class="clearfix border"></span>
-                    </article>			
+                    @endforeach
+                    @endif
+                    	
                 </section>
             </div><!--end.row-->
             
             <div class="row text-center">
             	<div class="col-md-12">
                     <nav aria-label="Page navigation">
+                      {!! with(new \App\Helper\Src\Pagination($data['result']))->render() !!}
+                      <!--
                       <ul class="pagination">
                         <li>
                           <a href="#" aria-label="Previous">
@@ -140,7 +76,7 @@
                             <span aria-hidden="true">&raquo;</span>
                           </a>
                         </li>
-                      </ul>
+                      </ul>-->
                     </nav>
                 </div>
             </div><!--end.row-->
