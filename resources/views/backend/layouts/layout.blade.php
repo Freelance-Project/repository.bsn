@@ -21,7 +21,7 @@
         text : '{{ Session::get("infos") }}',
     });
 </script>
-
 @endif
+
 @yield('script')
 </html>

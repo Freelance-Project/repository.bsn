@@ -10,7 +10,7 @@
             
             <div class = 'row'>
 
-                <div class = 'col-md-10'>
+                <div class = 'col-md-12'>
 
                     @include('backend.common.errors')
 
@@ -21,9 +21,14 @@
                         {!! Form::text('title' , $model->title ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label>Kelompok Bidang Penelitian</label><br>
 							<?php
+							$kp = false;
+							$mek = false;
+							$ppk = false;
+							$ls = false;
+
 							if ($group) {
 								$groupList=[];
 								foreach($group as $val) {
@@ -35,6 +40,7 @@
 								(in_array('ls', $groupList)) ? $ls = true : $ls = false;
 							}
 							?>
+<<<<<<< HEAD
 							<div class="form-group col-md-6">
 								{!!  Form::checkbox('research_groups_id[]', 'kp', isset($kp) ? $kp : null) !!} Kimia dan Pertambangan (KP)<br>
 								{!!  Form::checkbox('research_groups_id[]', 'mek', isset($mek) ? $mek : null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
@@ -42,12 +48,24 @@
 							<div class="form-group col-md-6">
 								{!!  Form::checkbox('research_groups_id[]', 'ppk', isset($ppk) ? $ppk : null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
 								{!!  Form::checkbox('research_groups_id[]', 'ls', isset($ls) ? $ls : null) !!} Lingkungan dan Serbaneka (LS)<br>
+=======
+							<div class="form-group ">
+								{!!  Form::checkbox('research_groups_id[]', 'kp', $kp) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek', $mek) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+							
+								{!!  Form::checkbox('research_groups_id[]', 'ppk', $ppk) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls', $ls) !!} Lingkungan dan Serbaneka (LS)<br>
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
 							</div>
 					</div>
 					
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label>Kelompok Standardisasi dan Penilaian Kesesuaian</label><br>
 							<?php
+							$standardisasi = false;
+							$kesesuaian = false;
+							$snsu = false;
+
 							if ($standard) {
 								$standardList = [];
 								foreach($standard as $val) {
@@ -66,6 +84,7 @@
 					</div>
 					
 					<div class="form-group col-md-12">
+<<<<<<< HEAD
 						<label>Tahun Publikasi</label>
                         {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
 					</div>			
@@ -134,6 +153,8 @@
 
 					
 					<div class="form-group col-md-12">
+=======
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
                         <label>Ringkasan Eksekutif</label>
                         {!! Form::textarea('intro' , $model->intro ,['class' => 'form-control','id'=>'intro', 'required']) !!}
 					</div>
@@ -162,39 +183,15 @@
 						<label>Target Rekomendasi</label>
 						{!! Form::textarea('recommendation_target' , $model->recommendation_target ,['class' => 'form-control','id'=>'recommendation_target', 'required']) !!}
 					</div>
+					<div class="form-group col-md-6">
+						<label>Tahun Publikasi</label>
+                        {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
+					</div>
 					
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label>Lokasi Survei</label>
                         {!! Form::text('location' , $model->location ,['class' => 'form-control', 'required']) !!}
 					</div>
-										
-					<div class="form-group col-md-12">
-						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Daftar Data Pendukung Penelitian</label> 
-							<tr> 
-								<th width="85%">Nama File</th> 
-								<th width="15%">Action</th>	
-							</tr> 
-							<tr> 
-								<td width="85%">XXX............</td>
-								<td width="15%"><button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Delete' }}</button></td>
-							</tr> 
-						</table>
-					</div>	
-					
-										
-					<div class="form-group col-md-10">
-						<label>Data Pendukung Penelitian</label>
-                        {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-2">
-						<br>
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-					</div>
-					
-					
-					
 					<div class="form-group col-md-12">
 						<label>File</label>
 						<div>
@@ -203,6 +200,7 @@
 						</div>
 						<input type = 'hidden' name = 'file' id = 'file' />
 					</div>
+<<<<<<< HEAD
 
 					{{--
 					<div class="form-group col-md-6">
@@ -212,6 +210,9 @@
 					--}}
 					
 					<div class="form-group col-md-12">
+=======
+					<div class="form-group col-md-6">
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
 						<label>Status</label>
 						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
 					</div>
@@ -221,9 +222,94 @@
 						<input type ='hidden' name='category' value='penelitian'>
 						
                     </div>
+
+					{!! Form::close() !!}
+
+					@if($new)
+					<div class="form-group col-md-12">
+						<table class='table researcher-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
+						<label>Tim Peneliti (1-10 orang)</label> 
+							<tr> 
+								<th>Nama Peneliti</th> 
+								<th>Jabatan Peneliti</th> 
+								<th>Jabatan Fungsional</th> 
+								<th>Asal Instansi</th> 
+								<th>Action</th>	
+							</tr> 
+							@if($researcherTeam)
+							@foreach($researcherTeam as $val) 
+							<tr class="researcher-data-{{$val->id}}"> 
+								<td>{{$val->researcher->name}}</td> 
+								<td>{{$val->position}}</td> 
+								<td>{{$val->functional}}</td> 
+								<td>{{$val->instance}}</td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Hapus</a></td> 
+							</tr>	
+							@endforeach
+							@endif
+						</table>
+					</div>	
 					
 					
-                    {!! Form::close() !!}
+					<div class="form-group col-md-3">
+						<label>Nama Peneliti</label>
+						{!!  Form::select('penelitian_user_id',$researcher, null, ['class'=>'form-control r_id']) !!}
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label>Jabatan Peneliti</label>
+						{!!  Form::select('jabatan_peneliti', $position, null, ['class'=>'form-control r_position']) !!}
+					</div>
+					
+					<div class="form-group col-md-3">
+						<label>Jabatan Fungsional Peneliti</label>
+						{!!  Form::select('jabatan_fungsional', $functional, null, ['class'=>'form-control r_functional']) !!}
+					</div>
+					
+					<div class="form-group col-md-3">
+						<label>Asal Instansi</label>
+						{!!  Form::text('instansi',null ,['class' => 'form-control r_instance']) !!}
+					</div>
+					<div class="form-group col-md-1">
+						<label>Action</label>
+						<button type="button" class="btn btn-primary save-researcher">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
+					</div>
+					
+
+					<div class="form-group col-md-12">
+						<table class='table additional-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
+						<label>Daftar Data Pendukung Penelitian</label> 
+							<tr> 
+								<th width="85%">File</th> 
+								<th width="15%">Action</th>	
+							</tr> 
+							@if($additionalDataList)
+							@foreach($additionalDataList as $val) 
+							<tr class="additional-data-{{$val->id}}"> 
+								<td>{{$val->additional->title}}</td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="{{$val->id}}">Hapus</a></td> 
+							</tr>	
+							@endforeach
+							@endif
+						</table>
+					</div>	
+					
+										
+					<div class="form-group col-md-10">
+						<label>Data Pendukung Penelitian</label>
+                        {!! Form::select('ref_data_pendukung_id' , $additionalData ,null, ['class' => 'form-control a_id']) !!}
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label>Action</label>
+						<button type="button" class="btn btn-primary save-additional form-control">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+					</div>
+					
+					
+					@endif
+					{!! Form::hidden('p_id' , $model->id ,['class' => 'form-control p_id']) !!}
+					
+                    
 
                 </div>
 
@@ -236,8 +322,8 @@
 @section('script')
 <script type="text/javascript">
   
-  window.onload = function()
-  {
+  	window.onload = function()
+  	{
 		CKEDITOR.replace( 'intro',{
 		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 		
@@ -252,6 +338,118 @@
 
   		CKEDITOR.replace( 'recomendation',{
 		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
-  }
+  	}
+
+  	$(document).on('click', '.save-researcher', function(){
+
+  		var researcher_id = $('.r_id').val();
+	  	var position = $('.r_position').val();
+	  	var functional = $('.r_functional').val();
+	  	var instance = $('.r_instance').val();
+	  	var other_id = $('.p_id').val();
+	  	
+	  	$.ajax({
+			type : 'get',
+			url : basedomain +'/data-penelitian/researcher',
+			data : {
+				researcher_id : researcher_id,
+				position : position,
+				functional : functional,
+				instance : instance,
+				other_id : other_id,
+			},
+			success : function(data){
+
+				if (data.status == true) {
+					var html = "";
+						html += "<tr class='researcher-data-"+data.data.id+"'>";
+						html += "<td>"+data.data.researcher.name+"</td>";
+						html += "<td>"+data.data.position+"</td>";
+						html += "<td>"+data.data.functional+"</td>";
+						html += "<td>"+data.data.instance+"</td>";
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += "</tr>";
+
+					$('.researcher-table').append(html);
+				}
+				
+			},
+		});
+
+	})
+
+	$(document).on('click', '.delete-researcher', function(){
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+		    var id = $(this).attr('data-id');
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-penelitian/delete-researcher',
+				data : {
+					id : id,
+				},
+				success : function(data){
+					if (data.status == true) {
+						$('.researcher-data-'+id).remove();
+					}
+				},
+			});
+		} else {
+		    return false;
+		}
+		
+	})
+
+	$(document).on('click', '.save-additional', function(){
+
+  		var a_id = $('.a_id').val();
+  		var other_id = $('.p_id').val();
+	  	console.log(a_id);
+	  	$.ajax({
+			type : 'get',
+			url : basedomain +'/data-penelitian/additional-data',
+			data : {
+				id : a_id,
+				other_id : other_id,
+			},
+			success : function(data){
+
+				if (data.status == true) {
+					var html = "";
+						html += "<tr class='additional-data-"+data.data.id+"'>";
+						html += "<td>"+data.data.additional.title+"</td>";
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += "</tr>";
+
+					$('.additional-table').append(html);
+				}
+				
+			},
+		});
+
+	})
+	
+	$(document).on('click', '.delete-additional-data', function(){
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+		    var id = $(this).attr('data-id');
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-penelitian/delete-additional-data',
+				data : {
+					id : id,
+				},
+				success : function(data){
+					if (data.status == true) {
+						$('.additional-data-'+id).remove();
+					}
+				},
+			});
+		} else {
+		    return false;
+		}
+		
+	})
+
 </script>
 @endsection

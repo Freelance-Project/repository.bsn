@@ -170,14 +170,13 @@
 					<div class="form-group col-md-10">
 						<label>Data Pendukung Publikasi</label>
                         {!! Form::text('ref_data_pendukung_id' , $model->ref_data_pendukung_id ,['class' => 'form-control']) !!}
-					</div>
-					--}}
-					
+					</div>			
 					
 					<div class="form-group col-md-2">
 						<br>
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 					</div>
+					--}}
 					
 					<div class="form-group col-md-12">
 						<label>File</label>

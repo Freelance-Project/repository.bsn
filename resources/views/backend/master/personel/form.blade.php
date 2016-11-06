@@ -10,7 +10,7 @@
             
             <div class = 'row'>
 
-                <div class = 'col-md-8'>
+                <div class = 'col-md-12'>
 
                     @include('backend.common.errors')
 
@@ -23,158 +23,150 @@
 					
 					<div class="form-group col-md-6">
 						<label>Tempat Lahir</label>
-                        {!! Form::text('tempat_lahir' , $model->tempat_lahir ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('birthplace' , $model->birthplace ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Tanggal Lahir</label>
-						{!!  Form::text('datebirth', null , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
+						{!!  Form::text('dob', $model->dob , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Jabatan</label>
-						{!!  Form::select('jabatan', $model, null, ['class'=>'form-control', 'required']) !!}
+						{!!  Form::select('position', ['p_utama'=>'Peneliti Utama','p_madya'=>'Peneliti Madya','p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama','non_p'=>'Non Peneliti'], null, ['class'=>'form-control', 'required']) !!}
 					</div>
 											
 					<div class="form-group col-md-6">
 						<label>Golongan</label>
-                        {!! Form::text('golongan' , $model->golongan ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('grade' , $model->grade ,['class' => 'form-control', 'required']) !!}
 					</div>
 										
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label>Kelompok Bidang Penelitian</label><br>
-							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Kimia dan Pertambangan (KP)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
-							</div>
-							<div class="form-group col-md-6">
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
-								{!!  Form::checkbox('ref_kelompok_penelitian_id', null) !!} Lingkungan dan Serbaneka (LS)<br>
-							</div>
+						<?php
+						$interestCat = [];
+						if ($model->interest_category) {
+							$interestCat = explode(',', $model->interest_category);
+						}
+						
+						?>
+							@foreach($interest as $key => $val)
+							<?php 
+							if (in_array($key, $interestCat)) $select = true;
+							else $select = false;
+							?>
+							{!!  Form::checkbox('research_groups_id[]', $key, $select) !!} {{$val}}<br>
+							@endforeach
 					</div>
 					
-					<div class="form-group col-md-12">
+					<div class="form-group col-md-6">
 						<label>Kelompok Kepakaran</label><br>
-								{!!  Form::checkbox('ref_kelompok_kepakaran_id', null , false) !!} Mekanika<br>
-								Lainnya {!!  Form::text('ref_kelompok_kepakaran_id_lain', null) !!}
+						<?php
+						$expertCat = [];
+						if ($model->expert_category) {
+							$expertCat = explode(',', $model->expert_category);
+						}
+						?>
+							@foreach($expertise as $key => $val)
+							<?php 
+							if (in_array($key, $expertCat)) $select = true;
+							else $select = false;
+							?>
+							{!!  Form::checkbox('expert_category_id[]', $key, $select) !!} {{$val}}<br>
+							@endforeach
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Alamat</label>
-                        {!! Form::text('address' , $model->address ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('address' , null ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>No. Handphone</label>
-                        {!! Form::text('nohp' , $model->nohp ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('phone' , null ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-6">
 						<label>Email</label>
-                        {!! Form::text('email' , $model->email ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('email' , null ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Pendidikan (Perguruan Tinggi)</label>
-                        {!! Form::text('education' , $model->education ,['class' => 'form-control', 'required']) !!}
+                        {!! Form::text('education' , null ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
 					<div class="form-group col-md-12">
 						<label>Pengalaman Kerja</label>
-						{!! Form::textarea('experience' , $model->experience ,['class' => 'form-control','id'=>'experience', 'required']) !!}
+						{!! Form::textarea('experience' , null ,['class' => 'form-control','id'=>'experience', 'required']) !!}
 					</div>	
-								
-					<div class="form-group col-md-12">
-						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Diklat/Training</label> 
+					<div class="form-group col-md-6">
+						<label>Status</label>
+						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
+					</div>
+				</div>
+				<div class="form-group col-md-12">
+					<button type="submit" class="btn btn-primary ">{{ !empty($model->id) ? 'Update Biodata' : 'Save Biodata' }}</button>
+                </div>
+				
+				{!! Form::close() !!}
+
+				@if($new)
+				<div class="col-md-12">	
+					<div class="form-group">
+						<table  class='table diklat-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
+						<label>Daftar Diklat/Training</label> 
 							<tr> 
-								<th>Nama Diklat/Training</th> 
-								<th>Waktu/Tanggal Pelaksanaan</th> 
-								<th>Nama Penyelenggara dan Tempat</th> 
-								<th>Sertifikat</th>
-								<th>Action</th>	
+								<th>Category</th> 
+								<th>Nama Diklat</th> 
+								<th>Waktu</th> 
+								<th>Penyelenggara</th> 
+								<th>Sertifikat</th> 
+								<th>Action</th> 
 							</tr> 
-							<tr> 
-								<td>Nama............</td> 
-								<td>Waktu...........</td> 
-								<td>Penyelenggara.......</td>
-								<td>YES/NO</td>
-								<td><button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Delete' }}</button></td>
-							</tr> 
+							@if($diklat)
+							@foreach($diklat as $val) 
+							<tr class="diklat-data-{{$val->id}}"> 
+								<td>{{ucfirst($val->type)}}</td> 
+								<td>{{$val->name}}</td> 
+								<td>{{$val->time}}</td> 
+								<td>{{$val->organizer}}</td> 
+								<td>@if($val->sertificate == 'y') Ya @else Tidak @endif</td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-diklat" data-id="{{$val->id}}">Hapus</a></td> 
+							</tr>	
+							@endforeach
+							@endif
 						</table>
 					</div>	
-					
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-2">
+						<label>Category</label>
+                        {!! Form::select('category' , ['training'=>'Diklat','seminar'=>'Seminar'] , null, ['class' => 'dik_kategori form-control']) !!}
+					</div>
+					<div class="form-group col-md-2">
 						<label>Nama Diklat/Training</label>
-                        {!! Form::text('name' , $model->name ,['class' => 'form-control']) !!}
+                        {!! Form::text('name' , null ,['class' => 'form-control dik_nama']) !!}
 					</div>
 					
-					<div class="form-group col-md-4">
-						<label>Waktu/Tanggal Pelaksanaan</label>
-                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker', 'class'=>'form-control']) !!}
+					<div class="form-group col-md-3">
+						<label>Tanggal Pelaksanaan</label>
+                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker1', 'class'=>'dik_waktu form-control']) !!}
 					</div>
 					
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-3">
 						<label>Nama Penyelenggara dan Tempat</label>
-                        {!! Form::text('nameplace' , $model->nameplace ,['class' => 'form-control']) !!}
+                        {!! Form::text('nameplace' , null ,['class' => 'dik_peny form-control']) !!}
 					</div>
 					
-					<div class="form-group col-md-4">
-						<label>Sertifikat</label><br>
-                        {!! Form::radio('sertifikat' , null, false) !!} Ya<br>
-						{!! Form::radio('sertifikat' , null, false) !!} Tidak<br>
-					</div>
-					
-					<div class="form-group col-md-4">
-						<br>
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-					</div>
-					
-					<div class="form-group col-md-12">
-						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Workshop/Seminar</label> 
-							<tr> 
-								<th>Nama Workshop/Seminar</th> 
-								<th>Waktu/Tanggal Pelaksanaan</th> 
-								<th>Nama Penyelenggara dan Tempat</th> 
-								<th>Sertifikat</th>
-								<th>Action</th>	
-							</tr> 
-							<tr> 
-								<td>Nama............</td> 
-								<td>Waktu...........</td> 
-								<td>Penyelenggara.......</td>
-								<td>YES/NO</td>
-								<td><button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Delete' }}</button></td>
-							</tr> 
-						</table>
-					</div>	
-					
-					<div class="form-group col-md-4">
-						<label>Nama Workshop/Seminar</label>
-                        {!! Form::text('name' , $model->name ,['class' => 'form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-4">
-						<label>Waktu/Tanggal Pelaksanaan</label>
-                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker', 'class'=>'form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-4">
-						<label>Nama Penyelenggara dan Tempat</label>
-                        {!! Form::text('nameplace' , $model->nameplace ,['class' => 'form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-4">
-						<label>Sertifikat</label><br>
-                        {!! Form::radio('sertifikat' , null, false) !!} Ya<br>
-						{!! Form::radio('sertifikat' , null, false) !!} Tidak<br>
-					</div>
-					
-					<div class="form-group col-md-4">
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+					<div class="form-group col-md-1">
+						<label>Sertifikat</label>
+                        {!! Form::select('sertifikat' , ['y'=>'Ya','t'=>'Tidak'] , null, ['class' => 'dik_sertifikat form-control']) !!}
                     </div>
 					
+					<div class="form-group col-md-1">
+						<label>Action</label>
+						<button type="button" class="save_diklat btn btn-primary">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
+                    </div>
+					{{--
 					<div class="form-group col-md-12">
 						<table  class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
 						<label>Daftar Hasil Penelitian</label> 
@@ -188,7 +180,21 @@
 							</tr> 
 						</table>
 					</div>				
+					<div class="form-group col-md-3">
+						<label>Judul Penelitian</label>
+                        {!! Form::text('nameplace' , null ,['class' => 'form-control']) !!}
+					</div>
 					
+					<div class="form-group col-md-1">
+						<label>Tahun</label>
+                        {!! Form::text('tahun' , null, ['class' => 'form-control']) !!}
+                    </div>
+					
+					<div class="form-group col-md-1">
+						<label>Action</label>
+						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+                    </div>
+
 					<div class="form-group col-md-12">
 						<table  class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
 						<label>Daftar Hasil Publikasi</label> 
@@ -207,16 +213,34 @@
 						</table>
 					</div>
 					
+					<div class="form-group col-md-2">
+						<label>Judul Karya tulis</label>
+                        {!! Form::text('name' , null ,['class' => 'pub_judul form-control']) !!}
+					</div>
 					
+					<div class="form-group col-md-3">
+						<label>Nama Publikasi</label>
+                        {!!  Form::text('waktu_pelaksanaan', null , ['class'=>'pub_nama form-control']) !!}
+					</div>
 					
-					<div class="form-group col-md-12">
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+					<div class="form-group col-md-3">
+						<label>Volume</label>
+                        {!! Form::text('nameplace' , null ,['class' => 'pub_volume form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label>Tahun Publikasi</label>
+                        {!! Form::text('sertifikat' , null, ['class' => 'pub_tahun form-control']) !!}
                     </div>
 					
-                    {!! Form::close() !!}
-
+					<div class="form-group col-md-1">
+						<label>Action</label>
+						<button type="button" class="btn btn-primary save_publikasi">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+                    </div>
+                    --}}
+                    {!! Form::hidden('id' , $model->id, ['class' => 'personel_id form-control']) !!}
                 </div>
-
+                @endif
             </div>
 
         </div>
@@ -226,11 +250,76 @@
 @section('script')
 <script type="text/javascript">
   
-  window.onload = function()
-  {
+	window.onload = function(){
 		CKEDITOR.replace( 'description',{
 		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+			
+	}
+
+	$(document).on('click', '.save_diklat', function(){
+	  	var nama = $('.dik_nama').val();
+	  	var waktu = $('.dik_waktu').val();
+	  	var penyelenggara = $('.dik_peny').val();
+	  	var sertifikat = $('.dik_sertifikat').val();
+	  	var kategori = $('.dik_kategori').val();
+	  	var personel_id = $('.personel_id').val();
+
+	  	$.ajax({
+			type : 'get',
+			url : basedomain +'/data-personel/diklat',
+			data : {
+				nama : nama,
+				waktu : waktu,
+				penyelenggara : penyelenggara,
+				sertifikat : sertifikat,
+				kategori : kategori,
+				personel_id : personel_id,
+			},
+			success : function(data){
+
+				if (data.status == true) {
+					var html = "";
+						html += "<tr class=diklat-data-"+data.data.id+">";
+						html += "<td>"+data.data.type+"</td>";
+						html += "<td>"+data.data.name+"</td>";
+						html += "<td>"+data.data.time+"</td>";
+						html += "<td>"+data.data.organizer+"</td>";
+						if (data.data.sertificate == 't') {
+						html += "<td>Tidak</td>";
+						} else {
+						html += "<td>Ya</td>";
+						}
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-diklat" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += "</tr>";
+
+					$('.diklat-table').append(html);
+				}
+				
+			},
+		});
+
+	})
+
+	$(document).on('click', '.delete-diklat', function(){
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+		    var id = $(this).attr('data-id');
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-personel/delete-diklat',
+				data : {
+					id : id,
+				},
+				success : function(data){
+					if (data.status == true) {
+						$('.diklat-data-'+id).remove();
+					}
+				},
+			});
+		} else {
+		    return false;
+		}
 		
-  }
+	})
 </script>
 @endsection

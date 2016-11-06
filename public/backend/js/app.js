@@ -4,7 +4,13 @@ $(document).ready(function(){
 	$( "#datepicker" ).datepicker({
 		changeYear: true,
 		changeMonth: true,
-		dateFormat: "dd-mm-yy"
+		dateFormat: "yy-mm-dd"
+	});
+
+	$( "#datepicker1" ).datepicker({
+		changeYear: true,
+		changeMonth: true,
+		dateFormat: "yy-mm-dd"
 	});
 })
 

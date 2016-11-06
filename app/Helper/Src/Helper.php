@@ -13,6 +13,10 @@ class Helper
 		return 'DEMO';
 	}
 
+	public function urlBackend()
+	{
+		return url(''.$this->backendUrl);
+	}
 	public function config($config)
 	{
 		return config('path.'.$config);

@@ -19,13 +19,18 @@
                     </div><!--end.search--input-->
                      </form>
                     <div class="cat-search text-center">
-                    	<a href="search_result.php" class="btn btn-primary">Penelitian</a>
-                        <a href="search_result.php" class="btn btn-success">Publikasi</a>
-                        <a href="search_result.php" class="btn btn-info">Data Pendukung</a>
-                        <a href="search_result.php" class="btn btn-warning">Data Personel</a>
-                        <!--a href="search_result.php" class="btn btn-danger">Program Pendukung</a-->
+                    	<a href="search_result.php" class="btn btn-primary">Buku</a>
+                        <a href="search_result.php" class="btn btn-success">Jurnal</a>
+                        <a href="search_result.php" class="btn btn-info">Penelitian</a>
+                        <a href="search_result.php" class="btn btn-warning">Paper</a>
+                        <a href="search_result.php" class="btn btn-danger">Majalah</a>
                     </div>
                 </div><!--end.imaginary-->
+            </div><!--end.col6-->
+        </div><!--end.row-->
+        <div class="row vertical-center-row">
+            <div class="text-center col-md-6 col-md-offset-3">
+                <a href="#"  data-toggle="modal" data-target="#advanceForm" class="link-advance">Advance Search</a>
             </div><!--end.col6-->
         </div><!--end.row-->
     </div><!--end.container-->
@@ -40,4 +45,5 @@ $(document).ready(function () {
 </script>
 
 <?php include('popup-login.php');?>
+<?php include('popup-advance.php');?>
 <?php include('inc_footer.php');?>
