@@ -54,10 +54,7 @@ class PenelitianController extends Controller
 		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
 					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
 		$date = '';
-<<<<<<< HEAD
 
-		return view('backend.master.penelitian.form', ['model' => $model,'date' => $date,'group'=>false,'standard'=>false]);
-=======
 		
 		return view('backend.master.penelitian.form', 
 			[
@@ -70,7 +67,6 @@ class PenelitianController extends Controller
 				'functional'=>$functional,
 				'new' =>false,
 			]);
->>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
 	}
 
 
