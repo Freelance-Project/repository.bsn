@@ -10,6 +10,10 @@ use App\Models\ArticleContent;
 use App\Models\Publication;
 use App\Models\ResearchGroup;
 use App\Models\ResearchStandard;
+use App\Models\Researcher;
+use App\Models\ResearcherTeam;
+use App\Models\AdditionalData;
+use App\Models\ResearchData;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -46,7 +50,14 @@ class PublikasiController extends Controller
 		$researchgroup = ResearchGroup::where(1);
 		$date = '';
 
-		return view('backend.master.publikasi.form', ['model' => $model,'date' => $date,'group'=>false,'standard'=>false]);
+		return view('backend.master.publikasi.form', 
+			[
+				'model' => $model,
+				'date' => $date,
+				'group'=>false,
+				'standard'=>false,
+				'new' =>false,
+			]);
 	}
 
 
@@ -114,7 +125,7 @@ class PublikasiController extends Controller
 		}
 		
 
-        return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
+        return redirect(urlBackendAction('update/'.$savePublication->id))->withSuccess('Data has been saved');
 	}
 
 	public function getUpdate($id)
@@ -123,6 +134,16 @@ class PublikasiController extends Controller
 		$date = \Helper::dbToDate($model->created_at);
 		$resGroup = ResearchGroup::whereOtherId($model->id)->get();
 		$resStandard = ResearchStandard::whereOtherId($model->id)->get();
+		$researcher = Researcher::lists('name','id')->toArray();
+		$functional = ['p_utama'=>'Peneliti Utama','p_madya'=>'Peneliti Madya',
+					'p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama',
+					'non_p'=>'Non Peneliti'];
+		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
+					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
+		$additionalData = AdditionalData::lists('title','id')->toArray();
+		$researcherTeam = ResearcherTeam::whereOtherId($model->id)->get();
+		$additionalDataList = ResearchData::whereOtherId($model->id)->get();
+		
 		// dd($resStandard);
 		return view('backend.master.publikasi.form' , [
 
@@ -130,7 +151,13 @@ class PublikasiController extends Controller
 			'date' => $date,
 			'group' => $resGroup,
 			'standard' => $resStandard,
-			
+			'functional' => $functional,
+			'position' => $position,
+			'researcher' => $researcher,
+			'researcherTeam'=>$researcherTeam,
+			'new' =>true,
+			'additionalData' => $additionalData,
+			'additionalDataList' => $additionalDataList,
 		]);
 	}
 
@@ -231,6 +258,62 @@ class PublikasiController extends Controller
 
             return redirect('404');
         }
+    }
+
+    public function getResearcher()
+    {
+    	// $other_id = request()->get('other_id');
+    	$data['position'] = request()->get('position');
+    	$data['functional'] = request()->get('functional');
+    	$data['researcher_id'] = request()->get('researcher_id');
+    	$data['instance'] = request()->get('instance');
+    	$data['other_id'] = request()->get('other_id');
+    	$data['type'] = 'publikasi';
+
+    	if(request()->ajax()) {
+
+			$saveResearcher = ResearcherTeam::create($data);
+			$getData = ResearcherTeam::whereId($saveResearcher->id)->with('researcher')->first();
+			
+			if ($saveResearcher) return response()->json(['status'=>true, 'data'=>$getData]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
+    }
+
+    public function getDeleteResearcher()
+    {
+    	$id = request()->get('id');
+    	$delete = ResearcherTeam::whereId($id)->delete();
+    	if ($delete) return response()->json(['status'=>true]);
+    	else return response()->json(['status'=>false]);
+    }
+
+    public function getAdditionalData()
+    {
+    	// $other_id = request()->get('other_id');
+    	$data['additional_data_id'] = request()->get('id');
+    	$data['other_id'] = request()->get('other_id');
+    	
+    	if(request()->ajax()) {
+
+			$saveAdditional = ResearchData::create($data);
+			$getData = ResearchData::whereId($saveAdditional->id)->with('additional')->first();
+			
+			if ($saveAdditional) return response()->json(['status'=>true, 'data'=>$getData]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
+    }
+
+    public function getDeleteAdditionalData()
+    {
+    	$id = request()->get('id');
+    	$delete = ResearchData::whereId($id)->delete();
+    	if ($delete) return response()->json(['status'=>true]);
+    	else return response()->json(['status'=>false]);
     }
 
     public function getImport()
