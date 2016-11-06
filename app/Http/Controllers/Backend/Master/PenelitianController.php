@@ -136,7 +136,7 @@ class PenelitianController extends Controller
 		}
 		
 
-        return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
+        return redirect(urlBackendAction('update/'.$saveResearch->id))->withSuccess('Data has been saved');
 	}
 
 	public function getUpdate($id)
