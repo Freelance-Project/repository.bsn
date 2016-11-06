@@ -15,7 +15,6 @@ use App\Models\ResearcherTeam;
 use App\Models\AdditionalData;
 use App\Models\ResearchData;
 use Table;
-use Excel;
 use App\Repositories\UploadArea;
 
 class PenelitianController extends Controller
@@ -34,7 +33,7 @@ class PenelitianController extends Controller
 
 	public function getData()
 	{
-		$model = Research::select('id' , 'title' , 'status')->orderBy('created_at', 'desc');
+		$model = Research::select('id' , 'year', 'title' , 'status')->orderBy('created_at', 'desc');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -55,6 +54,7 @@ class PenelitianController extends Controller
 		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
 					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
 		$date = '';
+
 		
 		return view('backend.master.penelitian.form', 
 			[

@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\ArticleContent;
+use App\Models\Publication;
+use App\Models\ResearchGroup;
+use App\Models\ResearchStandard;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -26,7 +29,7 @@ class PublikasiController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'intro');
+		$model = Publication::select('id' , 'year', 'title' , 'status')->orderBy('created_at', 'desc');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -39,63 +42,94 @@ class PublikasiController extends Controller
 	public function getCreate()
 	{
 		$model = $this->model;
+		$publikasi = Publication::where(1);
+		$researchgroup = ResearchGroup::where(1);
 		$date = '';
 
-		return view('backend.master.publikasi.form', ['model' => $model,'date' => $date]);
+		return view('backend.master.publikasi.form', ['model' => $model,'date' => $date,'group'=>false,'standard'=>false]);
 	}
 
 
 	public function postCreate(Request $request)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules());
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules());
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
-		$values = [
-			'user_id' => \Auth::user()->id,
-			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
+		$valuesArticle = [
+			
 			'slug' => str_slug($request->title),
-			'status' => $request->status,
+			'title' => $request->title,
+			'year' => $request->year,
+			'intro' => $request->intro,
+			'author_id' => \Auth::user()->id,
+			'category' => $request->category_article,
+			'status' => $request->status
 		];
 			
-		$save = $this->model->create($values);
-		
-		
-		
-		$image = str_replace("%20", " ", $request->image);
-        if(!empty($image))
-        {
-            $imageName = $this->imagePrefix."-".$content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
+		$saveArticle = $this->model->create($valuesArticle);
+		if ($saveArticle) {
+			$valuesPublication = [
+				'article_content_id' => $saveArticle->id,
+				'title' => $request->title,
+				'year' => $request->year,
+				'intro' => $request->intro,
+				'category' => $request->category,
+				'volume' => $request->volume,
+				'conclusion' => $request->conclusion,
+				'recommendation' => $request->recommendation,
+				'created_at' => \Helper::dateToDb($request->date),
+				'status' => $request->status
+			];
 			
-			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		if ($request->maps) {
+			$savePublication = Publication::create($valuesPublication);
 			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
+			if ($request->research_groups_id) {
+				foreach($request->research_groups_id as $val){
+					$valuesResearchGroup = [
+						'other_id' => $savePublication->id,
+						'name' => $val,
+						'type' => 'publikasi'
+					];
+					$save = ResearchGroup::create($valuesResearchGroup);
+				}
+			}
+			
+			if ($request->research_standards_id) {
+				
+				ResearchStandard::whereOtherId($savePublication->id)->delete();
+				
+				foreach($request->research_standards_id as $val){
+					$valuesResearchStandard = [
+						'other_id' => $savePublication->id,
+						'name' => $val,
+						'type' => 'publikasi'
+					];
+					$save = ResearchStandard::create($valuesResearchStandard);
+				}
+			}
+			
+		} else {
+			return redirect(urlBackendAction('index'))->withSuccess('Data already exist');
 		}
 		
+
         return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
 
 	public function getUpdate($id)
 	{
-		$model  = $this->model->find($id);
+		$model  = Publication::find($id);
 		$date = \Helper::dbToDate($model->created_at);
-		
+		$resGroup = ResearchGroup::whereOtherId($model->id)->get();
+		$resStandard = ResearchStandard::whereOtherId($model->id)->get();
+		// dd($resStandard);
 		return view('backend.master.publikasi.form' , [
 
 			'model' => $model,
 			'date' => $date,
+			'group' => $resGroup,
+			'standard' => $resStandard,
 			
 		]);
 	}
@@ -104,22 +138,66 @@ class PublikasiController extends Controller
 	public function postUpdate(Request $request , $id)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules($id));
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules($id));
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
-		$dataid = $this->model->whereId($id)->first();
+		$dataid = Publication::whereId($id)->first();
+
+		$article = $this->model->whereId($dataid->article_content_id)->first();
+		$valuesArticle = [
+			
+			'slug' => str_slug($request->title),
+			'title' => $request->title,
+			'year' => $request->year,
+			'intro' => $request->intro,
+			'status' => $request->status
+		];
+			
+		$saveArticle = $article->update($valuesArticle);
+
+
 		$values = [
 			'title' => $request->title,
+			'year' => $request->year,
 			'intro' => $request->intro,
-			'description' => $request->description,
+			'volume' => $request->volume,
+			'conclusion' => $request->conclusion,
+			'recommendation' => $request->recommendation,
 			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
-			'status' => $request->status,
+			'status' => $request->status
 		];
 
 
-		$update = $this->model->whereId($dataid->id)->update($values);
+		$update = $dataid->update($values);
 		
+		if ($request->research_groups_id) {
+			// dd($dataid);
+			ResearchGroup::whereOtherId($dataid->id)->delete();
+			
+			foreach($request->research_groups_id as $val){
+				$valuesResearchGroup = [
+					'other_id' => $dataid->id,
+					'name' => $val,
+					'type' => 'publikasi'
+				];
+				$save = ResearchGroup::create($valuesResearchGroup);
+			}
+		}
+		
+		if ($request->research_standards_id) {
+			// dd($dataid);
+			ResearchStandard::whereOtherId($dataid->id)->delete();
+			
+			foreach($request->research_standards_id as $val){
+				$valuesResearchStandard = [
+					'other_id' => $dataid->id,
+					'name' => $val,
+					'type' => 'publikasi'
+				];
+				$save = ResearchStandard::create($valuesResearchStandard);
+			}
+		}
+			
 		$image = str_replace("%20", " ", $request->image);
 
         if(!empty($image))
@@ -133,25 +211,20 @@ class PublikasiController extends Controller
             ]);
         }
 		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
-		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
 
 	
     public function getDelete($id)
     {
-        $model = $this->model->find($id);
+        $model = Publication::find($id);
+		// dd($model);
+		$article = $this->model->whereId($model->article_content_id);
 		
         if(!empty($model->id))
         {
 			$model->delete();
+			$article->delete();
             return redirect(urlBackendAction('index'))->withSuccess('Data has been deleted');
 
         }else{

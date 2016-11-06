@@ -30,6 +30,7 @@
 							$ls = false;
 
 							if ($group) {
+								$groupList=[];
 								foreach($group as $val) {
 									$groupList[] = $val->name;
 								}
@@ -39,12 +40,22 @@
 								(in_array('ls', $groupList)) ? $ls = true : $ls = false;
 							}
 							?>
+<<<<<<< HEAD
+							<div class="form-group col-md-6">
+								{!!  Form::checkbox('research_groups_id[]', 'kp', isset($kp) ? $kp : null) !!} Kimia dan Pertambangan (KP)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'mek', isset($mek) ? $mek : null) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
+							</div>
+							<div class="form-group col-md-6">
+								{!!  Form::checkbox('research_groups_id[]', 'ppk', isset($ppk) ? $ppk : null) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
+								{!!  Form::checkbox('research_groups_id[]', 'ls', isset($ls) ? $ls : null) !!} Lingkungan dan Serbaneka (LS)<br>
+=======
 							<div class="form-group ">
 								{!!  Form::checkbox('research_groups_id[]', 'kp', $kp) !!} Kimia dan Pertambangan (KP)<br>
 								{!!  Form::checkbox('research_groups_id[]', 'mek', $mek) !!} Mekanika, Elektronika dan Konstruksi (MEK)<br>
 							
 								{!!  Form::checkbox('research_groups_id[]', 'ppk', $ppk) !!} Pertanian, Pangan dan Kesehatan (PPK)<br>
 								{!!  Form::checkbox('research_groups_id[]', 'ls', $ls) !!} Lingkungan dan Serbaneka (LS)<br>
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
 							</div>
 					</div>
 					
@@ -66,13 +77,84 @@
 							}
 							?>
 							<div class="form-group col-md-12">
-								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', $standardisasi) !!} Standardisasi<br>
-								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', $kesesuaian) !!} Penilaian Kesesuaian<br>
-								{!!  Form::checkbox('research_standards_id[]', 'snsu', $snsu) !!} SNSU<br>
+								{!!  Form::checkbox('research_standards_id[]', 'standardisasi', isset($standardisasi) ? $standardisasi : null) !!} Standardisasi<br>
+								{!!  Form::checkbox('research_standards_id[]', 'kesesuaian', isset($kesesuaian) ? $kesesuaian : null) !!} Penilaian Kesesuaian<br>
+								{!!  Form::checkbox('research_standards_id[]', 'snsu', isset($snsu) ? $snsu : null) !!} SNSU<br>
 							</div>
 					</div>
 					
 					<div class="form-group col-md-12">
+<<<<<<< HEAD
+						<label>Tahun Publikasi</label>
+                        {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
+					</div>			
+					
+					
+					<div class="form-group col-md-12">
+						<table class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
+						<label>Tim Peneliti (1-10 orang)</label> 
+							<tr> 
+								<th>Nama Peneliti</th> 
+								<th>Jabatan Peneliti</th> 
+								<th>Jabatan Fungsional</th> 
+								<th>Asal Instansi</th>
+								<th>Kelompok Minat</th>
+								<th>Bidang Kepakaran</th>
+								<th>Action</th>	
+							</tr> 
+							<tr> 
+								<td>XXX............</td>
+								<td>XXX............</td> 
+								<td>XXX............</td> 
+								<td>XXX............</td> 
+								<td>XXX............</td> 
+								<td>XXX............</td> 
+								<td><button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Delete' }}</button></td>
+							</tr> 
+						</table>
+					</div>	
+					
+					{{--
+					<div class="form-group col-md-4">
+						<label>Nama Peneliti</label>
+						{!!  Form::select('penelitian_user_id',$model, null, ['class'=>'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label>Jabatan Peneliti</label>
+						{!!  Form::select('jabatan_peneliti', $model, null, ['class'=>'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label>Jabatan Fungsional Peneliti</label>
+						{!!  Form::select('jabatan_fungsional', $model, null, ['class'=>'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label>Asal Instansi</label>
+						{!!  Form::text('instansi',$model->instansi ,['class' => 'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label>Kelompok Minat</label>
+						{!!  Form::select('kelompok_bidang',['kp'=>'KP', 'mek'=>'MEK', 'ppk'=>'PPK', 'ls'=>'LS'], null, ['class'=>'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label>Bidang Kepakaran</label>
+						{!!  Form::text('bidang_kepakaran',$model->bidang_kepakaran ,['class' => 'form-control']) !!}
+					</div>
+					
+					<div class="form-group col-md-12">
+						<br>
+						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+					</div>
+					--}}
+
+					
+					<div class="form-group col-md-12">
+=======
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
                         <label>Ringkasan Eksekutif</label>
                         {!! Form::textarea('intro' , $model->intro ,['class' => 'form-control','id'=>'intro', 'required']) !!}
 					</div>
@@ -118,10 +200,23 @@
 						</div>
 						<input type = 'hidden' name = 'file' id = 'file' />
 					</div>
+<<<<<<< HEAD
+
+					{{--
 					<div class="form-group col-md-6">
+						<label>Publication Date</label>
+						{!!  Form::text('created_at', $created_at , ['id' => 'datepicker', 'class'=>'form-control', 'required']) !!}
+					</div>
+					--}}
+					
+					<div class="form-group col-md-12">
+=======
+					<div class="form-group col-md-6">
+>>>>>>> e9bcc8a2f7e351800c1ea7b7d4b2ba2d26d901bf
 						<label>Status</label>
 						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
 					</div>
+					
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
 						<input type ='hidden' name='category' value='penelitian'>

@@ -22,9 +22,10 @@
                 <table class = 'table' id = 'tableNews'>
                     <thead>
                         <tr>
-                            <th width = '40%'>Title</th>
-                            <th width = '40%'>Intro</th>
-                            <th width = '20%'>Action</th>
+                            <th width = '50%'>Judul</th>
+                            <th width = '20%'>Tahun</th>
+                            <th width = '20%'>Status</th>
+                            <th width = '10%'>Action</th>
                         </tr>
                     </thead>
                     
@@ -47,8 +48,9 @@
                 serverSide: true,
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
-                    { data: 'title', name: 'title' },
-                    { data: 'intro', name: 'intro' },
+                    { data: 'title', name: 'title', render: function(data, type, full, meta){ return '<a href="update/'+full.id+'">'+data+'</a>';}},
+                    { data: 'year', name: 'year' },
+                    { data: 'status', name: 'status' },
                     { data: 'action', name: 'action' , searchable :false},
                     
                 ]
