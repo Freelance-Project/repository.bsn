@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\Researcher;
+use App\Models\ResearcherWorkshop;
+use App\Models\InterestGroup;
+use App\Models\Expertise;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -40,63 +43,57 @@ class PersonelController extends Controller
 	{
 		$model = $this->model;
 		$date = '';
-
-		return view('backend.master.personel.form', ['model' => $model,'date' => $date]);
+		$interest = InterestGroup::lists('name','id')->toArray();
+		$expertise = Expertise::where('name','!=','')->lists('name','id')->toArray();
+		// dd($expertise);
+		return view('backend.master.personel.form', 
+				['model' => $model,'date' => $date, 'new'=>false, 'interest' => $interest,
+				'expertise'=>$expertise]
+		);
 	}
 
 
 	public function postCreate(Request $request)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules());
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
 		$values = [
-			'user_id' => \Auth::user()->id,
-			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
+			'name' => $request->name,
+			'birthplace' => $request->birthplace,
+			'dob' => $request->dob,
+			'position' => $request->position,
+			'grade' => $request->grade,
+			'phone' => $request->phone,
+			'email' => $request->email,
+			'education' => $request->education,
+			'experience' => $request->experience,
 			'status' => $request->status,
+			'address' => $request->address,
+			'interest_category' => implode(',', $request->research_groups_id),
+			'expert_category' => implode(',', $request->expert_category_id),
 		];
-			
+		// dd($values);
 		$save = $this->model->create($values);
 		
-		
-		
-		$image = str_replace("%20", " ", $request->image);
-        if(!empty($image))
-        {
-            $imageName = $this->imagePrefix."-".$content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
-		
-        return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
+		return redirect(urlBackendAction('update/'.$save->id))->withSuccess('Data has been saved');
 	}
 
 	public function getUpdate($id)
 	{
 		$model  = $this->model->find($id);
 		$date = \Helper::dbToDate($model->created_at);
-		
+		$diklat = ResearcherWorkshop::where('researcher_id','=',$id)->get();
+		$interest = InterestGroup::lists('name','id')->toArray();
+		$expertise = Expertise::where('name','!=','')->lists('name','id')->toArray();
+
 		return view('backend.master.personel.form' , [
 
 			'model' => $model,
 			'date' => $date,
-			
+			'diklat' => $diklat,
+			'new' => true,
+			'interest' => $interest,
+			'expertise' => $expertise,
 		]);
 	}
 
@@ -104,42 +101,28 @@ class PersonelController extends Controller
 	public function postUpdate(Request $request , $id)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules($id));
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules($id));
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
 		$dataid = $this->model->whereId($id)->first();
 		$values = [
-			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
+			'name' => $request->name,
+			'birthplace' => $request->birthplace,
+			'dob' => $request->dob,
+			'position' => $request->position,
+			'grade' => $request->grade,
+			'phone' => $request->phone,
+			'email' => $request->email,
+			'education' => $request->education,
+			'experience' => $request->experience,
 			'status' => $request->status,
+			'address' => $request->address,
+			'interest_category' => implode(',', $request->research_groups_id),
+			'expert_category' => implode(',', $request->expert_category_id),
 		];
 
 
 		$update = $this->model->whereId($dataid->id)->update($values);
-		
-		$image = str_replace("%20", " ", $request->image);
-
-        if(!empty($image))
-        {
-
-            $imageName = $this->imagePrefix."-".$dataid->content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
 		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
@@ -151,6 +134,8 @@ class PersonelController extends Controller
 		
         if(!empty($model->id))
         {
+        	ResearcherWorkshop::where('researcher_id','=',$model->id)->delete();
+        	
 			$model->delete();
             return redirect(urlBackendAction('index'))->withSuccess('Data has been deleted');
 
@@ -179,6 +164,36 @@ class PersonelController extends Controller
 		}
 
     	return redirect(urlBackendAction('index'))->withSuccess('Failed');
+    }
+
+    public function getDiklat()
+    {
+
+    	$data['time'] = request()->get('waktu');
+    	$data['name'] = request()->get('nama');
+    	$data['organizer'] = request()->get('penyelenggara');
+    	$data['sertificate'] = request()->get('sertifikat');
+    	$data['type'] = request()->get('kategori');
+    	$data['researcher_id'] = request()->get('personel_id');
+		
+		// dd($data);
+		if(request()->ajax()) {
+			$saveDiklat = ResearcherWorkshop::create($data);
+			$getData = ResearcherWorkshop::whereId($saveDiklat->id)->first();
+			// dd($getData);
+			if ($saveDiklat) return response()->json(['status'=>true, 'data'=>$getData]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
+    }
+
+    public function getDeleteDiklat()
+    {
+    	$id = request()->get('id');
+    	$delete = ResearcherWorkshop::whereId($id)->delete();
+    	if ($delete) return response()->json(['status'=>true]);
+    	else return response()->json(['status'=>false]);
     }
     
 }

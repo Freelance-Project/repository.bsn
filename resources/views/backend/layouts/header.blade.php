@@ -58,3 +58,8 @@
             <div class="clear break1"></div>
         </div>
     </div>
+
+<script>
+    var basedomain = "{{ Helper::urlBackend() }}";
+    var token = "{{ csrf_token() }}";
+</script>
