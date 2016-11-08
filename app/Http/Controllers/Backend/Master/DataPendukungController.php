@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\AdditionalData;
+use App\Models\ArticleContent;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -55,20 +56,33 @@ class DataPendukungController extends Controller
 		/*$validation = \Validator::make($inputs , $this->model->rules());
 		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		*/
-		
-		$values = [
+
+		$article = [
 			
 			'title' => $request->title,
 			'year' => $request->year,
-			'availability' => $request->availability, 
-			'created_at' => \Helper::dateToDb($request->date),
+			'intro' => $request->availability, 
 			'slug' => str_slug($request->title),
 			'status' => $request->status,
+			'category' => 'pendukung',
+			'author_id' => \Auth::user()->id,
 		];
+
+		$saveArticle = ArticleContent::create($article);
+		if ($saveArticle) {
+			$values = [
 			
-		$save = $this->model->create($values);
-		
-		
+				'title' => $request->title,
+				'year' => $request->year,
+				'availability' => $request->availability, 
+				'created_at' => \Helper::dateToDb($request->date),
+				'slug' => str_slug($request->title),
+				'status' => $request->status,
+				'article_content_id' => $saveArticle->id,
+			];
+				
+			$save = $this->model->create($values);
+		}
 		
 		$image = str_replace("%20", " ", $request->image);
         if(!empty($image))
