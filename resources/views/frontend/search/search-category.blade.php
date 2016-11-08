@@ -54,9 +54,14 @@
                     @foreach($data['result'] as $val)
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-7">
-                            @if($data['category'] != 'pendukung') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
+                            @if($data['category'] == 'penelitian' && $data['tab'] == 'judul') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
+                            @if($data['category'] == 'publikasi' && $data['tab'] == 'judul') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
                             @if($data['category'] == 'pendukung') <h3><a href="{{url('search/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3> @endif
-                            @if($data['category'] == 'penelitian' || $data['category'] == 'publikasi') <p>{!! substr($val->intro, 0, 300) !!}...</p> @endif
+                            @if($data['category'] == 'penelitian' && $data['tab'] == 'peneliti')
+                                <h3><a href="{{url('search/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3>
+                            @endif
+
+                            @if(($data['category'] == 'penelitian' && $data['tab'] == 'judul') || ($data['category'] == 'publikasi' && $data['tab'] == 'judul')) <p>{!! substr($val->intro, 0, 300) !!}...</p> @endif
                             
                         </div>
                         <span class="clearfix border"></span>

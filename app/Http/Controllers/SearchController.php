@@ -25,7 +25,7 @@ class SearchController extends Controller
 		$requestParam = $request->all();
 		// dd($requestParam);
 		$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereIn('status',['publish','unpublish'])->paginate($this->paging);
-		// dd($data['result'][4]->research);
+		dd($data['result'][0]->research);
 		$data['request'] = $requestParam['request'];
 		return view('frontend.search.search-result', compact('data'));
     }
@@ -60,6 +60,7 @@ class SearchController extends Controller
     	$requestParam = $request->all();
 		$data['request'] = false;
 		$data['category'] = 'penelitian';
+		$data['tab'] = 'judul';
 
 		if (isset($requestParam['request'])) {
 			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->paginate($this->paging);
@@ -84,10 +85,11 @@ class SearchController extends Controller
 
     public function getResearcher(Request $request)
     {
-    	
+
     	$requestParam = $request->all();
 		$data['request'] = false;
 		$data['category'] = 'penelitian';
+		$data['tab'] = 'peneliti';
 
 		if (isset($requestParam['request'])) {
 			$data['result'] = Researcher::where('name','like','%'.$requestParam['request'].'%')->whereStatus('active')->paginate($this->paging);
@@ -141,6 +143,7 @@ class SearchController extends Controller
     	$requestParam = $request->all();
 		$data['request'] = false;
 		$data['category'] = 'publikasi';
+		$data['tab'] = 'judul';
 
 		if (isset($requestParam['request'])) {
 			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->paginate($this->paging);

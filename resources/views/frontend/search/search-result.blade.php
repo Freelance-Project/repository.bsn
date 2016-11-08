@@ -40,7 +40,7 @@
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
                                 <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{{ucfirst($val->category)}}</strong></span></li>
-                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan Pulu</span></li>
+                                <li><i class="glyphicon glyphicon-user"></i> <span>Ovan</span></li>
                                 <li><i class="glyphicon glyphicon-calendar"></i> <span>{{$val->year}}</span></li>
                             </ul>
                         </div>

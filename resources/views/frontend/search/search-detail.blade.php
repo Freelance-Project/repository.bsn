@@ -11,7 +11,7 @@
             </ol>
              <div class="panel panel-info">
               <div class="panel-heading">
-                  <h3 class="panel-title">BETERNAK BEBEK</h3>
+                  <h3 class="panel-title">{{$model->title}}</h3>
                 </div>
                 <div class="panel-body">
                   <div class="row">
@@ -23,7 +23,7 @@
                             <tbody>
                               <tr>
                                 <td>Penulis:</td>
-                                <td>Ovan Pulu Sunarto</td>
+                                <td>Ovan</td>
                               </tr>
                               <tr>
                                 <td>Tahun</td>
