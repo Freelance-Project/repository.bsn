@@ -342,10 +342,10 @@ class Helper
 		if (!\File::isDirectory($folderPath)) \File::makeDirectory($folderPath, 0775, true);
 		
 		if ($sourceServer) {
-			$tmpPath =  public_path() . str_replace("%20", " ", $request->image);
+			$tmpPath =  public_path() . str_replace("%20", " ", $request->file);
 			$ext = pathinfo($tmpPath, PATHINFO_EXTENSION);
 			$filename = ($tmpname) ? $tmpname . '.' .$ext : 'ori-'.rand() . ".".$ext ;
-			\File::copy($tmpPath, $folderPath . "/" . 'ori-'.rand());
+			\File::copy($tmpPath, $folderPath . "/" . $filename);
 		} else {
 			$file = $request->file($tmpname);
 			$filename = rand(1,1000) . '-'. str_replace(' ', '_', $file->getClientOriginalName());

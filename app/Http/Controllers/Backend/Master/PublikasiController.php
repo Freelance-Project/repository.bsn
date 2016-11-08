@@ -120,6 +120,13 @@ class PublikasiController extends Controller
 				}
 			}
 			
+			$file = str_replace("%20", " ", $request->file);
+			if(!empty($file))
+	        {
+	        	$uploadFile = \Helper::globalUpload($request, str_slug($request->title),'files/data-publikasi', true);
+				Publication::whereId($savePublication->id)->update(['file' => $uploadFile['filename']]);
+	        }
+
 		} else {
 			return redirect(urlBackendAction('index'))->withSuccess('Data already exist');
 		}
@@ -225,17 +232,11 @@ class PublikasiController extends Controller
 			}
 		}
 			
-		$image = str_replace("%20", " ", $request->image);
-
-        if(!empty($image))
+		$file = str_replace("%20", " ", $request->file);
+		if(!empty($file))
         {
-
-            $imageName = $this->imagePrefix."-".$dataid->content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
+        	$uploadFile = \Helper::globalUpload($request, str_slug($request->title),'files/data-publikasi', true);
+			$dataid->update(['file' => $uploadFile['filename']]);
         }
 		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
@@ -314,6 +315,21 @@ class PublikasiController extends Controller
     	$delete = ResearchData::whereId($id)->delete();
     	if ($delete) return response()->json(['status'=>true]);
     	else return response()->json(['status'=>false]);
+    }
+
+    public function getDeleteFile()
+    {
+    	
+    	$id = request()->get('id');
+
+    	if(request()->ajax()) {
+
+			$update = Publication::whereId($id)->update(['file'=>null]);
+			if ($update) return response()->json(['status'=>true]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
     }
 
     public function getImport()

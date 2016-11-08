@@ -84,14 +84,15 @@ class DataPendukungController extends Controller
 			$save = $this->model->create($values);
 		}
 		
-		$image = str_replace("%20", " ", $request->image);
-        if(!empty($image))
+		$file = str_replace("%20", " ", $request->file);
+
+		if(!empty($file))
         {
-            $imageName = $this->imagePrefix."-".$content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
+
+            $uploadFile = \Helper::globalUpload($request, str_slug($request->title),'files/data-pendukung', true);
 			
-			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['file'],            		
+			AdditionalData::whereId($save->id)->update([
+            		'file' => $uploadFile['filename'],            		
             ]);
         }
 		
@@ -115,42 +116,52 @@ class DataPendukungController extends Controller
 	public function postUpdate(Request $request , $id)
 	{
 		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules($id));
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
+		// $validation = \Validator::make($inputs , $this->model->rules($id));
+		// if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
-		$dataid = $this->model->whereId($id)->first();
-		$values = [
+		$model = $this->model->whereId($id)->first();
+		$article = [
+			
 			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
+			'year' => $request->year,
+			'intro' => $request->availability, 
 			'slug' => str_slug($request->title),
 			'status' => $request->status,
 		];
 
-
-		$update = $this->model->whereId($dataid->id)->update($values);
+		$saveArticle = ArticleContent::whereId($model->article_content_id)->update($article);
+		if ($saveArticle) {
+			$values = [
+			
+				'title' => $request->title,
+				'year' => $request->year,
+				'availability' => $request->availability, 
+				'slug' => str_slug($request->title),
+				'status' => $request->status,
+			];
+				
+			$save = $model->update($values);
+		}
 		
-		$image = str_replace("%20", " ", $request->image);
-
-        if(!empty($image))
+		$file = str_replace("%20", " ", $request->file);
+		
+        if(!empty($file))
         {
 
-            $imageName = $this->imagePrefix."-".$dataid->content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
+            $uploadFile = \Helper::globalUpload($request, str_slug($request->title),'files/data-pendukung', true);
 			
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
+			$model->update([
+            		'file' => $uploadFile['filename'],            		
             ]);
         }
 		
-		if ($request->maps) {
+		// if ($request->maps) {
 			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
+		// 	$filemaps = \Helper::globalUpload($request, 'maps');
+		// 	$this->model->whereContentId($dataid->content_id)->update([
+  //           		'image' => $filemaps['filename'],
+  //           ]);
+		// }
 		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
@@ -168,6 +179,21 @@ class DataPendukungController extends Controller
         }else{
 
             return redirect('404');
+        }
+    }
+
+    public function getDeleteFile()
+    {
+    	
+    	$id = request()->get('id');
+
+    	if(request()->ajax()) {
+
+			$update = AdditionalData::whereId($id)->update(['file'=>null]);
+			if ($update) return response()->json(['status'=>true]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
         }
     }
 

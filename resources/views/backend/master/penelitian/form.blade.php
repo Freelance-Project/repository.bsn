@@ -122,6 +122,13 @@
 							Suggestion PDF Size (726,449)
 						</div>
 						<input type = 'hidden' name = 'file' id = 'file' />
+						@if($model->file)
+						<br>
+						<div id="file-data-penelitian">
+							Current File : {{$model->file}}  <a href="javascript:void(0)" class="btn btn-warning hapus_datapenelitian" data-id="{{$model->id}}">Hapus</a>
+						</div>
+						@endif
+
 					</div>
 
 					<div class="form-group col-md-6">
@@ -215,7 +222,7 @@
 					
 					<div class="form-group col-md-2">
 						<label>Action</label>
-						<button type="button" class="btn btn-primary save-additional form-control">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+						<button type="button" class="btn btn-primary save-additional form-control">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
 					</div>
 					
 					
@@ -360,6 +367,30 @@
 			});
 		} else {
 		    return false;
+		}
+		
+	})
+
+	$('.hapus_datapenelitian').click(function(){
+		
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-penelitian/delete-file',
+				data : {
+					id : id,
+				},
+				success : function(data){
+
+					if (data.status == true) {
+						$('#file-data-penelitian').remove();
+					}
+					
+				},
+			});
 		}
 		
 	})

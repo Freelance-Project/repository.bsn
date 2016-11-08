@@ -37,6 +37,12 @@
 							Suggestion Ms. Word / Excel / PDF / JPG / MP3  Size (726,449)
 						</div>
 						<input type = 'hidden' name = 'file' id = 'file' />
+						@if($model->file)
+						<br>
+						<div id="file-data-pendukung">
+							Current File : {{$model->file}}  <a href="javascript:void(0)" class="btn btn-warning hapus_datapendukung" data-id="{{$model->id}}">Hapus</a>
+						</div>
+						@endif
 					</div>
 					
 					<div class="form-group col-md-6">
@@ -62,11 +68,35 @@
 @section('script')
 <script type="text/javascript">
   
-  window.onload = function()
-  {
+	window.onload = function()
+	{
 		CKEDITOR.replace( 'description',{
 		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 		
-  }
+	}
+
+	$('.hapus_datapendukung').click(function(){
+		
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-pendukung/delete-file',
+				data : {
+					id : id,
+				},
+				success : function(data){
+
+					if (data.status == true) {
+						$('#file-data-pendukung').remove();
+					}
+					
+				},
+			});
+		}
+		
+	})
 </script>
 @endsection

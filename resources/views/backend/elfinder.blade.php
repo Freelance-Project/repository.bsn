@@ -52,7 +52,7 @@
 			   files  : ['getfile', '|','', paramDelete, '|'],
 			   navbar : [],
 			 },
-			 onlyMimes : ["image" ,"video"],
+			 onlyMimes : ["image" ,"video", "application"],
 			 resizable : false , 
 			 width : 1000,
 			 getFileCallback : function(file) {
@@ -101,7 +101,7 @@
                files  : ['getfile', '|','', paramDelete, '|'],
                navbar : [],
              },
-             onlyMimes : ["image", "video"],
+             onlyMimes : ["image", "video","application"],
              resizable : false , 
                        
         });

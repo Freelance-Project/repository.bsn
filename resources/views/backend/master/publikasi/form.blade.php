@@ -109,7 +109,13 @@
 							<a class="Wbutton" onclick = "return browseElfinder('filename'  , 'file_tempel' , 'elfinder_browse1' , 'cancelBrowse')" >Browse</a>
 							Suggestion PDF Size (726,449)
 						</div>
-						<input type = 'hidden' name = 'filename' id = 'filename' />
+						<input type = 'hidden' name = 'file' id = 'filename' />
+						@if($model->file)
+						<br>
+						<div id="file-data-publikasi">
+							Current File : {{$model->file}}  <a href="javascript:void(0)" class="btn btn-warning hapus_datapublikasi" data-id="{{$model->id}}">Hapus</a>
+						</div>
+						@endif
 					</div>
 					
 					<div class="form-group col-md-12">
@@ -334,6 +340,30 @@
 			});
 		} else {
 		    return false;
+		}
+		
+	})
+
+	$('.hapus_datapublikasi').click(function(){
+		
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-publikasi/delete-file',
+				data : {
+					id : id,
+				},
+				success : function(data){
+
+					if (data.status == true) {
+						$('#file-data-publikasi').remove();
+					}
+					
+				},
+			});
 		}
 		
 	})
