@@ -19,7 +19,9 @@ class DefaultController extends Controller
 	
     public function getIndex()
     {
-		return view('frontend.default.index');
+    	$data['model'] = $this->model;
+    	
+		return view('frontend.default.index', $data);
     }
 
     

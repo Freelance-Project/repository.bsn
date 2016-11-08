@@ -12,7 +12,7 @@
             </ol>
              <div class="panel panel-info">
               <div class="panel-heading">
-                  <h3 class="panel-title">BETERNAK BEBEK</h3>
+                  <h3 class="panel-title">{{$model->title}}</h3>
                 </div>
                 <div id="look_doc" class="panel-body">
                     <div class="frameDoc">

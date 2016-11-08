@@ -30,6 +30,11 @@
 	                    </div>
 	                </div><!--end.imaginary-->
 	            </div><!--end.col6-->
+	            <div class="row vertical-center-row">
+		            <div class="text-center col-md-6 col-md-offset-3">
+		                <a href="#"  data-toggle="modal" data-target="#advanceForm" class="link-advance">Advance Search</a>
+		            </div><!--end.col6-->
+		        </div><!--end.row-->
 	        </div><!--end.row-->
 	    </div><!--end.container-->
 	</div>

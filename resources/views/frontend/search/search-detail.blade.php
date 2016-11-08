@@ -15,7 +15,7 @@
                 </div>
                 <div class="panel-body">
                   <div class="row">
-                      <div class="col-md-3 col-lg-3 " align="center"> <img  alt="User Pic" src="http://thetransformedmale.files.wordpress.com/2011/06/bruce-wayne-armani.jpg" class="img-responsive"> <br><br>
+                      <div class="col-md-3 col-lg-3 " align="center"> <img  alt="User Pic" src="{{url('frontend/images/content/dokumen.png')}}" class="img-responsive"> <br><br>
                         <a href="{{url('search/read/'.$model->slug)}}" class="btn btn-info">Lihat Detail</a><br><br>
                         </div>
                         <div class=" col-md-9 col-lg-9 "> 

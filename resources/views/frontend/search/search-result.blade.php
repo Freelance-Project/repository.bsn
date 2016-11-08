@@ -1,6 +1,7 @@
 @extends('frontend.layouts.layout')
 
 @section('content')
+
 <!-- middle -->
 <div id="middle-content">
 	<div class="container">
@@ -84,5 +85,7 @@
     </div><!--end.container-->
 </div>
 <!-- end of middle -->
+
+
 
 @endsection  

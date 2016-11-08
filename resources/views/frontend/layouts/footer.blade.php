@@ -1,4 +1,5 @@
 @include('frontend.popup-login')
+@include('frontend.search.popup-advance')
 <!--Footer -->
 <footer class="footer">
   <div class="container">
@@ -22,4 +23,5 @@
 </footer>
 <!--end of Footer -->
 </body>
+
 </html>
