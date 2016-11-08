@@ -173,6 +173,7 @@ class DataPendukungController extends Controller
 		
         if(!empty($model->id))
         {
+			ArticleContent::whereId($model->article_content_id)->delete();
 			$model->delete();
             return redirect(urlBackendAction('index'))->withSuccess('Data has been deleted');
 

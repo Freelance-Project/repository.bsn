@@ -46,7 +46,7 @@
             <div class="row search-list">
                  <hgroup class="mb20">
                     <h1>&nbsp;</h1>
-                    <h2 class="lead"><strong class="text-danger">{{$data['result']->total()}}</strong> results were found for the search for <strong class="text-danger">Lorem</strong></h2>								
+                    <h2 class="lead"><strong class="text-danger">{{$data['result']->total()}}</strong> Data ditemukan <!--for the search for <strong class="text-danger">Lorem</strong>--></h2>								
                 </hgroup>
                 <section class="col-xs-12 col-sm-6 col-md-12">
                     
@@ -56,7 +56,8 @@
                         <div class="col-xs-12 col-sm-12 col-md-7">
                             @if($data['category'] == 'penelitian' && $data['tab'] == 'judul') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
                             @if($data['category'] == 'publikasi' && $data['tab'] == 'judul') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
-                            @if($data['category'] == 'pendukung') <h3><a href="{{url('search/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3> @endif
+                            @if($data['category'] == 'pendukung' && $data['tab'] == 'judul') <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>@endif
+                            @if($data['category'] == 'personel' && $data['tab'] == 'judul') <h3><a href="javascript:void(0)" title="">{{$val->name}}</a></h3>@endif
                             @if($data['category'] == 'penelitian' && $data['tab'] == 'peneliti')
                                 <h3><a href="{{url('search/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3>
                             @endif

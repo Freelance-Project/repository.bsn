@@ -6,14 +6,14 @@
     <div class="container">
         <div class="main-search-result">
             <ol class="breadcrumb">
-              <li class="active">Search</li>
+              <li class="active">Search Advance</li>
             </ol>
             {!! Form::open(['url'=>'search/find','method'=>'get']) !!} 
             <div class="row">
                 <div class="col-md-6">
                     <div id="imaginary_container"> 
                         <div class="input-group stylish-input-group">
-                            <input type="text" class="form-control" name="request" placeholder="Search" >
+                            <input type="text" class="form-control" name="request" placeholder="Enter Keyword" >
                             <span class="input-group-addon">
                                 <button type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
@@ -26,6 +26,9 @@
                     </div><!--end.imaginary_container-->
                 </div><!--end.col-3-->
             </div><!--end.row-->
+            
+            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
             {!! Form::close() !!}
             <div class="row search-list">
                  <hgroup class="mb20">
@@ -67,5 +70,78 @@
     </div><!--end.container-->
 </div>
 <!-- end of middle -->
+
+<script src="{{ asset(null) }}frontend/libs/highchart/highcharts.js"></script>
+<script src="{{ asset(null) }}frontend/libs/highchart/modules/exporting.js"></script>
+
+<script type="text/javascript">
+    
+    var data_chart = {!! $data['chart'] !!};
+    
+    $(function () {
+        $('#container').highcharts({
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Statistik Pertahun'
+            },
+            xAxis: {
+                categories: data_chart.category
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Total Data'
+                },
+                stackLabels: {
+                    enabled: true,
+                    style: {
+                        fontWeight: 'bold',
+                        color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                    }
+                }
+            },
+            legend: {
+                align: 'right',
+                x: -70,
+                verticalAlign: 'top',
+                y: 20,
+                floating: true,
+                backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                borderColor: '#CCC',
+                borderWidth: 1,
+                shadow: false
+            },
+            tooltip: {
+                formatter: function() {
+                    return '<b>'+ this.x +'</b><br/>'+
+                        this.series.name +': '+ this.y +'<br/>'+
+                        'Total: '+ this.point.stackTotal;
+                }
+            },
+            plotOptions: {
+                column: {
+                    stacking: 'normal',
+                    dataLabels: {
+                        enabled: true,
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    }
+                }
+            },
+            series: [{
+                name: 'Penelitian',
+                data: data_chart.penelitian
+            }, {
+                name: 'Publikasi',
+                data: data_chart.publikasi
+            }, {
+                name: 'Data Pendukung',
+                data: data_chart.pendukung
+            }]
+        });
+    });
+
+</script>
 
 @endsection  
