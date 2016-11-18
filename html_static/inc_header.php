@@ -59,8 +59,8 @@
             <li><a href="profile.php">Profile</a></li>
           </ul>		
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" data-toggle="modal" data-target="#RegisterForm"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#loginForm"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <!--li><a href="#" data-toggle="modal" data-target="register.php"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li-->
+            <li><a href="#" data-toggle="modal" data-target="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
