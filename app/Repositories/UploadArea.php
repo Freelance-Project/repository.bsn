@@ -11,6 +11,7 @@ use App\Models\Expertise;
 use App\Models\ResearcherTeam;
 use App\Models\ResearcherWorkshop;
 use App\Models\ResearchLocation;
+use App\Models\ResearchStandard;
 use App\Models\InterestGroup;
 
 class UploadArea
@@ -65,6 +66,9 @@ class UploadArea
 	    			
 	    			$penelitian[$index]['lokasi'][] = $value->lokasi_survei;
 
+	    			$penelitian[$index]['penilaian']['standardisasi'] = $value->standardisasi;
+	    			$penelitian[$index]['penilaian']['kesesuaian'] = $value->penilaian_kesesuaian;
+	    			$penelitian[$index]['penilaian']['snsu'] = $value->snsu;
 	    			
 	    				
     			} else {
@@ -131,7 +135,11 @@ class UploadArea
 	    			$publikasi[$index]['peneliti']['penulis'][] = $value->penulis;
 	    			$publikasi[$index]['peneliti']['asal_instansi'][] = $value->asal_instansi;
 	    			
-	    				
+	    			$publikasi[$index]['penilaian']['standardisasi'] = $value->standardisasi;
+	    			$publikasi[$index]['penilaian']['kesesuaian'] = $value->penilaian_kesesuaian;
+	    			$publikasi[$index]['penilaian']['snsu'] = $value->snsu;
+	    			
+	    			
     			} else {
     				if ($value->nama_peneliti) {
 
@@ -355,6 +363,8 @@ class UploadArea
 						
 						$saveResearcherTeam = $this->saveResearcherTeam(['peneliti' => $data['peneliti'], 'other_id'=>$saveResearch]);
 						
+						$saveResearchStandard = $this->saveResearchStandard(['penilaian' => $data['penilaian'], 'other_id'=>$saveResearch]);
+						
 						
 					}
 					usleep(100);
@@ -392,6 +402,7 @@ class UploadArea
 						
 						$saveResearcherTeam = $this->saveResearcherTeam(['peneliti' => $data['peneliti'], 'other_id'=>$savePublication], 'publikasi');
 						
+						$saveResearchStandard = $this->saveResearchStandard(['penilaian' => $data['penilaian'], 'other_id'=>$savePublication], 'publikasi');
 						
 					}
 					usleep(100);
@@ -603,6 +614,7 @@ class UploadArea
 	public function saveResearcherTeam($data, $type='penelitian')
 	{	
 		$dataResearcher = $data['peneliti'];
+		// dd($dataResearcher);
 		// $bidang = ['kimia'=>'kp', 'mekanika'=>'mek', 'pertanian'=>'ppk', 'lingkungan'=>'ls'];
 		$functional = ['Peneliti Utama' => 'p_utama', 'Peneliti Madya'=>'p_madya','Peneliti Muda'=>'p_muda','Peneliti Pertama'=>'p_pertama','Non Peneliti'=>'non_p'];
 		// dd($dataResearcher);
@@ -657,6 +669,24 @@ class UploadArea
 		return true;
 	}
 
+	public function saveResearchStandard($data, $type='penelitian')
+	{
+
+		$dataGroup = $data['penilaian'];
+		$otherId = $data['other_id'];
+
+		foreach ($dataGroup as $key => $value) {
+			if ($value) {
+				$group['name'] = $key;
+				$group['type'] = $type;
+				$group['other_id'] = $otherId;
+
+				$save = ResearchStandard::create($group);
+			}
+		}
+		
+		return true;
+	}
 
 	public function existContent($slug)
 	{
