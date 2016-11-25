@@ -129,7 +129,7 @@ class DataPendukungController extends Controller
 			'slug' => str_slug($request->title),
 			'status' => $request->status,
 		];
-
+		// dd($model);
 		$saveArticle = ArticleContent::whereId($model->article_content_id)->update($article);
 		if ($saveArticle) {
 			$values = [
@@ -140,7 +140,7 @@ class DataPendukungController extends Controller
 				'slug' => str_slug($request->title),
 				'status' => $request->status,
 			];
-				
+			
 			$save = $model->update($values);
 		}
 		
@@ -156,13 +156,6 @@ class DataPendukungController extends Controller
             ]);
         }
 		
-		// if ($request->maps) {
-			
-		// 	$filemaps = \Helper::globalUpload($request, 'maps');
-		// 	$this->model->whereContentId($dataid->content_id)->update([
-  //           		'image' => $filemaps['filename'],
-  //           ]);
-		// }
 		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
