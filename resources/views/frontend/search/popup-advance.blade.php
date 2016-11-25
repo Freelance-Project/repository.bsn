@@ -22,12 +22,12 @@
                       <div class="row">
                         <div class="col-md-6 col-xs-6">
                        <div class="form-group">
-                          <input type="text" class="form-control" id="date1" placeholder="Tahun Awal" name="tahun_mulai">
+                          <input type="text" class="form-control" id="date1" placeholder="Tahun Awal" name="tahun_mulai" required>
                         </div>
                       </div>
                       <div class="col-md-6 col-xs-6">
                         <div class="form-group">
-                          <input type="text" class="form-control" id="date2" placeholder="Tahun Akhir" name="tahun_akhir">
+                          <input type="text" class="form-control" id="date2" placeholder="Tahun Akhir" name="tahun_akhir" required>
                         </div>
                       </div>
                       </div><!--end.row-->
@@ -84,7 +84,7 @@
                       </ul>
                    </div><!--.col-md-->
                   </div><!--end.row-->
-
+                  {{--
                   <div class="row">
                     <div class="col-md-6 col-xs-6">
                      <div class="form-group">
@@ -93,6 +93,7 @@
                       </div>
                    </div><!--.col-md-->
                   </div><!--end.row-->
+                  --}}
               <button type="submit" class="btn btn-primary">Cari</button>
             {!! Form::close() !!}
         </div><!--end.modal-body-->
