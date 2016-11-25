@@ -9,8 +9,8 @@
             	<div class="col-md-4 left no-left-padding">
                 	<ul class="nav nav-pills custom-pills">
 
-                    	<li role="presentation" class="active" ><a href="{{url('search/research')}}">Judul</a></li>
-                        <li role="presentation" ><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>
+                    	<li role="presentation" ><a href="{{url('search/research')}}">Judul</a></li>
+                    	<li role="presentation" class="active"><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>
                         <li role="presentation" ><a href="{{url('search/research/year')}}">Tahun</a></li>
                     </ul>
                 </div>
@@ -56,14 +56,14 @@
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{{ucfirst($val->category)}}</strong></span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>{{$val->year}}</span></li>
-                                <!--<li><i class="glyphicon glyphicon-user"></i> <span>Ovan</span></li>-->
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->researcher->address !!}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{!! $val->researcher->phone !!}</strong></span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->researcher->education !!}</span></li>
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>
-                            <p>{!! substr($val->intro, 0, 300) !!}...</p>                       
+                            <h3><a href="{{url('personel/detail/'.$val->researcher_id)}}" title="">{{$val->researcher->name}}</a></h3>
+                            <p>{!! substr($val->researcher->experience, 0, 300) !!}</p>
                         </div>
                         <span class="clearfix borda"></span>
                     </article>

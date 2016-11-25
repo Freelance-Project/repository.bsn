@@ -6,16 +6,15 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
-use App\Models\ArchiveContent;
+use App\Models\Software;
 use Table;
 
 class ProgramController extends Controller
 {
 	public function __construct()
 	{
-		$this->model = new ArchiveContent;
+		$this->model = new Software;
 		$this->category = 18;
-		$this->imagePrefix = 'iklan';
 	}
 
 
@@ -26,7 +25,7 @@ class ProgramController extends Controller
 
 	public function getData()
 	{
-		$model = $this->model->select('id' , 'title' , 'intro');
+		$model = $this->model->select('id' , 'name');
 		return Table::of($model)
 			->addColumn('thumbnail',function($model){
 				return '<img src = "'.asset('contents/news/small/'.$model->thumbnail).'"/>';
@@ -47,44 +46,16 @@ class ProgramController extends Controller
 
 	public function postCreate(Request $request)
 	{
-		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules());
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
 		$values = [
-			'user_id' => \Auth::user()->id,
-			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
+			'name' => $request->name,
+			'file' => $request->file,
 			'status' => $request->status,
 		];
 			
 		$save = $this->model->create($values);
 		
-		
-		
-		$image = str_replace("%20", " ", $request->image);
-        if(!empty($image))
-        {
-            $imageName = $this->imagePrefix."-".$content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
-		
-        return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
+		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}
 
 	public function getUpdate($id)
@@ -103,43 +74,16 @@ class ProgramController extends Controller
 
 	public function postUpdate(Request $request , $id)
 	{
-		$inputs = $request->all();
-		$validation = \Validator::make($inputs , $this->model->rules($id));
-		if($validation->fails()) return redirect()->back()->withInput()->withErrors($validation);
 		
 		$dataid = $this->model->whereId($id)->first();
 		$values = [
-			'title' => $request->title,
-			'intro' => $request->intro,
-			'description' => $request->description,
-			'created_at' => \Helper::dateToDb($request->date),
-			'slug' => str_slug($request->title),
+			'name' => $request->name,
+			'file' => $request->file,
 			'status' => $request->status,
 		];
 
 
 		$update = $this->model->whereId($dataid->id)->update($values);
-		
-		$image = str_replace("%20", " ", $request->image);
-
-        if(!empty($image))
-        {
-
-            $imageName = $this->imagePrefix."-".$dataid->content_id;
-			$uploadImage = \Helper::handleUpload($request, $imageName);
-			
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'thumbnail' => $uploadImage['filename'],            		
-            ]);
-        }
-		
-		if ($request->maps) {
-			
-			$filemaps = \Helper::globalUpload($request, 'maps');
-			$this->model->whereContentId($dataid->content_id)->update([
-            		'image' => $filemaps['filename'],
-            ]);
-		}
 		
 		return redirect(urlBackendAction('index'))->withSuccess('Data has been saved');
 	}

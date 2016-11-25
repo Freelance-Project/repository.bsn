@@ -16,11 +16,16 @@ Route::group(['middleware' => ['auth.member']], function() {
 
 	Route::auth();
 	Route::get('/home', 'HomeController@index');
+	Route::get('search/research/person','SearchController@getResearchPerson');
+	Route::get('search/research/year','SearchController@getResearchYear');
 	Route::get('search/find/{request?}','SearchController@getFind');
 	Route::get('search/detail/{slug}','SearchController@getDetail');
+	Route::get('personel/detail/{id}','PersonelController@getDetail');
 	Route::controller('profile','ProfileController');
 	Route::controller('request','RequestController');
 	Route::controller('search','SearchController');
+	Route::controller('program','ProgramController');
+	Route::controller('personel','PersonelController');
 });
 
 // Route::get('/','DefaultController@getIndex');

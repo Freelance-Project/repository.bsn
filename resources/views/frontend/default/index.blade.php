@@ -6,7 +6,7 @@
     <div id="middle-content" class="intro-landing">
 		<div class="container container-table">
 	    	<div class="row vertical-center-row">
-	            <div class="text-center col-md-6 col-md-offset-3">
+	            <div class="text-center col-md-7 col-md-offset-3">
 	                <div id="imaginary_container">
 	                	
 	                	{!! Form::open(['url'=>'search/find','method'=>'get']) !!} 
@@ -22,16 +22,16 @@
 	                    </div><!--end.search--input-->
 	                    {!! Form::close() !!}
 	                    <div class="cat-search text-center">
-	                    	<a href="{{url('search/penelitian')}}" class="btn btn-primary">Penelitian</a>
+	                    	<a href="{{url('search/research')}}" class="btn btn-primary">Penelitian</a>
 	                        <a href="{{url('search/publikasi')}}" class="btn btn-success">Publikasi</a>
 	                        <a href="{{url('search/pendukung')}}" class="btn btn-info">Data Pendukung</a>
 	                        <a href="{{url('search/personel')}}" class="btn btn-warning">Data Personel</a>
-	                        <!--a href="search_result.php" class="btn btn-danger">Program Pendukung</a-->
+	                        <a href="{{url('program')}}" class="btn btn-danger">Program Pendukung</a>
 	                    </div>
 	                </div><!--end.imaginary-->
 	            </div><!--end.col6-->
 	            <div class="row vertical-center-row">
-		            <div class="text-center col-md-6 col-md-offset-3">
+		            <div class="text-center col-md-7 col-md-offset-3">
 		                <a href="#"  data-toggle="modal" data-target="#advanceForm" class="link-advance">Advance Search</a>
 		            </div><!--end.col6-->
 		        </div><!--end.row-->

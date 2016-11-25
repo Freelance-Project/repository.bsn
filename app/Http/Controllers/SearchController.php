@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use \App\Models\ArticleContent;
 use \App\Models\AdditionalData;
 use \App\Models\Researcher;
+use \App\Models\Research;
+use \App\Models\ResearcherTeam;
 use \App\Helper\Src\Pagination;
 class SearchController extends Controller
 {
@@ -55,25 +57,25 @@ class SearchController extends Controller
 		return view('frontend.search.search-read', compact('link', 'model'));
     }
 
-    public function getPenelitian(Request $request)
+    public function getResearch(Request $request)
     {
     	$requestParam = $request->all();
 		$data['request'] = false;
 		$data['category'] = 'penelitian';
-		$data['tab'] = 'judul';
+		$data['tab'] = 'title';
 
 		if (isset($requestParam['request'])) {
-			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->paginate($this->paging);
+			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			$data['request'] = $requestParam['request'];
 
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->whereRaw('title like % ? %', [$requestParam['request']])
-    							->groupBy('category','year')->get();
+    							->groupBy('category','year')->orderBy('year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->groupBy('category','year')->get();
+    							->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
 		$chartdata['title'] = 'Penelitian';
@@ -256,5 +258,84 @@ class SearchController extends Controller
     	$data['chart'] = $this->makeChart($chartdata);
 
     	return view('frontend.search.search-advance', compact('data'));
+    }
+
+    public function getResearchPerson(Request $request)
+    {
+    	$requestParam = $request->all();
+		$data['request'] = false;
+		$data['category'] = 'penelitian';
+		$data['tab'] = 'person';
+
+		if (isset($requestParam['request'])) {
+
+			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
+			$data['request'] = $requestParam['request'];
+
+			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->groupBy('category','year')->orderBy('year')->get();
+		} else {
+			$getList = Research::select('researches.id')->join('article_contents', 'researches.article_content_id','=', 'article_contents.id')->where('article_contents.category',$data['category'])->where('article_contents.status','publish')->get();
+			// dd($getList);
+			if($getList) {
+				foreach ($getList as $key => $value) {
+					$personId[] = $value->id;
+				}
+				$data['result'] = ResearcherTeam::whereIn('other_id', $personId)->paginate($this->paging);
+
+			}
+			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
+			
+			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->groupBy('category','year')->orderBy('year')->get();
+		}
+		// dd($chart);
+		$chartdata['title'] = 'Penelitian';
+		
+		$data['chart'] = $this->makeChart($chartdata);
+		// dd($data);
+    	return view('frontend.search.search-by-person', compact('data'));
+    }
+
+    public function getResearchYear(Request $request)
+    {
+    	$requestParam = $request->all();
+		$data['request'] = false;
+		$data['category'] = 'penelitian';
+		$data['tab'] = 'year';
+
+		if (isset($requestParam['request'])) {
+
+			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
+			$data['request'] = $requestParam['request'];
+
+			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->groupBy('category','year')->orderBy('year')->get();
+		} else {
+			$getList = ArticleContent::where('category',$data['category'])->where('status','publish')->orderBy('year','desc')->paginate($this->paging);
+			// dd($getList);
+			if($getList) {
+				foreach ($getList as $key => $value) {
+					$year[$value->year][] = $value;
+				}
+
+				
+				$data['result_year'] = $year;
+
+			}
+			$data['result'] = $getList;
+			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
+			
+			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->groupBy('category','year')->orderBy('year')->get();
+		}
+		// dd($chart);
+		$chartdata['title'] = 'Penelitian';
+		
+		$data['chart'] = $this->makeChart($chartdata);
+		// dd($data);
+    	return view('frontend.search.search-by-year', compact('data'));
     }
 }

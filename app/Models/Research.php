@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ArticleContent;
 use App\Models\ResearchGroup;
-use App\Models\ActicleContent;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Research extends Model
@@ -17,7 +16,7 @@ class Research extends Model
 
 	public function article()
     {
-		return $this->belongsTo(ActicleContent::class, 'article_content_id');
+		return $this->belongsTo(ArticleContent::class, 'article_content_id');
     }
 	
 	public function researchgroup()

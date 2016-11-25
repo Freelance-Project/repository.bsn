@@ -74,9 +74,9 @@
                    </div><!--.col-md-->
                    <div class="col-md-8 col-xs-8">
                       <ul class="list-group">
-                        <li class="list-group-item noBorder"><input type="checkbox" name="standar" value="standar"> Kelompok Standarisasi dan Penilaian Kesesuaian
+                        <li class="list-group-item noBorder"><input type="checkbox" name="standar" value="standar"> Kelompok Standardisasi dan Penilaian Kesesuaian
                           <ul class="list-group child-list">
-                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="standardisasi"> Standarisasi</li>
+                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="standardisasi"> Standardisasi</li>
                             <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="penilaian"> Penilaian Kesesuaian</li>
                             <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="snsu"> SNSU</li>
                           </ul>

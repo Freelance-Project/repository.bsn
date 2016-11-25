@@ -9,9 +9,9 @@
             	<div class="col-md-4 left no-left-padding">
                 	<ul class="nav nav-pills custom-pills">
 
-                    	<li role="presentation" class="active" ><a href="{{url('search/research')}}">Judul</a></li>
-                        <li role="presentation" ><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>
-                        <li role="presentation" ><a href="{{url('search/research/year')}}">Tahun</a></li>
+                    	<li role="presentation" ><a href="{{url('search/research')}}">Judul</a></li>
+                    	<li role="presentation" ><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>
+                        <li role="presentation" class="active"><a href="{{url('search/research/year')}}">Tahun</a></li>
                     </ul>
                 </div>
             	<div class="col-md-3 right">
@@ -29,20 +29,7 @@
             </div><!--end.row-->
             
             <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            <!--
-            <div class="row">
-            	<div class="col-md-12">
-                    <ul class="nav nav-pills">
-                    	<li role="presentation"><a href="#">A</a></li>
-                    	<li role="presentation"><a href="#">B</a></li>
-                      	<li role="presentation" class="disabled"><a href="#">C</a></li>
-                        <li role="presentation" class="disabled"><a href="#">...</a></li>
-                        <li role="presentation" ><a href="#">X</a></li>
-                        <li role="presentation" ><a href="#">Y</a></li>
-                        <li role="presentation" ><a href="#">Z</a></li>
-                    </ul>
-                </div>
-            </div><!--end.row-->
+            
             
             <div class="row search-list">
                  <hgroup class="mb20">
@@ -52,18 +39,17 @@
                 <section class="col-xs-12 col-sm-6 col-md-12">
                     
                     @if ($data['result']->total() > 0)
-                    @foreach($data['result'] as $val)
+                    @foreach($data['result_year'] as $key => $val)
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{{ucfirst($val->category)}}</strong></span></li>
-                                <li><i class="glyphicon glyphicon-calendar"></i> <span>{{$val->year}}</span></li>
-                                <!--<li><i class="glyphicon glyphicon-user"></i> <span>Ovan</span></li>-->
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $key !!}</span></li>
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>
-                            <p>{!! substr($val->intro, 0, 300) !!}...</p>                       
+                            @foreach($val as $v)
+                            <label><a href="{{url('search/detail/'.$v->slug)}}" title="">{{$v->title}}</a></label>
+                            @endforeach
                         </div>
                         <span class="clearfix borda"></span>
                     </article>

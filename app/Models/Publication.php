@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\ArticleContent;
 
 class Publication extends Model
 {
@@ -12,6 +13,9 @@ class Publication extends Model
 
     public $guarded = [];
 
-
+    public function article()
+    {
+		return $this->belongsTo(ArticleContent::class, 'article_content_id');
+    }
     
 }

@@ -56,8 +56,8 @@
           @if(\Auth::check())
           <ul class="nav navbar-nav">
             <li class="active"><a href="{{url('')}}">Home</a></li>
-            <li><a href="{{url('request')}}">Daftar Permintaan</a></li>
-            <li><a href="{{url('profile')}}">Profile</a></li>
+            <li><a href="{{url('search/research')}}">Penelitian</a></li>
+            <li><a href="{{url('search/publikasi')}}">Publikasi</a></li>
           </ul>		
           
           <ul class="nav navbar-nav navbar-right">

@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Backend\HelperController;
 use App\Models\AdditionalData;
 use App\Models\ArticleContent;
+use App\Models\ResearchData;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -173,6 +174,7 @@ class DataPendukungController extends Controller
 		
         if(!empty($model->id))
         {
+        	ResearchData::where('additional_data_id', $id)->delete();
 			ArticleContent::whereId($model->article_content_id)->delete();
 			$model->delete();
             return redirect(urlBackendAction('index'))->withSuccess('Data has been deleted');

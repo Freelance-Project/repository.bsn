@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Research;
 use App\Models\Researcher;
+use App\Models\Publication;
 
 class ResearcherTeam extends Model
 {
@@ -22,4 +23,8 @@ class ResearcherTeam extends Model
     	return $this->belongsTo(Research::class , 'other_id');
     }
 
+    public function publication()
+    {
+        return $this->belongsTo(Publication::class , 'other_id');
+    }
 }
