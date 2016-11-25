@@ -244,38 +244,68 @@ class SearchController extends Controller
     {
     	
     	$inputs = $request->all();
-    	dd($inputs);
+    	// dd($inputs);
     	$field = 'status = ? ';
     	$value[] = 'publish';
 
-    	if (isset($inputs['tahun_mulai'])) {
-    		$field .= 'and year >= ? ';
-    		$value[] = $inputs['tahun_mulai'];
-    	}
-    	if (isset($inputs['tahun_akhir'])) {
-    		$field .= 'and year <= ? ';
-    		$value[] = $inputs['tahun_akhir'];
-    	}
-    	if (isset($inputs['category']['penelitian'])) {
-    		$field .= 'and category = ? ';
-    		$value[] = 'penelitian';
-    	}
-    	if (isset($inputs['category']['publikasi'])) {
-    		$field .= 'and category = ? ';
-    		$value[] = 'publikasi';
-    	}
-    	if (isset($inputs['kelompok'])) {
-    		// ResearchGroup::where
-    	}
+    	// if (isset($inputs['tahun_mulai'])) {
+    	// 	$field .= 'and year >= ? ';
+    	// 	$value[] = $inputs['tahun_mulai'];
+    	// }
+    	// if (isset($inputs['tahun_akhir'])) {
+    	// 	$field .= 'and year <= ? ';
+    	// 	$value[] = $inputs['tahun_akhir'];
+    	// }
+    	// if (isset($inputs['category']['penelitian'])) {
+    	// 	$field .= 'and category = ? ';
+    	// 	$value[] = 'penelitian';
+    	// }
+    	// if (isset($inputs['category']['publikasi'])) {
+    	// 	$field .= 'and category = ? ';
+    	// 	$value[] = 'publikasi';
+    	// }
+    	
 
     	$data['request'] = false;
 		$data['category'] = 4;
 
-    	$data['result'] = ArticleContent::selectRaw(' *')
-    			->whereRaw($field, $value)->paginate($this->paging);
-    	dd($data);
-    	$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->whereRaw($field, $value)
+    	// $raw = ArticleContent::selectRaw(' *')
+    	// 		->whereRaw($field, $value)->toSql();
+    	$raw = ArticleContent::where('year','>=', $inputs['tahun_mulai'])
+    						->where('year','<=', $inputs['tahun_akhir'])
+    						->where(function($query){
+    							if (isset($inputs['category']['penelitian'])) {
+						    		$query->orWhere('category','=','penelitian');
+						    	}
+						    	if (isset($inputs['category']['publikasi'])) {
+						    		$query->orWhere('category','=','publikasi');
+						    	}
+						    	if (isset($inputs['category']['pendukung'])) {
+						    		$query->orWhere('category','=','pendukung');
+						    	}
+    						})
+    						->where(function($query){
+    							if (isset($inputs['kelompok'])) {
+    								foreach ($inputs['kelompok'] as $key => $value) {
+    									$other_id = ResearchGroup::select('other_id')->whereName($value)->distinct()->get();
+    									$query->whereIn('id', $other_id);
+    								}
+    							}
+    						})
+    						->where(function($query){
+    							if (isset($inputs['standar'])) {
+    								foreach ($inputs['standar'] as $key => $value) {
+    									$other_id = ResearchStandard::select('other_id')->whereName($value)->distinct()->get();
+    									$query->whereIn('id', $other_id);
+    								}
+    							}
+    						});
+    	// dd($raw);
+    	
+
+    	$data['result'] = $raw->paginate($this->paging);
+    	// dd($data);
+    	$chartdata['result'] = $raw->selectRaw(' count(title) as total, category, year')
     							->groupBy('category','year')->get();
 
     	$chartdata['title'] = 'Penelitian';

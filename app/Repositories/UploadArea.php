@@ -47,6 +47,7 @@ class UploadArea
 	    			$penelitian[$index]['penelitian']['tujuan'] = $value->tujuan;
 	    			$penelitian[$index]['penelitian']['kesimpulan'] = $value->kesimpulan;
 	    			$penelitian[$index]['penelitian']['rekomendasi'] = $value->rekomendasi;
+	    			$penelitian[$index]['penelitian']['target_rekomendasi'] = $value->target_rekomendasi;
 	    			$penelitian[$index]['penelitian']['file'] = $value->upload_full_text;
 	    			
 	    			$penelitian[$index]['kelompok']['kimia'] = $value->kimia_dan_pertambangan_kp;
@@ -365,6 +366,7 @@ class UploadArea
 						$research['goal'] = $data['penelitian']['tujuan'];
 						$research['conclusion'] = $data['penelitian']['kesimpulan'];
 						$research['recommendation'] = $data['penelitian']['rekomendasi'];
+						$research['recommendation_target'] = $data['penelitian']['target_rekomendasi'];
 						$research['file'] = $data['penelitian']['file'];
 						$research['year'] = $data['penelitian']['tahun_penelitian'];
 						
