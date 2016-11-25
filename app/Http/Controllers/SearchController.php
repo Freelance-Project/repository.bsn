@@ -74,7 +74,7 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->orderBy('year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->groupBy('category','year')->orderBy('year')->get();
@@ -158,7 +158,7 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->groupBy('category','year')->get();
@@ -187,7 +187,7 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->groupBy('category','year')->orderBy('year')->get();
@@ -213,7 +213,7 @@ class SearchController extends Controller
 			$chartdata['result'] = Researcher::where('name','like','%'.$requestParam['request'].'%')->paginate($this->paging);
 			$data['request'] = $requestParam['request'];
 		} else {
-			$data['result'] = Researcher::paginate($this->paging);
+			$data['result'] = Researcher::whereNull('deleted_at')->paginate($this->paging);
 			$chartdata['result'] = Researcher::paginate($this->paging);
 
 			// $getList = Publication::select('publications.id')->join('article_contents', 'publications.article_content_id','=', 'article_contents.id')->where('article_contents.category',$data['category'])->where('article_contents.status','publish')->get();
@@ -258,13 +258,16 @@ class SearchController extends Controller
     		$field .= 'and category = ? ';
     		$value[] = 'publikasi';
     	}
-    	
+    	if (isset($inputs['kelompok'])) {
+    		// ResearchGroup::where
+    	}
+
     	$data['request'] = false;
 		$data['category'] = 4;
 
     	$data['result'] = ArticleContent::selectRaw(' *')
     			->whereRaw($field, $value)->paginate($this->paging);
-    	
+    	dd($data);
     	$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->whereRaw($field, $value)
     							->groupBy('category','year')->get();

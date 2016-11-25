@@ -36,7 +36,7 @@
                   <div class="row">
                     <div class="col-md-4 col-xs-4">
                      <ul class="list-group">
-                      <li class="list-group-item noBorder"><input type="checkbox" name="category[publikasi]" value="publikasi"> Publikasi
+                      <li class="list-group-item noBorder"><!--<input type="checkbox" name="category[publikasi]" value="publikasi"> -->Publikasi
                         <ul class="list-group child-list">
                           <li class="list-group-item noBorder"><input type="checkbox" name="category[publikasi][jurnal]" value="jurnal"> Jurnal</li>
                           <li class="list-group-item noBorder"><input type="checkbox" name="category[publikasi][prosiding]" value="prosiding"> Prosiding</li>
@@ -47,7 +47,7 @@
                    </div><!--.col-md-->
                    <div class="col-md-8 col-xs-8">
                       <ul class="list-group">
-                        <li class="list-group-item noBorder"><input type="checkbox" name="kelompok" value="kelompok"> Kelompok
+                        <li class="list-group-item noBorder"><!--<input type="checkbox" name="kelompok" value="kelompok"> -->Kelompok Bidang Penelitian
                           <ul class="list-group child-list">
                             <li class="list-group-item noBorder"><input type="checkbox" name="kelompok[kp]" value="kp"> Kimia Pertambangan (KP)</li>
                             <li class="list-group-item noBorder"><input type="checkbox" name="kelompok[mek]" value="mek"> Mekanika Elektronika dan Konstruksi (MEK)</li>
@@ -63,22 +63,22 @@
                     <div class="col-md-4 col-xs-4">
                      <ul class="list-group">
                       <li class="list-group-item noBorder"><input type="checkbox" name="pendukung" value="pendukung"> Data Pendukung
-                        <ul class="list-group child-list">
-                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[]" value="ekspor"> Ekspor</li>
-                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[]" value="impor"> Impor</li>
-                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[]" value="industri"> Industri</li>
-                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[]" value="asosiasi"> Asosiasi</li>
-                        </ul>
+                        <!--<ul class="list-group child-list">
+                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[ekspor]" value="ekspor"> Ekspor</li>
+                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[impor]" value="impor"> Impor</li>
+                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[industri]" value="industri"> Industri</li>
+                          <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[asosiasi]" value="asosiasi"> Asosiasi</li>
+                        </ul>-->
                       </li>
                     </ul>
                    </div><!--.col-md-->
                    <div class="col-md-8 col-xs-8">
                       <ul class="list-group">
-                        <li class="list-group-item noBorder"><input type="checkbox" name="standar" value="standar"> Kelompok Standardisasi dan Penilaian Kesesuaian
+                        <li class="list-group-item noBorder"><!--<input type="checkbox" name="standar" value="standar">--> Kelompok Standardisasi dan Penilaian Kesesuaian
                           <ul class="list-group child-list">
-                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="standardisasi"> Standardisasi</li>
-                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="penilaian"> Penilaian Kesesuaian</li>
-                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[]" value="snsu"> SNSU</li>
+                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[standardisasi]" value="standardisasi"> Standardisasi</li>
+                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[penilaian]" value="penilaian"> Penilaian Kesesuaian</li>
+                            <li class="list-group-item noBorder"><input type="checkbox" name="standar[snsu]" value="snsu"> SNSU</li>
                           </ul>
                         </li>
                       </ul>

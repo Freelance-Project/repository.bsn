@@ -58,6 +58,9 @@
             <li class="active"><a href="{{url('')}}">Home</a></li>
             <li><a href="{{url('search/research')}}">Penelitian</a></li>
             <li><a href="{{url('search/publication')}}">Publikasi</a></li>
+            <li><a href="{{url('search/pendukung')}}">Data Pendukung</a></li>
+            <li><a href="{{url('search/personel')}}">Personel</a></li>
+            <li><a href="{{url('program')}}">Program Pendukung</a></li>
           </ul>		
           
           <ul class="nav navbar-nav navbar-right">
