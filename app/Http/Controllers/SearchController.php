@@ -120,7 +120,8 @@ class SearchController extends Controller
     {
     	// dd($data);
     	
-    	
+    	$tmp = [];
+    	$chart = [];
 		foreach ($data['result'] as $val) {
 
 			$tmp[$val->year][$val->category] = $val->total;
