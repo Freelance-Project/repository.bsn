@@ -294,6 +294,7 @@ class SearchController extends Controller
 		} else {
 			$getList = Research::select('researches.id')->join('article_contents', 'researches.article_content_id','=', 'article_contents.id')->where('article_contents.category',$data['category'])->where('article_contents.status','publish')->get();
 			// dd($getList);
+			$personId = [];
 			if($getList) {
 				foreach ($getList as $key => $value) {
 					$personId[] = $value->id;
@@ -372,6 +373,7 @@ class SearchController extends Controller
 		} else {
 			$getList = ArticleContent::where('category',$data['category'])->where('status','publish')->orderBy('year','desc')->paginate($this->paging);
 			// dd($getList);
+			$year = [];
 			if($getList) {
 				foreach ($getList as $key => $value) {
 					$year[$value->year][] = $value;
