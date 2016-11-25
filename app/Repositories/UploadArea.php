@@ -303,14 +303,26 @@ class UploadArea
 
 		if (!$this->isExistAdditionalData(false, str_slug($pendukung['judul']))) {
 
-			$add['title'] = $pendukung['judul'];
-			$add['slug'] = str_slug($pendukung['judul']);
-			$add['year'] = $pendukung['tahun'];
-			$add['file'] = $pendukung['nama_file'];
-			$add['format'] = $pendukung['format_file'];
+			$article['title'] = $pendukung['judul'];
+			$article['slug'] = str_slug($pendukung['judul']);
+			$article['year'] = $pendukung['tahun'];
+			$article['category'] = 'pendukung';
+			$article['status'] = 'unpublish';
+			$article['author_id'] = \Auth::user()->id;
 
-			$save = AdditionalData::create($add);
-			return $save->id;
+			$saveArticle = ArticleContent::create($article);
+			if ($saveArticle) {
+				$add['title'] = $pendukung['judul'];
+				$add['slug'] = str_slug($pendukung['judul']);
+				$add['year'] = $pendukung['tahun'];
+				$add['file'] = $pendukung['nama_file'];
+				$add['format'] = $pendukung['format_file'];
+				$add['article_content_id'] = $saveArticle->id;
+
+				$save = AdditionalData::create($add);
+				return $save->id;
+			}
+			
 		}
 		
 	}
