@@ -76,8 +76,8 @@
 
 .wg_base_module_navigation ul li.root#open > a,
 .wg_base_module_navigation ul li.root.hover > a {
-    color                   : #094b69;
-    background-color        : #fff;
+    color                   : #fff;
+    background-color        : #5FB0E4;
     border-radius           : 3px 3px 0 0;
     -moz-border-radius      : 3px 3px 0 0;
     -webkit-border-radius   : 3px 3px 0 0;

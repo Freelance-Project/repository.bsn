@@ -53,7 +53,7 @@
     <div id="app_shorcut">
         <div>
             <div class="fl" style="margin:10px 0 0 30px;width: 230px;max-height: 120px;">
-                <img src="{{ asset(null) }}backend/img/logo-client.png" style="width: 145px;"/>
+                <img src="{{ asset(null) }}backend/img/logo.gif" style="width: 145px;"/>
             </div>
             <div class="clear break1"></div>
         </div>

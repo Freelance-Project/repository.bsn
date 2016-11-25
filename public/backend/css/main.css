@@ -6,12 +6,12 @@ body {font:11px/15px verdana;color:#666666;overflow-y:scroll;background:transpar
 #app_header #welcome-message .username {border-bottom:1px solid;}
 #app_header #welcome-message .username a {color:#87c9e7;}
 #app_header #welcome-message #logout a {display:block;background:#08394f url('../img/icon/btn-logout.png') 50% 40% no-repeat;width:27px;height:22px;line-height:22px;-webkit-border-radius :0 5px 5px 0;border-radius:0 5px 5px 0;margin-left:10px;border-color:#699cb3;}
-#app_shorcut {background:transparent url('../img/general/bg-short-cut.png') center repeat-x;height:74px;}
-#app_shorcut > div {background:transparent url('../img/general/bg-short-cut.jpg') top left no-repeat;height:74px;}
-#app_navigation {background:#fff url('../img/general/bg-navigation.png') top left repeat-x;min-height:39px;}
+#app_shorcut {background:#fff;height:74px;}
+#app_shorcut > div {background:#fff;height:74px;}
+#app_navigation {background:#F7F7F7;min-height:39px;}
 #app_header_shadowing{height:7px;background:transparent url('../img/general/shadow-master.png') center repeat-x}
 #app_content {margin: 10px 30px 68px;}
-#app_content #content_header {padding:0 20px;background:transparent url('../img/general/bg-content-header.png') center repeat-x;height:35px;}
+#app_content #content_header {padding:0 20px;background:#5FB0E4;height:35px;}
 /** ======================================= **/
 /** ===========   HEADING 3RD   =========== **/
 /** ======================================= **/
