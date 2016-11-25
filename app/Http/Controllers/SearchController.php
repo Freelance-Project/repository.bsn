@@ -74,10 +74,12 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->orderBy('year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])
+								->whereNull('deleted_at')->whereStatus('publish')
+								->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->groupBy('category','year')->orderBy('year')->get();
+    							->whereStatus('publish')->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
 		$chartdata['title'] = 'Penelitian';
@@ -159,7 +161,8 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])
+						->whereNull('deleted_at')->whereStatus('publish')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
     							->groupBy('category','year')->get();
@@ -188,9 +191,11 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->get();
 		} else {
-			$data['result'] = ArticleContent::whereCategory($data['category'])->whereNull('deleted_at')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
+			$data['result'] = ArticleContent::whereCategory($data['category'])
+							->whereNull('deleted_at')->whereStatus('publish')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+								->whereStatus('publish')
     							->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
