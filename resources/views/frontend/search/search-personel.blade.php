@@ -9,9 +9,8 @@
             	<div class="col-md-4 left no-left-padding">
                 	<ul class="nav nav-pills custom-pills">
 
-                    	<li role="presentation" ><a href="{{url('search/research')}}">Judul</a></li>
-                    	@if($data['class'] !='pendukung')<li role="presentation" ><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>@endif
-                        <li role="presentation" class="active"><a href="{{url('search/research/year')}}">Tahun</a></li>
+                    	<li role="presentation" class="active"><a href="{{url('search/'.$data['class'].'/person')}}">Nama Peneliti</a></li>
+                        
                     </ul>
                 </div>
             	<div class="col-md-3 right">
@@ -28,8 +27,7 @@
             	</div><!--end.col-3-->
             </div><!--end.row-->
             
-            <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
-            
+            <!--<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>-->
             
             <div class="row search-list">
                  <hgroup class="mb20">
@@ -39,17 +37,18 @@
                 <section class="col-xs-12 col-sm-6 col-md-12">
                     
                     @if ($data['result']->total() > 0)
-                    @foreach($data['result_year'] as $key => $val)
+                    @foreach($data['result'] as $val)
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $key !!}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->address !!}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{!! $val->phone !!}</strong></span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->education !!}</span></li>
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            @foreach($val as $v)
-                            <label><a href="{{url('search/detail/'.$v->slug)}}" title="">{{$v->title}}</a></label>
-                            @endforeach
+                            <h3><a href="{{url('personel/detail/'.$val->id)}}" title="">{{$val->name}}</a></h3>
+                            <p>{!! substr($val->experience, 0, 300) !!}</p>
                         </div>
                         <span class="clearfix borda"></span>
                     </article>

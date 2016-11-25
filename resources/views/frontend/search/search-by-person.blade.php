@@ -9,9 +9,9 @@
             	<div class="col-md-4 left no-left-padding">
                 	<ul class="nav nav-pills custom-pills">
 
-                    	<li role="presentation" ><a href="{{url('search/research')}}">Judul</a></li>
-                    	<li role="presentation" class="active"><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>
-                        <li role="presentation" ><a href="{{url('search/research/year')}}">Tahun</a></li>
+                    	<li role="presentation" ><a href="{{url('search/'.$data['class'])}}">Judul</a></li>
+                    	<li role="presentation" class="active"><a href="{{url('search/'.$data['class'].'/person')}}">Nama Peneliti</a></li>
+                        <li role="presentation" ><a href="{{url('search/'.$data['class'].'/year')}}">Tahun</a></li>
                     </ul>
                 </div>
             	<div class="col-md-3 right">

@@ -23,7 +23,7 @@
 	                    {!! Form::close() !!}
 	                    <div class="cat-search text-center">
 	                    	<a href="{{url('search/research')}}" class="btn btn-primary">Penelitian</a>
-	                        <a href="{{url('search/publikasi')}}" class="btn btn-success">Publikasi</a>
+	                        <a href="{{url('search/publication')}}" class="btn btn-success">Publikasi</a>
 	                        <a href="{{url('search/pendukung')}}" class="btn btn-info">Data Pendukung</a>
 	                        <a href="{{url('search/personel')}}" class="btn btn-warning">Data Personel</a>
 	                        <a href="{{url('program')}}" class="btn btn-danger">Program Pendukung</a>

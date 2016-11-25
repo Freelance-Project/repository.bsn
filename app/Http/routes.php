@@ -18,6 +18,9 @@ Route::group(['middleware' => ['auth.member']], function() {
 	Route::get('/home', 'HomeController@index');
 	Route::get('search/research/person','SearchController@getResearchPerson');
 	Route::get('search/research/year','SearchController@getResearchYear');
+	Route::get('search/publication/person','SearchController@getPublicationPerson');
+	Route::get('search/publication/year','SearchController@getPublicationYear');
+	Route::get('search/pendukung/year','SearchController@getPendukungYear');
 	Route::get('search/find/{request?}','SearchController@getFind');
 	Route::get('search/detail/{slug}','SearchController@getDetail');
 	Route::get('personel/detail/{id}','PersonelController@getDetail');

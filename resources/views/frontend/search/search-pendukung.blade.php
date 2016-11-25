@@ -9,9 +9,9 @@
             	<div class="col-md-4 left no-left-padding">
                 	<ul class="nav nav-pills custom-pills">
 
-                    	<li role="presentation" ><a href="{{url('search/research')}}">Judul</a></li>
-                    	@if($data['class'] !='pendukung')<li role="presentation" ><a href="{{url('search/research/person')}}">Nama Peneliti</a></li>@endif
-                        <li role="presentation" class="active"><a href="{{url('search/research/year')}}">Tahun</a></li>
+                    	<li role="presentation" class="active" ><a href="{{url('search/research')}}">Judul</a></li>
+                        <!--<li role="presentation" ><a href="{{url('search/'.$data['class'].'/person')}}">Nama Peneliti</a></li>-->
+                        <li role="presentation" ><a href="{{url('search/'.$data['class'].'/year')}}">Tahun</a></li>
                     </ul>
                 </div>
             	<div class="col-md-3 right">
@@ -39,17 +39,17 @@
                 <section class="col-xs-12 col-sm-6 col-md-12">
                     
                     @if ($data['result']->total() > 0)
-                    @foreach($data['result_year'] as $key => $val)
+                    @foreach($data['result'] as $val)
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $key !!}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span><strong>Data {{ucfirst($val->category)}}</strong></span></li>
+                                <li><i class="glyphicon glyphicon-calendar"></i> <span>{{$val->year}}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{{$val->intro}}</span></li>
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            @foreach($val as $v)
-                            <label><a href="{{url('search/detail/'.$v->slug)}}" title="">{{$v->title}}</a></label>
-                            @endforeach
+                            <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>
                         </div>
                         <span class="clearfix borda"></span>
                     </article>
