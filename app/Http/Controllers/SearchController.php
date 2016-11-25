@@ -13,7 +13,7 @@ class SearchController extends Controller
 {
     public function __construct()
 	{
-		
+		$this->middleware('auth');
 		// $this->model = $news;
 		// view()->share('static',$this->getStatic());
 		$this->paging = 5;

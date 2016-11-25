@@ -53,16 +53,18 @@
           <a class="navbar-brand" href="{{url('')}}"><img width="90" src="{{ asset(null) }}frontend/images/material/logo.gif"> 	</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
+          @if(\Auth::check())
           <ul class="nav navbar-nav">
             <li class="active"><a href="{{url('')}}">Home</a></li>
             <li><a href="{{url('request')}}">Daftar Permintaan</a></li>
             <li><a href="{{url('profile')}}">Profile</a></li>
           </ul>		
-          <!--
+          
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#" data-toggle="modal" data-target="#RegisterForm"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-            <li><a href="#" data-toggle="modal" data-target="#loginForm"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-          </ul>-->
+            <!--<li><a href="#" data-toggle="modal" data-target="#RegisterForm"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>-->
+            <li><a href="{{url('logout')}}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+          </ul>
+          @endif
         </div><!--/.nav-collapse -->
       </div>
     </nav>

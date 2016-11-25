@@ -13,7 +13,7 @@ class RequestController extends Controller
 		
 		// $this->model = $news;
 		// view()->share('static',$this->getStatic());
-		
+		$this->middleware('auth');
 	}
 	
     public function getIndex()

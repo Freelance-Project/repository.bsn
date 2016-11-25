@@ -11,12 +11,20 @@
 |
 */
 
-Route::get('/','DefaultController@getIndex');
-Route::get('search/find/{request?}','SearchController@getFind');
-Route::get('search/detail/{slug}','SearchController@getDetail');
-Route::controller('profile','ProfileController');
-Route::controller('request','RequestController');
-Route::controller('search','SearchController');
+Route::group(['middleware' => ['auth.member']], function() {
+	Route::get('/', 'HomeController@index');
+
+	Route::auth();
+	Route::get('/home', 'HomeController@index');
+	Route::get('search/find/{request?}','SearchController@getFind');
+	Route::get('search/detail/{slug}','SearchController@getDetail');
+	Route::controller('profile','ProfileController');
+	Route::controller('request','RequestController');
+	Route::controller('search','SearchController');
+});
+
+// Route::get('/','DefaultController@getIndex');
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +39,10 @@ Route::controller('search','SearchController');
 
 Route::group(['middleware' => ['web']], function () {
     
-	Route::controller('login','Backend\LoginController');
+	Route::controller('signin','Backend\LoginController');
 
 	Route::get('admin-cp' , function(){
-		return redirect('login');
+		return redirect('signin');
 	});
 
 	if(request()->segment(1) == helper()->backendUrl)
@@ -43,3 +51,7 @@ Route::group(['middleware' => ['web']], function () {
 	}
 
 });
+
+
+
+

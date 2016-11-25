@@ -14,7 +14,7 @@ class DefaultController extends Controller
 		
 		$this->model = $article;
 		// view()->share('static',$this->getStatic());
-		
+		$this->middleware('auth');
 	}
 	
     public function getIndex()

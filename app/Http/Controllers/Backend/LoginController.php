@@ -61,7 +61,7 @@ class LoginController extends Controller
         $this->handleAct('Logout');
     	Auth::logout();
 
-    	return redirect('login');
+    	return redirect('signin');
     }
 
     public function getForgotPassword()

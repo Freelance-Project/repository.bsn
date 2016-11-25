@@ -43,7 +43,7 @@
                 Welcome <span class="username"><a href="http://localhost:94/wcms/admin-cp/user/profile">{{ getUser()->username }}</a></span>
             </div>
             <div class="fl" id="logout">
-                <a href="{{ url('login/logout') }}"></a>
+                <a href="{{ url('signin/logout') }}"></a>
             </div>
         </div>
         <div id="inbox" class="hidden"></div>

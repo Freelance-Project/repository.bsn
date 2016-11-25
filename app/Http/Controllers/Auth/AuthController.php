@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -68,5 +69,75 @@ class AuthController extends Controller
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+    public function login(Request $request)
+    {
+        $this->validateLogin($request);
+        $throttles = $this->isUsingThrottlesLoginsTrait();
+
+        if ($throttles && $lockedOut = $this->hasTooManyLoginAttempts($request)) {
+            $this->fireLockoutEvent($request);
+
+            return $this->sendLockoutResponse($request);
+        }
+
+        $credentials = $this->getCredentials($request);
+
+        if (\Auth::guard($this->getGuard())->attempt($credentials, $request->has('remember'))) {
+            if(\Auth::user()->type == 'admin'){
+                \Session::put('admin', [
+                    'user' => \Auth::user(),
+                    'role' => \Auth::user()->roles()->first(),
+                ]);                
+            } else {
+
+                $arrType = ['member'];
+                $failAccess = false;
+                $is_ = 'member'; 
+
+                $failAccess = false;
+                
+                if ( $failAccess ) {                   
+                    $this->logout();
+                    $this->incrementLoginAttempts($request);
+                    return $this->sendFailedLoginResponse($request);
+                }
+
+            }
+            // dd('aa');
+            return $this->handleUserWasAuthenticated($request, $throttles);
+        }
+        // dd('aaaaa');
+        if ($throttles && ! $lockedOut) {
+            $this->incrementLoginAttempts($request);
+        }
+
+        return $this->sendFailedLoginResponse($request);
+    }
+
+    protected function handleUserWasAuthenticated(Request $request, $throttles)
+    {
+        if ($throttles) {
+            
+            $this->clearLoginAttempts($request);
+        }
+
+        if (method_exists($this, 'authenticated')) {
+            return $this->authenticated($request, \Auth::guard($this->getGuard())->user());
+            
+        }
+        
+        $getSession = \Session::get('activity_session');
+        
+        return redirect('/home');
+    }   
+
+    public function logout()
+    {
+        
+        \Auth::guard($this->getGuard())->logout();
+
+        return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/login');
     }
 }
