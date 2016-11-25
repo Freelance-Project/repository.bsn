@@ -340,11 +340,13 @@ class UploadArea
 					$input['year'] = $data['penelitian']['tahun_penelitian'];
 					$input['status'] = 'unpublish';
 					$input['author_id'] = \Auth::user()->id;
+					$input['category'] = 'penelitian';
 
 					$save = $this->article->create($input);
 					if ($save) {
 
 						$research['article_content_id'] = $save->id;
+						$research['title'] = $data['penelitian']['title'];
 						$research['intro'] = $data['penelitian']['ringkasan'];
 						$research['summary'] = $data['penelitian']['ringkasan'];
 						$research['background'] = $data['penelitian']['latar_belakang'];
@@ -352,6 +354,7 @@ class UploadArea
 						$research['conclusion'] = $data['penelitian']['kesimpulan'];
 						$research['recommendation'] = $data['penelitian']['rekomendasi'];
 						$research['file'] = $data['penelitian']['file'];
+						$research['year'] = $data['penelitian']['tahun_penelitian'];
 						
 						$saveResearch = $this->saveResearch($research);
 						
@@ -359,7 +362,7 @@ class UploadArea
 						
 						$saveResearchGroup = $this->saveResearchGroup(['kelompok' => $data['kelompok'], 'other_id'=>$saveResearch]);
 						
-						$saveAdditionalData = $this->saveAdditionalData(['additional' => $data['pendukung'],'research'=>$data['penelitian'], 'other_id'=>$saveResearch]);
+						// $saveAdditionalData = $this->saveAdditionalData(['additional' => $data['pendukung'],'research'=>$data['penelitian'], 'other_id'=>$saveResearch]);
 						
 						$saveResearcherTeam = $this->saveResearcherTeam(['peneliti' => $data['peneliti'], 'other_id'=>$saveResearch]);
 						
@@ -384,6 +387,7 @@ class UploadArea
 					$input['year'] = $data['publikasi']['tahun_publikasi'];
 					$input['status'] = 'unpublish';
 					$input['author_id'] = \Auth::user()->id;
+					$input['category'] = 'publikasi';
 
 					$save = $this->article->create($input);
 					if ($save) {
@@ -393,6 +397,8 @@ class UploadArea
 						$publication['abstract'] = $data['publikasi']['abstraksi'];
 						$publication['conclusion'] = $data['publikasi']['kesimpulan'];
 						$publication['recommendation'] = $data['publikasi']['rekomendasi'];
+						$publication['year'] = $data['publikasi']['tahun_publikasi'];
+						$publication['title'] = $data['publikasi']['judul'];
 						
 						$savePublication = $this->savePublication($publication);
 						
@@ -433,7 +439,7 @@ class UploadArea
 		$person['email'] = $data['peneliti']['email'];
 		$person['education'] = $data['peneliti']['pendidikan_perguruan_tinggi'];
 		$person['experience'] = $data['peneliti']['pengalaman_kerja'];
-
+		// dd($person);
 		foreach ($data['kepakaran'] as $key => $value) {
 			if ($value == "V") $expert[] = $this->getExpertise(false, ucfirst($key))->id;
 		}

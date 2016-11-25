@@ -41,7 +41,7 @@
                     <article class="search-result row">
                         <div class="col-xs-12 col-sm-12 col-md-2">
                             <ul class="meta-search">
-                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->address !!}</span></li>
+                                <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->email !!}</span></li>
                                 <li><i class="glyphicon glyphicon-tags"></i> <span><strong>{!! $val->phone !!}</strong></span></li>
                                 <li><i class="glyphicon glyphicon-tags"></i> <span>{!! $val->education !!}</span></li>
                             </ul>
