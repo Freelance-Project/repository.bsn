@@ -298,7 +298,7 @@ class SearchController extends Controller
 									foreach ($inputs['kelompok'] as $key => $value) {
     									$other_id = ResearchGroup::select('other_id')->whereName($value)->distinct()->get();
     									foreach ($other_id as $val) {
-											if ($val->research->article_content_id) $others[] = $val->research->article_content_id;
+											if (isset($val->research->article_content_id)) $others[] = $val->research->article_content_id;
 										}
 										
     								}
@@ -312,7 +312,7 @@ class SearchController extends Controller
     								foreach ($inputs['standar'] as $key => $value) {
     									$other_id = ResearchStandard::select('other_id')->whereName($value)->distinct()->get();
     									foreach ($other_id as $val) {
-											if ($val->research->article_content_id) $others[] = $val->research->article_content_id;
+											if (isset($val->research->article_content_id)) $others[] = $val->research->article_content_id;
 										}
     								}
     								$query->whereIn('id', $others);
