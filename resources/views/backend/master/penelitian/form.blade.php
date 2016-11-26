@@ -146,6 +146,34 @@
 					{!! Form::close() !!}
 
 					@if($new)
+
+					<div class="form-group col-md-12">
+						<table class='table location-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
+						<label>Lokasi Survey</label> 
+							<tr> 
+								<th>Lokasi</th> 
+								<th>Action</th>	
+							</tr> 
+							@if($locationDataList)
+							@foreach($locationDataList as $val) 
+							<tr class="location-data-{{$val->id}}"> 
+								<td>{{$val->location}}</td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-location" data-id="{{$val->id}}">Hapus</a></td> 
+							</tr>	
+							@endforeach
+							@endif
+						</table>
+					</div>
+
+					<div class="form-group col-md-9">
+						<label>Lokasi Survei</label>
+                        {!! Form::text('location' , $model->location ,['class' => 'form-control l_id', 'required']) !!}
+					</div>
+					<div class="form-group col-md-2">
+						<label>Action</label>
+						<button type="button" class=" form-control btn btn-primary save-location">{{ !empty($model->id) ? 'Save Location' : 'Save' }}</button>
+					</div>
+
 					<div class="form-group col-md-12">
 						<table class='table researcher-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
 						<label>Tim Peneliti (1-10 orang)</label> 
@@ -160,8 +188,15 @@
 							@foreach($researcherTeam as $val) 
 							<tr class="researcher-data-{{$val->id}}"> 
 								<td>{{$val->researcher->name}}</td> 
-								<td>{{$val->position}}</td> 
-								<td>{{$val->functional}}</td> 
+								<td>{{ucfirst($val->position)}}</td> 
+								<?php
+								if ($val->functional == 'p_utama') $_functional = 'Peneliti Utama';
+								if ($val->functional == 'p_madya') $_functional = 'Peneliti Madya';
+								if ($val->functional == 'p_pertama') $_functional = 'Peneliti Pertama';
+								if ($val->functional == 'p_muda') $_functional = 'Peneliti Muda';
+								if ($val->functional == 'non_p') $_functional = 'Non Peneliti';
+								?>
+								<td>{{$_functional}}</td> 
 								<td>{{$val->instance}}</td> 
 								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Hapus</a></td> 
 							</tr>	
@@ -228,10 +263,7 @@
 					
 					@endif
 					{!! Form::hidden('p_id' , $model->id ,['class' => 'form-control p_id']) !!}
-					
-                    
-
-                </div>
+				</div>
 
             </div>
 
@@ -395,5 +427,57 @@
 		
 	})
 
+	$(document).on('click', '.save-location', function(){
+
+  		var l_id = $('.l_id').val();
+  		var other_id = $('.p_id').val();
+	  	
+	  	$.ajax({
+			type : 'get',
+			url : basedomain +'/data-penelitian/location-data',
+			data : {
+				id : l_id,
+				other_id : other_id,
+			},
+			success : function(data){
+
+				if (data.status == true) {
+					var html = "";
+						html += "<tr class='location-data-"+data.data.id+"'>";
+						html += "<td>"+data.data.location+"</td>";
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-location-data" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += "</tr>";
+
+					$('.location-table').append(html);
+				}
+				
+			},
+		});
+
+	})
+
+	$('.delete-location').click(function(){
+		
+		var r = confirm("Hapus Data ?");
+		if (r == true) {
+			var id = $(this).attr('data-id');
+
+			$.ajax({
+				type : 'get',
+				url : basedomain +'/data-penelitian/delete-location',
+				data : {
+					id : id,
+				},
+				success : function(data){
+
+					if (data.status == true) {
+						$('.location-data-'+id).remove();
+					}
+					
+				},
+			});
+		}
+		
+	})
 </script>
 @endsection

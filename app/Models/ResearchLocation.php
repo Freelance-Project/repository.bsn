@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Research;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ResearchLocation extends Model
 {
-    use SoftDeletes;
+    // use SoftDeletes;
     protected $table = 'research_locations';
 
     public $guarded = [];

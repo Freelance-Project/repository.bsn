@@ -14,6 +14,7 @@ use App\Models\Researcher;
 use App\Models\ResearcherTeam;
 use App\Models\AdditionalData;
 use App\Models\ResearchData;
+use App\Models\ResearchLocation;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -161,6 +162,7 @@ class PenelitianController extends Controller
 		$additionalData = AdditionalData::lists('title','id')->toArray();
 		$researcherTeam = ResearcherTeam::whereOtherId($model->id)->get();
 		$additionalDataList = ResearchData::whereOtherId($model->id)->get();
+		$locationDataList = ResearchLocation::whereResearchId($model->id)->get();
 
 		return view('backend.master.penelitian.form' , [
 
@@ -175,6 +177,7 @@ class PenelitianController extends Controller
 			'new' =>true,
 			'additionalData' => $additionalData,
 			'additionalDataList' => $additionalDataList,
+			'locationDataList' => $locationDataList,
 		]);
 	}
 
@@ -284,11 +287,17 @@ class PenelitianController extends Controller
     	$data['other_id'] = request()->get('other_id');
     	$data['type'] = 'penelitian';
 
+    	$functional = ['p_utama'=>'Peneliti Utama', 'p_madya'=>'Peneliti Madya', 'p_pertama'=>'Peneliti Pertama',
+    					'p_muda'=>'Peneliti Muda','non_p'=>'Non Peneliti'];
     	if(request()->ajax()) {
 
 			$saveResearcher = ResearcherTeam::create($data);
 			$getData = ResearcherTeam::whereId($saveResearcher->id)->with('researcher')->first();
 			
+			$getData->position = ucfirst($getData->position);
+
+			$getData->functional = $functional[$getData->functional];
+			// dd($getData);
 			if ($saveResearcher) return response()->json(['status'=>true, 'data'=>$getData]);
 			else return response()->json(['status'=>false]);
 		} else {
@@ -322,6 +331,24 @@ class PenelitianController extends Controller
         }
     }
 
+    public function getLocationData()
+    {
+    	// $other_id = request()->get('other_id');
+    	$data['location'] = request()->get('id');
+    	$data['research_id'] = request()->get('other_id');
+    	
+    	if(request()->ajax()) {
+
+			$saveLocation = ResearchLocation::create($data);
+			$getData = ResearchLocation::whereId($saveLocation->id)->first();
+			// dd($getData);
+			if ($saveLocation) return response()->json(['status'=>true, 'data'=>$getData]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
+    }
+
     public function getDeleteAdditionalData()
     {
     	$id = request()->get('id');
@@ -338,6 +365,21 @@ class PenelitianController extends Controller
     	if(request()->ajax()) {
 
 			$update = Research::whereId($id)->update(['file'=>null]);
+			if ($update) return response()->json(['status'=>true]);
+			else return response()->json(['status'=>false]);
+		} else {
+            abort(404);
+        }
+    }
+
+    public function getDeleteLocation()
+    {
+    	
+    	$id = request()->get('id');
+
+    	if(request()->ajax()) {
+
+			$update = ResearchLocation::whereId($id)->delete();
 			if ($update) return response()->json(['status'=>true]);
 			else return response()->json(['status'=>false]);
 		} else {
