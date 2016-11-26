@@ -644,7 +644,7 @@ class UploadArea
 			$researcher['type'] = $type;
 
 			if ($type == 'penelitian') {
-				$researcher['position'] = ($dataResearcher['jabatan'][$key] == 'wakil ketua') ? 'wakil' : $dataResearcher['jabatan'][$key];
+				$researcher['position'] = ($dataResearcher['jabatan'][$key] == 'Wakil Ketua') ? 'wakil' : $dataResearcher['jabatan'][$key];
 				$researcher['functional'] = $functional[trim($dataResearcher['jabatan_fungsional'][$key])];
 				$researcher['instance'] = $dataResearcher['instansi'][$key];
 				$researcher['interest_category'] = $dataResearcher['bidang'][$key];
