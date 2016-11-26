@@ -284,6 +284,8 @@ class PenelitianController extends Controller
     	$data['functional'] = request()->get('functional');
     	$data['researcher_id'] = request()->get('researcher_id');
     	$data['instance'] = request()->get('instance');
+    	$data['interest_category'] = request()->get('minat');
+    	$data['expert_category'] = request()->get('kepakaran');
     	$data['other_id'] = request()->get('other_id');
     	$data['type'] = 'penelitian';
 
@@ -295,6 +297,7 @@ class PenelitianController extends Controller
 			$getData = ResearcherTeam::whereId($saveResearcher->id)->with('researcher')->first();
 			
 			$getData->position = ucfirst($getData->position);
+			$getData->interest_category = strtoupper($getData->interest_category);
 
 			$getData->functional = $functional[$getData->functional];
 			// dd($getData);

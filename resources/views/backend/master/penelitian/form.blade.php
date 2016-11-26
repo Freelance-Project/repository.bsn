@@ -179,6 +179,8 @@
 								<th>Jabatan Peneliti</th> 
 								<th>Jabatan Fungsional</th> 
 								<th>Asal Instansi</th> 
+								<th>Kelompok Minat</th> 
+								<th>Kepakaran</th> 
 								<th>Action</th>	
 							</tr> 
 							@if($researcherTeam)
@@ -195,6 +197,8 @@
 								?>
 								<td>{{$_functional}}</td> 
 								<td>{{$val->instance}}</td> 
+								<td>{{strtoupper($val->interest_category)}}</td> 
+								<td>{{$val->expert_category}}</td> 
 								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Hapus</a></td> 
 							</tr>	
 							@endforeach
@@ -203,27 +207,35 @@
 					</div>	
 					
 					
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-4">
 						<label>Nama Peneliti</label>
 						{!!  Form::select('penelitian_user_id',$researcher, null, ['class'=>'form-control r_id']) !!}
 					</div>
 					
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-4">
 						<label>Jabatan Peneliti</label>
 						{!!  Form::select('jabatan_peneliti', $position, null, ['class'=>'form-control r_position']) !!}
 					</div>
 					
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-4">
 						<label>Jabatan Fungsional Peneliti</label>
 						{!!  Form::select('jabatan_fungsional', $functional, null, ['class'=>'form-control r_functional']) !!}
 					</div>
 					
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-4">
 						<label>Asal Instansi</label>
 						{!!  Form::text('instansi',null ,['class' => 'form-control r_instance']) !!}
 					</div>
-					<div class="form-group col-md-1">
-						<label>Action</label>
+					<div class="form-group col-md-4">
+						<label>Kelompok Minat</label>
+						{!!  Form::select('minat',['mek'=>'MEK', 'kp'=>'KP','ls'=>'LS','ppk'=>'PPK'], null ,['class' => 'form-control r_minat']) !!}
+					</div>
+					<div class="form-group col-md-4">
+						<label>Bidang Kepakaran</label>
+						{!!  Form::text('kepakaran',null ,['class' => 'form-control r_kepakaran']) !!}
+					</div>
+					<div class="form-group col-md-4">
+						
 						<button type="button" class="btn btn-primary save-researcher">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
 					</div>
 					
@@ -295,6 +307,8 @@
 	  	var position = $('.r_position').val();
 	  	var functional = $('.r_functional').val();
 	  	var instance = $('.r_instance').val();
+	  	var minat = $('.r_minat').val();
+	  	var kepakaran = $('.r_kepakaran').val();
 	  	var other_id = $('.p_id').val();
 	  	
 	  	$.ajax({
@@ -305,6 +319,8 @@
 				position : position,
 				functional : functional,
 				instance : instance,
+				minat : minat,
+				kepakaran : kepakaran,
 				other_id : other_id,
 			},
 			success : function(data){
@@ -316,6 +332,8 @@
 						html += "<td>"+data.data.position+"</td>";
 						html += "<td>"+data.data.functional+"</td>";
 						html += "<td>"+data.data.instance+"</td>";
+						html += "<td>"+data.data.interest_category+"</td>";
+						html += "<td>"+data.data.expert_category+"</td>";
 						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Hapus</a></td>';
 						html += "</tr>";
 
