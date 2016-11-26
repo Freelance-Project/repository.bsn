@@ -111,10 +111,7 @@
                         {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
 					</div>
 					
-					<div class="form-group col-md-6">
-						<label>Lokasi Survei</label>
-                        {!! Form::text('location' , $model->location ,['class' => 'form-control', 'required']) !!}
-					</div>
+					
 					<div class="form-group col-md-12">
 						<label>File</label>
 						<div>
