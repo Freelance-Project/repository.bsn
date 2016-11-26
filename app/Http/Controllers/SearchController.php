@@ -11,6 +11,7 @@ use \App\Models\Researcher;
 use \App\Models\Research;
 use \App\Models\ResearcherTeam;
 use \App\Models\Publication;
+use \App\Models\ResearchGroup;
 use \App\Helper\Src\Pagination;
 class SearchController extends Controller
 {
@@ -273,26 +274,38 @@ class SearchController extends Controller
     	// 		->whereRaw($field, $value)->toSql();
     	$raw = ArticleContent::where('year','>=', $inputs['tahun_mulai'])
     						->where('year','<=', $inputs['tahun_akhir'])
-    						->where(function($query){
+    						->where(function($query) use ($inputs){
+								// dd($inputs);
     							if (isset($inputs['category']['penelitian'])) {
-						    		$query->orWhere('category','=','penelitian');
-						    	}
+						    		$query->where('category','=','penelitian');
+									
+								}
 						    	if (isset($inputs['category']['publikasi'])) {
-						    		$query->orWhere('category','=','publikasi');
-						    	}
+						    		$query->where('category','=','publikasi');
+									
+								}
 						    	if (isset($inputs['category']['pendukung'])) {
-						    		$query->orWhere('category','=','pendukung');
-						    	}
+						    		$query->where('category','=','pendukung');
+									
+								}
     						})
-    						->where(function($query){
+    						->orWhere(function($query) use ($inputs){
+								// dd($inputs);
     							if (isset($inputs['kelompok'])) {
-    								foreach ($inputs['kelompok'] as $key => $value) {
+    								$others = [];
+									foreach ($inputs['kelompok'] as $key => $value) {
     									$other_id = ResearchGroup::select('other_id')->whereName($value)->distinct()->get();
-    									$query->whereIn('id', $other_id);
+    									foreach ($other_id as $val) {
+											$others[] = $val->other_id;
+										}
+										
     								}
+									// dd($others);
+									$query->orWhereIn('id', $others);
     							}
     						})
-    						->where(function($query){
+    						->where(function($query) use ($inputs){
+								
     							if (isset($inputs['standar'])) {
     								foreach ($inputs['standar'] as $key => $value) {
     									$other_id = ResearchStandard::select('other_id')->whereName($value)->distinct()->get();

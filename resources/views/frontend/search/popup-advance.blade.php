@@ -62,7 +62,7 @@
                   <div class="row">
                     <div class="col-md-4 col-xs-4">
                      <ul class="list-group">
-                      <li class="list-group-item noBorder"><input type="checkbox" name="pendukung" value="pendukung"> Data Pendukung
+                      <li class="list-group-item noBorder"><input type="checkbox" name="category[pendukung]" value="pendukung"> Data Pendukung
                         <!--<ul class="list-group child-list">
                           <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[ekspor]" value="ekspor"> Ekspor</li>
                           <li class="list-group-item noBorder"><input type="checkbox" name="pendukung[impor]" value="impor"> Impor</li>
