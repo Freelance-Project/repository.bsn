@@ -110,7 +110,11 @@
 						<label>Tahun Publikasi</label>
                         {!! Form::text('year' , $model->year ,['class' => 'form-control', 'required']) !!}
 					</div>
-					
+					<div class="form-group col-md-6">
+
+						<label>Status</label>
+						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
+					</div>
 					
 					<div class="form-group col-md-12">
 						<label>File</label>
@@ -128,11 +132,7 @@
 
 					</div>
 
-					<div class="form-group col-md-6">
-
-						<label>Status</label>
-						{!! Form::select('status' , ['unpublish'=>'Unpublish','publish'=>'Publish'],null ,['class' => 'form-control','id'=>'recomendation']) !!}
-					</div>
+					
 					
 					<div class="form-group col-md-12">
 						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
