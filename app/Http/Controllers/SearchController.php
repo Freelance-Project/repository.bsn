@@ -45,7 +45,7 @@ class SearchController extends Controller
     public function getDetail($slug)
     {
 		$model = ArticleContent::whereSlug($slug)->first();
-
+		// dd($model->research->personel);
 		return view('frontend.search.search-detail', compact('model'));
     }
 

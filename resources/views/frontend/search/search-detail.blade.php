@@ -23,7 +23,7 @@
                             <tbody>
                               <tr>
                                 <td>Penulis:</td>
-                                <td>Ovan</td>
+                                <td>{{$model->research->personel[0]->researcher->name}}</td>
                               </tr>
                               <tr>
                                 <td>Tahun</td>
