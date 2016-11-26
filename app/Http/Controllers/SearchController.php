@@ -12,7 +12,9 @@ use \App\Models\Research;
 use \App\Models\ResearcherTeam;
 use \App\Models\Publication;
 use \App\Models\ResearchGroup;
+use \App\Models\ResearchStandard;
 use \App\Helper\Src\Pagination;
+
 class SearchController extends Controller
 {
     public function __construct()
@@ -289,19 +291,19 @@ class SearchController extends Controller
 									
 								}
     						})
-    						->orWhere(function($query) use ($inputs){
+    						->where(function($query) use ($inputs){
 								// dd($inputs);
     							if (isset($inputs['kelompok'])) {
     								$others = [];
 									foreach ($inputs['kelompok'] as $key => $value) {
     									$other_id = ResearchGroup::select('other_id')->whereName($value)->distinct()->get();
     									foreach ($other_id as $val) {
-											$others[] = $val->other_id;
+											$others[] = $val->research->article_content_id;
 										}
 										
     								}
 									// dd($others);
-									$query->orWhereIn('id', $others);
+									$query->whereIn('id', $others);
     							}
     						})
     						->where(function($query) use ($inputs){
@@ -309,11 +311,14 @@ class SearchController extends Controller
     							if (isset($inputs['standar'])) {
     								foreach ($inputs['standar'] as $key => $value) {
     									$other_id = ResearchStandard::select('other_id')->whereName($value)->distinct()->get();
-    									$query->whereIn('id', $other_id);
+    									foreach ($other_id as $val) {
+											$others[] = $val->research->article_content_id;
+										}
     								}
+    								$query->whereIn('id', $others);
     							}
     						});
-    	// dd($raw);
+    	// dd($raw->toSql());
     	
 
     	$data['result'] = $raw->paginate($this->paging);
