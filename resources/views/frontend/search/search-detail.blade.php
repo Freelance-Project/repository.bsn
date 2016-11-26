@@ -35,7 +35,7 @@
                               </tr>
                               <tr>
                                 <td><strong>Kesimpulan</strong></td>
-                                <td>Lorem{{$model->description}}</td>
+                                <td>{{$model->description}}</td>
                               </tr>
                              
                             </tbody>
