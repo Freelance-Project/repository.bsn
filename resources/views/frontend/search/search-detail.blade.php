@@ -21,10 +21,12 @@
                         <div class=" col-md-9 col-lg-9 "> 
                           <table class="table table-user-information">
                             <tbody>
+                              @if ($model->category != 'pendukung')
                               <tr>
                                 <td>Penulis:</td>
                                 <td>{{$model->research->personel[0]->researcher->name}}</td>
                               </tr>
+                              @endif
                               <tr>
                                 <td>Tahun</td>
                                 <td>{{$model->year}}</td>
