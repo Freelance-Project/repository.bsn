@@ -12,6 +12,12 @@ $(document).ready(function(){
 		changeMonth: true,
 		dateFormat: "yy-mm-dd"
 	});
+
+	$( "#datepicker2" ).datepicker({
+		changeYear: true,
+		changeMonth: true,
+		dateFormat: "yy-mm-dd"
+	});
 })
 
 

@@ -169,7 +169,8 @@ class PersonelController extends Controller
     public function getDiklat()
     {
 
-    	$data['time'] = request()->get('waktu');
+    	$data['start_date'] = request()->get('waktu_start');
+    	$data['end_date'] = request()->get('waktu_end');
     	$data['name'] = request()->get('nama');
     	$data['organizer'] = request()->get('penyelenggara');
     	$data['sertificate'] = request()->get('sertifikat');

@@ -119,7 +119,8 @@
 							<tr> 
 								<th>Category</th> 
 								<th>Nama Diklat</th> 
-								<th>Waktu</th> 
+								<th>Waktu Mulai</th> 
+								<th>Waktu Selesai</th> 
 								<th>Penyelenggara</th> 
 								<th>Sertifikat</th> 
 								<th>Action</th> 
@@ -129,7 +130,8 @@
 							<tr class="diklat-data-{{$val->id}}"> 
 								<td>{{ucfirst($val->type)}}</td> 
 								<td>{{$val->name}}</td> 
-								<td>{{$val->time}}</td> 
+								<td>{{$val->start_date}}</td> 
+								<td>{{$val->end_date}}</td> 
 								<td>{{$val->organizer}}</td> 
 								<td>@if($val->sertificate == 'y') Ya @else Tidak @endif</td> 
 								<td><a href="javascript:void(0)" class="btn btn-danger delete-diklat" data-id="{{$val->id}}">Hapus</a></td> 
@@ -138,106 +140,38 @@
 							@endif
 						</table>
 					</div>	
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-3">
 						<label>Category</label>
                         {!! Form::select('category' , ['training'=>'Diklat','seminar'=>'Seminar'] , null, ['class' => 'dik_kategori form-control']) !!}
 					</div>
-					<div class="form-group col-md-2">
+					<div class="form-group col-md-3">
 						<label>Nama Diklat/Training</label>
                         {!! Form::text('name' , null ,['class' => 'form-control dik_nama']) !!}
 					</div>
 					
 					<div class="form-group col-md-3">
-						<label>Tanggal Pelaksanaan</label>
-                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker1', 'class'=>'dik_waktu form-control']) !!}
+						<label>Tanggal Mulai Pelaksanaan</label>
+                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker1', 'class'=>'dik_waktu_start form-control']) !!}
 					</div>
-					
+					<div class="form-group col-md-3">
+						<label>Tanggal Akhir Pelaksanaan</label>
+                        {!!  Form::text('waktu_pelaksanaan', null , ['id' => 'datepicker2', 'class'=>'dik_waktu_end form-control']) !!}
+					</div>
 					<div class="form-group col-md-3">
 						<label>Nama Penyelenggara dan Tempat</label>
                         {!! Form::text('nameplace' , null ,['class' => 'dik_peny form-control']) !!}
 					</div>
 					
-					<div class="form-group col-md-1">
+					<div class="form-group col-md-3">
 						<label>Sertifikat</label>
                         {!! Form::select('sertifikat' , ['y'=>'Ya','t'=>'Tidak'] , null, ['class' => 'dik_sertifikat form-control']) !!}
                     </div>
 					
 					<div class="form-group col-md-1">
 						<label>Action</label>
-						<button type="button" class="save_diklat btn btn-primary">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
-                    </div>
-					{{--
-					<div class="form-group col-md-12">
-						<table  class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Daftar Hasil Penelitian</label> 
-							<tr> 
-								<th>Judul Penelitian</th> 
-								<th>Tahun Penelitian</th> 
-							</tr> 
-							<tr> 
-								<td>Penelitian 1............</td> 
-								<td>Tahun YYYY</td> 
-							</tr> 
-						</table>
-					</div>				
-					<div class="form-group col-md-3">
-						<label>Judul Penelitian</label>
-                        {!! Form::text('nameplace' , null ,['class' => 'form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-1">
-						<label>Tahun</label>
-                        {!! Form::text('tahun' , null, ['class' => 'form-control']) !!}
+						<button type="button" class="save_diklat btn btn-primary form-control">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
                     </div>
 					
-					<div class="form-group col-md-1">
-						<label>Action</label>
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-                    </div>
-
-					<div class="form-group col-md-12">
-						<table  class='table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Daftar Hasil Publikasi</label> 
-							<tr> 
-								<th>Judul Karya Tulis Ilmiah</th> 
-								<th>Nama Publikasi</th> 
-								<th>Volume/ Edisi Publikasi</th> 
-								<th>Tahun Publikasi</th> 
-							</tr> 
-							<tr> 
-								<td>Publikasi 1............</td> 
-								<td>Nama 1.............</td>
-								<td>Volume 1.............</td> 
-								<td>Tahun YYYY</td> 
-							</tr> 
-						</table>
-					</div>
-					
-					<div class="form-group col-md-2">
-						<label>Judul Karya tulis</label>
-                        {!! Form::text('name' , null ,['class' => 'pub_judul form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-3">
-						<label>Nama Publikasi</label>
-                        {!!  Form::text('waktu_pelaksanaan', null , ['class'=>'pub_nama form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-3">
-						<label>Volume</label>
-                        {!! Form::text('nameplace' , null ,['class' => 'pub_volume form-control']) !!}
-					</div>
-					
-					<div class="form-group col-md-2">
-						<label>Tahun Publikasi</label>
-                        {!! Form::text('sertifikat' , null, ['class' => 'pub_tahun form-control']) !!}
-                    </div>
-					
-					<div class="form-group col-md-1">
-						<label>Action</label>
-						<button type="button" class="btn btn-primary save_publikasi">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
-                    </div>
-                    --}}
                     {!! Form::hidden('id' , $model->id, ['class' => 'personel_id form-control']) !!}
                 </div>
                 @endif
@@ -258,7 +192,8 @@
 
 	$(document).on('click', '.save_diklat', function(){
 	  	var nama = $('.dik_nama').val();
-	  	var waktu = $('.dik_waktu').val();
+	  	var waktu_start = $('.dik_waktu_start').val();
+	  	var waktu_end = $('.dik_waktu_end').val();
 	  	var penyelenggara = $('.dik_peny').val();
 	  	var sertifikat = $('.dik_sertifikat').val();
 	  	var kategori = $('.dik_kategori').val();
@@ -269,7 +204,8 @@
 			url : basedomain +'/data-personel/diklat',
 			data : {
 				nama : nama,
-				waktu : waktu,
+				waktu_start : waktu_start,
+				waktu_end : waktu_end,
 				penyelenggara : penyelenggara,
 				sertifikat : sertifikat,
 				kategori : kategori,
@@ -282,7 +218,8 @@
 						html += "<tr class=diklat-data-"+data.data.id+">";
 						html += "<td>"+data.data.type+"</td>";
 						html += "<td>"+data.data.name+"</td>";
-						html += "<td>"+data.data.time+"</td>";
+						html += "<td>"+data.data.start_date+"</td>";
+						html += "<td>"+data.data.end_date+"</td>";
 						html += "<td>"+data.data.organizer+"</td>";
 						if (data.data.sertificate == 't') {
 						html += "<td>Tidak</td>";
