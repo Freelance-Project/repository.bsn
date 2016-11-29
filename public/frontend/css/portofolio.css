@@ -1,0 +1,232 @@
+/*=============================================================================================	
+	style css decorated by : Web Architect (webarq.com)
+	Author : Muhammad Febriansyah
+==============================================================================================*/
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic);
+body {
+	color: #393939;
+	font-size: 14px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 400;
+	background: linear-gradient(to bottom, #383c47 0%,#383c47 50%,#383c47 50%,#efc9c0 50%,#efc9c0 100%); /* W3C */
+}
+.wow {
+   visibility: hidden;
+}
+.overflowHidden {
+    overflow: hidden;
+}
+.animated {
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation-timing-function: ease;
+    -moz-animation-timing-function: ease;
+    animation-timing-function: ease;
+}
+img {
+	border: 0;
+	max-width: 100%;
+	height: auto;
+}
+.italic {
+	font-style: italic;
+}
+.bold {
+	font-weight: bold;
+}
+.regular {
+	font-weight: lighter;
+}
+.left {
+	float: left;
+	display:inline;
+}
+.right {
+	float: right;
+	display:inline;
+}
+.relative{
+	position:relative;
+}
+.clear {
+	clear: both;
+}
+a {
+	text-decoration: none;
+    transition: all 0.3s ease-in-out 0s;
+}
+strong {
+	font-weight: 700;
+}
+p {
+	margin: 1px 0 15px;
+	line-height: 25px;
+}
+input, textarea, select {
+	font-size: 18px;
+	font-family: 'Open Sans', sans-serif;
+	border: none;
+	border: 1px solid #c9c9c9;
+	padding: 5px;
+	margin: 0;
+	color: #666;
+}
+img {
+	margin-bottom: -3px;
+}
+input[type=checkbox], input[type=radio] {
+	border-top-style: none;
+	border-right-style: none;
+	border-bottom-style: none;
+	border-left-style: none;
+}
+*, *:before, *:after {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	outline: none;
+}
+h1 {
+	font-size: 32px;
+}
+h2 {
+	font-size: 28px;
+}
+h3 {
+	font-size: 24px;
+}
+h4 {
+	font-size: 20px;
+}
+h5 {
+	font-size: 16px;
+}
+h6 {
+	font-size: 14px;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight: 700;
+}
+section {
+    position: relative;
+}
+/* structure
+----------------------------------------------------------------------------------------------*/
+.wrapper {
+	width: 1200px;
+	margin: 0 auto;
+}
+.mid-wrapper{
+	width: 960px;
+	margin: 0 auto;
+}
+.inner_wrap{ width:800px; margin: 0 auto; }
+.afterclear:after {
+	clear: both;
+	content: '';
+	display: block;
+}
+#portofolio-content{
+	padding: 40px 0;
+	width: 100%;
+}
+.box-paper{
+	width: 900px;
+	background: #fff;
+	margin: 0 auto;
+	-webkit-box-shadow: -18px 20px 43px -9px rgba(0,0,0,0.75);
+	-moz-box-shadow: -18px 20px 43px -9px rgba(0,0,0,0.75);
+	box-shadow: -18px 20px 43px -9px rgba(0,0,0,0.75);
+	position: relative;
+}
+.pen{
+	width: 200px;
+	position: absolute;
+	right: -180px;
+	top: 30%;
+}
+.top-porto{
+	background: #f5f5f5;
+	padding: 40px 50px 20px 50px;
+	color: #222222;
+}
+.left-top{
+	width: 69%;
+	display: inline-block;
+	text-align: left;
+}
+.right-top{
+	width: 29%;
+	display: inline-block;
+	text-align: right;
+}
+h1.name{
+	text-transform: uppercase;
+	font-size: 50px;
+	margin-bottom: 10px;
+}
+h3.sub-title{
+	font-size: 20px;
+	text-transform: uppercase;
+}
+p.title{
+	font-size: 16px;
+	text-transform: uppercase;
+}
+.bottom-porto{
+	background: #fff;
+	padding: 40px 50px 20px 50px;
+	color: #222222;
+}
+.left-bottom{
+	width: 69%;
+	display: inline-block;
+	text-align: left;
+	padding-right: 20px;
+	vertical-align: top;
+	min-height: 800px;
+}
+.right-bottom{
+	width: 29%;
+	display: inline-block;
+	text-align: left;
+	border-left: 2px solid #ccc;
+	padding-left: 20px;
+	vertical-align: top;
+	
+	min-height: 800px;
+}
+.left-rows,.right-rows{
+	padding: 10px 0;
+	border-bottom: 1px solid #ccc;
+}
+.left-rows:last-child,.right-rows{
+	border-bottom: 0;
+}
+.col2{
+	display: inline-block;
+	width: 49%;
+}
+.col2  p{
+	margin-bottom: 0;
+}
+.social-row p{
+	margin-bottom: 5px;
+}
+/* ==========================================================================
+   Media Queries
+   ========================================================================== */
+
+@media only screen and (max-width: 480px) {
+/* Mobile styles */
+}
+ @media screen and (min-width:481px) and (max-width:1024px) {
+/* Tablet styles */
+}
+ @media only screen and (min-width: 1140px) {
+/* Desktop styles */
+}

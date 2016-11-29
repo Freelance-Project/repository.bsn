@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\ArticleContent;
+use App\Models\Researcher;
 
 class DefaultController extends Controller
 {
@@ -14,7 +15,7 @@ class DefaultController extends Controller
 		
 		$this->model = $article;
 		// view()->share('static',$this->getStatic());
-		$this->middleware('auth');
+		// $this->middleware('auth');
 	}
 	
     public function getIndex()
@@ -25,5 +26,11 @@ class DefaultController extends Controller
     }
 
     
+    public function getPortofolio($id)
+    {
 
+    	$model = Researcher::whereId($id)->first();
+    	
+    	return view('backend.master.personel.portofolio', compact('model'));
+    }
 }

@@ -46,4 +46,10 @@ class PersonelController extends Controller
 
         return view('frontend.member.profile', $data);
     }
+
+    public function getPortofolio($id)
+    {
+        $model = $this->model->find($id);
+        return view('frontend.member.portofolio', compact('model'));
+    }
 }

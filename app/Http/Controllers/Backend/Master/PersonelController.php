@@ -196,4 +196,11 @@ class PersonelController extends Controller
     	else return response()->json(['status'=>false]);
     }
     
+    public function getPortofolio($id)
+    {
+
+    	$model = $this->model->find($id);
+    	
+    	return view('backend.master.personel.portofolio', compact('model'));
+    }
 }

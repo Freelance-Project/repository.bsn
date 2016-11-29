@@ -31,7 +31,7 @@ Route::group(['middleware' => ['auth.member']], function() {
 	Route::controller('personel','PersonelController');
 });
 
-// Route::get('/','DefaultController@getIndex');
+Route::get('portofolio/{id}','DefaultController@getPortofolio');
 
 
 /*
