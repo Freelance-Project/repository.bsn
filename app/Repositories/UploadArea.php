@@ -397,7 +397,7 @@ class UploadArea
 					$input['slug'] = str_slug($data['publikasi']['judul']);
 					$input['title'] = $data['publikasi']['judul'];
 					$input['intro'] = $data['publikasi']['abstraksi'];
-					$input['description'] = $data['publikasi']['abstraksi'];
+					// $input['description'] = $data['publikasi']['abstraksi'];
 					$input['year'] = $data['publikasi']['tahun_publikasi'];
 					$input['status'] = 'unpublish';
 					$input['author_id'] = \Auth::user()->id;
