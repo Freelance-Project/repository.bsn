@@ -111,6 +111,7 @@ class SearchController extends Controller
 			$data['result'] = Researcher::whereStatus('active')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->get();
 		}
 		// dd($data);
@@ -168,6 +169,7 @@ class SearchController extends Controller
 						->whereNull('deleted_at')->whereStatus('publish')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->get();
 		}
 		// dd($chart);
@@ -349,7 +351,12 @@ class SearchController extends Controller
     							->whereRaw('title like % ? %', [$requestParam['request']])
     							->groupBy('category','year')->orderBy('year')->get();
 		} else {
-			$getList = Research::select('researches.id')->join('article_contents', 'researches.article_content_id','=', 'article_contents.id')->where('article_contents.category',$data['category'])->where('article_contents.status','publish')->get();
+			$getList = Research::select('researches.id')
+								->join('article_contents', 'researches.article_content_id','=', 'article_contents.id')
+								->where('article_contents.category',$data['category'])
+								->where('article_contents.status','publish')
+								->groupBy('researches.article_content_id')
+								->get();
 			// dd($getList);
 			$personId = [];
 			if($getList) {
@@ -362,7 +369,8 @@ class SearchController extends Controller
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->groupBy('category','year')->orderBy('year')->get();
+    								->whereStatus('publish')
+    								->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
 		$chartdata['title'] = 'Penelitian';
@@ -401,6 +409,7 @@ class SearchController extends Controller
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
@@ -444,6 +453,7 @@ class SearchController extends Controller
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
@@ -486,6 +496,7 @@ class SearchController extends Controller
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->orderBy('year')->get();
 		}
 		// dd($chart);
@@ -525,6 +536,7 @@ class SearchController extends Controller
 			$data['result'] = $getList;
 
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
+    							->whereStatus('publish')
     							->groupBy('category','year')->get();
 		}
 		// dd($chart);
