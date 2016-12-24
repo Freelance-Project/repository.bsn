@@ -14,10 +14,11 @@
                         <li role="presentation" ><a href="{{url('search/'.$data['class'].'/year')}}">Tahun</a></li>
                     </ul>
                 </div>
+				{!! Form::model($data, ['method'=>'get']) !!} 
             	<div class="col-md-3 right">
                 	<div id="imaginary_container"> 
                         <div class="input-group stylish-input-group">
-                            <input type="text" class="form-control"  placeholder="Search" >
+                            <input type="text" class="form-control"  placeholder="Search" name="request">
                             <span class="input-group-addon">
                                 <button type="submit">
                                     <span class="glyphicon glyphicon-search"></span>
@@ -26,6 +27,7 @@
                         </div><!--end.search--input-->
                 	</div><!--end.imaginary_container-->
             	</div><!--end.col-3-->
+				{!! Form::close() !!}
             </div><!--end.row-->
             
             <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>

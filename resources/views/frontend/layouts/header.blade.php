@@ -52,15 +52,16 @@
           </button>
           <a class="navbar-brand" href="{{url('')}}"><img width="90" src="{{ asset(null) }}frontend/images/material/logo.gif"> 	</a>
         </div>
+		
         <div id="navbar" class="navbar-collapse collapse">
           @if(\Auth::check())
           <ul class="nav navbar-nav">
-            <li class="active"><a href="{{url('')}}">Home</a></li>
-            <li><a href="{{url('search/research')}}">Penelitian</a></li>
-            <li><a href="{{url('search/publication')}}">Publikasi</a></li>
-            <li><a href="{{url('search/pendukung')}}">Data Pendukung</a></li>
-            <li><a href="{{url('search/personel')}}">Personel</a></li>
-            <li><a href="{{url('program')}}">Program Pendukung</a></li>
+            <li @if(Request::is('/')) class="active" @endif><a href="{{url('')}}">Home</a></li>
+            <li @if(Request::is('search/research') or Request::is('search/research/*')) class="active" @endif><a href="{{url('search/research')}}">Penelitian</a></li>
+            <li @if(Request::is('search/publication') or Request::is('search/publication/*')) class="active" @endif><a href="{{url('search/publication')}}">Publikasi</a></li>
+            <li @if(Request::is('search/pendukung') or Request::is('search/pendukung/*')) class="active" @endif><a href="{{url('search/pendukung')}}">Data Pendukung</a></li>
+            <li @if(Request::is('search/personel') or Request::is('search/personel/*')) class="active" @endif><a href="{{url('search/personel')}}">Personel</a></li>
+            <li @if(Request::is('program')) class="active" @endif><a href="{{url('program')}}">Program Pendukung</a></li>
           </ul>		
           
           <ul class="nav navbar-nav navbar-right">

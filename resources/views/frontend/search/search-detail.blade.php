@@ -24,7 +24,14 @@
                               @if ($model->category != 'pendukung')
                               <tr>
                                 <td>Penulis:</td>
-                                <td>{{$model->research->personel[0]->researcher->name}}</td>
+                                <td>
+								@php($a = count($model->research->personel))
+								@php($b = 1)
+									@foreach($model->research->personel as $k => $val)
+										{{$val->researcher->name}} @if ($b < $a) , @endif 
+										@php($b++)
+									@endforeach
+								</td>
                               </tr>
                               @endif
                               <tr>
@@ -33,11 +40,11 @@
                               </tr>
                               <tr>
                                 <td><strong>Abstraksi</strong></td>
-                                <td>{{$model->intro}}</td>
+                                <td>{!! $model->intro !!}</td>
                               </tr>
                               <tr>
                                 <td><strong>Kesimpulan</strong></td>
-                                <td>{{$model->description}}</td>
+                                <td>{!! $model->description !!}</td>
                               </tr>
                              
                             </tbody>

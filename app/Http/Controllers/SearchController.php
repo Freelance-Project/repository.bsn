@@ -45,6 +45,7 @@ class SearchController extends Controller
     public function getDetail($slug)
     {
 		$model = ArticleContent::whereSlug($slug)->first();
+		
 		// dd($model->research->personel);
 		return view('frontend.search.search-detail', compact('model'));
     }
@@ -72,10 +73,11 @@ class SearchController extends Controller
 		if (isset($requestParam['request'])) {
 			$data['result'] = ArticleContent::where('title','like','%'.$requestParam['request'].'%')->whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
 			$data['request'] = $requestParam['request'];
-
+			
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->whereRaw('title like "%'.$requestParam['request'].'%"')
     							->groupBy('category','year')->orderBy('year')->get();
+			// dd($chartdata);
 		} else {
 			$data['result'] = ArticleContent::whereCategory($data['category'])
 								->whereNull('deleted_at')->whereStatus('publish')
@@ -105,7 +107,7 @@ class SearchController extends Controller
 			$data['request'] = $requestParam['request'];
 
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->whereRaw('title like "%'.$requestParam['request'].'%"')
     							->groupBy('category','year')->get();
 		} else {
 			$data['result'] = Researcher::whereStatus('active')->paginate($this->paging);
@@ -162,8 +164,10 @@ class SearchController extends Controller
 			$data['request'] = $requestParam['request'];
 
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->whereRaw('title like "%'.$requestParam['request'].'%"')
+								// ->where('category', $data['category'])
     							->groupBy('category','year')->get();
+			// dd($chartdata);
 		} else {
 			$data['result'] = ArticleContent::whereCategory($data['category'])
 						->whereNull('deleted_at')->whereStatus('publish')->orderBy('year','desc')->orderBy('title')->paginate($this->paging);
@@ -193,7 +197,7 @@ class SearchController extends Controller
 			$data['request'] = $requestParam['request'];
 
 			$chartdata['result'] = ArticleContent::selectRaw(' count(title) as total, category, year')
-    							->whereRaw('title like % ? %', [$requestParam['request']])
+    							->whereRaw('title like "%'.$requestParam['request'].'%"')
     							->groupBy('category','year')->get();
 		} else {
 			$data['result'] = ArticleContent::whereCategory($data['category'])
@@ -363,7 +367,7 @@ class SearchController extends Controller
 				foreach ($getList as $key => $value) {
 					$personId[] = $value->id;
 				}
-				$data['result'] = ResearcherTeam::whereIn('other_id', $personId)->paginate($this->paging);
+				$data['result'] = ResearcherTeam::whereIn('other_id', $personId)->groupBy('researcher_id')->paginate($this->paging);
 
 			}
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
@@ -403,7 +407,8 @@ class SearchController extends Controller
 				foreach ($getList as $key => $value) {
 					$personId[] = $value->id;
 				}
-				$data['result'] = ResearcherTeam::whereIn('other_id', $personId)->paginate($this->paging);
+				// dd($personId);
+				$data['result'] = ResearcherTeam::whereIn('other_id', $personId)->groupBy('researcher_id')->paginate($this->paging);
 
 			}
 			// $data['result'] = ArticleContent::whereCategory($data['category'])->orderBy('year')->paginate($this->paging);
