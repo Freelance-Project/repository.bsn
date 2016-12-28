@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ActicleContentRepo;
 use App\Models\Research;
+use App\Models\Publication;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ArticleContent extends Model
@@ -28,5 +29,10 @@ class ArticleContent extends Model
 	public function research()
 	{
 		return $this->hasOne(Research::class, 'article_content_id');
+	}
+	
+	public function publication()
+	{
+		return $this->hasOne(Publication::class, 'article_content_id');
 	}
 }

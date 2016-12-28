@@ -224,11 +224,11 @@ class SearchController extends Controller
 		$data['class'] = 'personel';
 
 		if (isset($requestParam['request'])) {
-			$data['result'] = Researcher::where('name','like','%'.$requestParam['request'].'%')->paginate($this->paging);
+			$data['result'] = Researcher::where('name','like','%'.$requestParam['request'].'%')->orderBy('name')->paginate($this->paging);
 			$chartdata['result'] = Researcher::where('name','like','%'.$requestParam['request'].'%')->paginate($this->paging);
 			$data['request'] = $requestParam['request'];
 		} else {
-			$data['result'] = Researcher::paginate($this->paging);
+			$data['result'] = Researcher::orderBy('name')->paginate($this->paging);
 			$chartdata['result'] = Researcher::paginate($this->paging);
 
 			// $getList = Publication::select('publications.id')->join('article_contents', 'publications.article_content_id','=', 'article_contents.id')->where('article_contents.category',$data['category'])->where('article_contents.status','publish')->get();

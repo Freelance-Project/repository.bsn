@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ArticleContent;
+use App\Models\ResearcherTeam;
 
 class Publication extends Model
 {
@@ -18,4 +19,8 @@ class Publication extends Model
 		return $this->belongsTo(ArticleContent::class, 'article_content_id');
     }
     
+	public function personel()
+    {
+        return $this->hasMany(ResearcherTeam::class , 'other_id');
+    }
 }
