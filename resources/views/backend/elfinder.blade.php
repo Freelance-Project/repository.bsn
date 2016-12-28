@@ -110,7 +110,7 @@
 	
 	window.onload = function()
 	{
-		  CKEDITOR.replace( 'ckeditor_upload',{
-		  filebrowserBrowseUrl: '{{ \helper::urlAction("getElfinder")}}'});
+		  // CKEDITOR.replace( 'ckeditor_upload',{
+		  // filebrowserBrowseUrl: '{{ \helper::urlAction("getElfinder")}}'});
 	}
 </script> 

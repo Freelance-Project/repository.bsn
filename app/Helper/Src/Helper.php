@@ -140,6 +140,12 @@ class Helper
 		return $str;
 	}
 
+	public function error($type=1, $messg="")
+	{
+		if ($type == 1) return "<h1 style='color:red'>{$messg}</h1>";
+		if ($type == 2) return "<div class='alert alert-danger'>{$messg}</div>";
+	}
+	
 	public function getMenu()
 	{
 		$permalink = request()->segment(2);

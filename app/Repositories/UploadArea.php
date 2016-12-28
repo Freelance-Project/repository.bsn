@@ -28,6 +28,8 @@ class UploadArea
 
 	public function parsePenelitian($path)
 	{
+		$countData = 0;
+
 		Excel::selectSheets('Sheet1')->load($path, function($reader) {
     		$results = $reader->get();
     		// dd($results);
@@ -97,15 +99,16 @@ class UploadArea
     		}
 
     		// dd($penelitian);
+    		
     		foreach ($penelitian as $key => $val) {
     			
     			$savePenelitian = $this->articleContent($val, 'penelitian');
+    			if ($savePenelitian) $countData++;
     		}
-    		
 
 		})->get();
 
-		return true;
+		return ['status'=>true, 'total'=>$countData];
 	}
 
 	public function parsePublikasi($path)

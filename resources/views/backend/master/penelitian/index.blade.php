@@ -3,6 +3,7 @@
 
 <div id="app_header_shadowing"></div>
 <div id="app_content">
+    
     <div id="content_header">
         <h3 class="user">{{ helper::titleActionForm() }}</h3>
     </div>

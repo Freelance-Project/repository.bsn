@@ -43,20 +43,20 @@
   
   window.onload = function()
   {
-		CKEDITOR.replace( 'intro',{
-		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+		// CKEDITOR.replace( 'intro',{
+		// filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 		
-		CKEDITOR.replace( 'description',{
-		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+		// CKEDITOR.replace( 'description',{
+		// filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 
-		CKEDITOR.replace( 'purpose',{
-		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+		// CKEDITOR.replace( 'purpose',{
+		// filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 
-  		CKEDITOR.replace( 'summary',{
-		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+  // 		CKEDITOR.replace( 'summary',{
+		// filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
 
-  		CKEDITOR.replace( 'recomendation',{
-		filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
+  // 		CKEDITOR.replace( 'recomendation',{
+		// filebrowserBrowseUrl: '{{ urlBackend("image/lib")}}'});
   }
 </script>
 @endsection

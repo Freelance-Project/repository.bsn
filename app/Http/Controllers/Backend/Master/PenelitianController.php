@@ -406,10 +406,11 @@ class PenelitianController extends Controller
             $path = public_path('contents/excel/penelitian'). '/'.$fileTemplate['filename'];
 	    	
 	    	$savePenelitian = $this->uploadArea->parsePenelitian($path);
-    		if ($savePenelitian) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+    		
+    		if ($savePenelitian['status']) return redirect(urlBackendAction('index'))->with('success',$savePenelitian['total'] . ' Data has been imported');
 		}
 
-    	return redirect(urlBackendAction('index'))->withSuccess('Failed');
+    	return redirect(urlBackendAction('index'))->with('warning','Failed');
     }
 
     
