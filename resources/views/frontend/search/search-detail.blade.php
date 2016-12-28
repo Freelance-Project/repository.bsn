@@ -24,7 +24,31 @@
                               @if ($model->category != 'pendukung')
                               <tr>
                                 <td>Penulis:</td>
-                                <td>{{$model->research->personel[0]->researcher->name}}</td>
+                                <td>
+								<?php
+								if ($model->category == 'penelitian') {
+								?>
+								@php($a = count($model->research->personel))
+								@php($b = 1)
+									@foreach($model->research->personel as $k => $val)
+										{{$val->researcher->name}} @if ($b < $a) , @endif 
+										@php($b++)
+									@endforeach
+								<?php
+								}
+								// dd($model->publication);
+								if ($model->category == 'publikasi'){
+								?>
+								@php($a = count($model->publication->personel))
+								@php($b = 1)
+									@foreach($model->publication->personel as $k => $val)
+										{{$val->researcher->name}} @if ($b < $a) , @endif 
+										@php($b++)
+									@endforeach
+								<?php
+								}
+								?>
+								</td>
                               </tr>
                               @endif
                               <tr>
@@ -33,11 +57,11 @@
                               </tr>
                               <tr>
                                 <td><strong>Abstraksi</strong></td>
-                                <td>{{$model->intro}}</td>
+                                <td>{!! $model->intro !!}</td>
                               </tr>
                               <tr>
                                 <td><strong>Kesimpulan</strong></td>
-                                <td>{{$model->description}}</td>
+                                <td>@if($model->category == 'penelitian') {!! $model->description !!} @else {!! $model->publication->conclusion !!} @endif</td>
                               </tr>
                              
                             </tbody>

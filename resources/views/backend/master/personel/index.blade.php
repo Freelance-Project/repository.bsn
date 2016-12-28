@@ -47,7 +47,7 @@
                 serverSide: true,
                 ajax: '{{ urlBackendAction("data") }}',
                 columns: [
-                    { data: 'name', name: 'name' },
+                    { data: 'name', name: 'name', render: function(data, type, full, meta){ return '<a href="update/'+full.id+'">'+data+'</a>';}},
                     { data: 'email', name: 'email' },
                     { data: 'action', name: 'action' , searchable :false},
                     
