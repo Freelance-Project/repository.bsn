@@ -100,7 +100,7 @@ class PenelitianController extends Controller
 				'conclusion' => $request->conclusion,
 				'recommendation' => $request->recommendation,
 				'recommendation_target' => $request->recommendation_target,
-				'location' => $request->location,
+				// 'location' => $request->location,
 				'created_at' => \Helper::dateToDb($request->date),
 				'status' => $request->status
 			];
