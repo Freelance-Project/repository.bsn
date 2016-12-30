@@ -45,7 +45,6 @@ class SearchController extends Controller
     public function getDetail($slug)
     {
 		$model = ArticleContent::whereSlug($slug)->first();
-		
 		// dd($model->research->personel);
 		return view('frontend.search.search-detail', compact('model'));
     }
@@ -544,7 +543,7 @@ class SearchController extends Controller
     							->whereStatus('publish')
     							->groupBy('category','year')->get();
 		}
-		// dd($chart);
+		// dd($data);
 		$chartdata['title'] = 'Pendukung';
 		
 		$data['chart'] = $this->makeChart($chartdata);

@@ -115,13 +115,13 @@
 				<div class="col-md-12">	
 					<div class="form-group">
 						<table  class='table diklat-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Daftar Diklat/Training</label> 
+						<label>Daftar Diklat/Training dan Workshop/Seminar</label> 
 							<tr> 
 								<th>Category</th> 
-								<th>Nama Diklat</th> 
+								<th>Nama Diklat atau Workshop</th> 
 								<th>Waktu Mulai</th> 
 								<th>Waktu Selesai</th> 
-								<th>Penyelenggara</th> 
+								<th>Penyelenggara dan Tempat</th> 
 								<th>Sertifikat</th> 
 								<th>Action</th> 
 							</tr> 
@@ -134,7 +134,7 @@
 								<td>{{$val->end_date}}</td> 
 								<td>{{$val->organizer}}</td> 
 								<td>@if($val->sertificate == 'y') Ya @else Tidak @endif</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-diklat" data-id="{{$val->id}}">Hapus</a></td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-diklat" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -142,10 +142,10 @@
 					</div>	
 					<div class="form-group col-md-3">
 						<label>Category</label>
-                        {!! Form::select('category' , ['training'=>'Diklat','seminar'=>'Seminar'] , null, ['class' => 'dik_kategori form-control']) !!}
+                        {!! Form::select('category' , ['Training'=>'Diklat/Training','Seminar'=>'Workshop/Seminar'] , null, ['class' => 'dik_kategori form-control']) !!}
 					</div>
 					<div class="form-group col-md-3">
-						<label>Nama Diklat/Training</label>
+						<label>Nama Diklat atau Workshop</label>
                         {!! Form::text('name' , null ,['class' => 'form-control dik_nama']) !!}
 					</div>
 					

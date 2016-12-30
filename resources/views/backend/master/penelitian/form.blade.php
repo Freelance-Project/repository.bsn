@@ -126,7 +126,7 @@
 						@if($model->file)
 						<br>
 						<div id="file-data-penelitian">
-							Current File : {{$model->file}}  <a href="javascript:void(0)" class="btn btn-warning hapus_datapenelitian" data-id="{{$model->id}}">Hapus</a>
+							Current File : {{$model->file}}  <a href="javascript:void(0)" class="btn btn-warning hapus_datapenelitian" data-id="{{$model->id}}">Delete</a>
 						</div>
 						@endif
 
@@ -155,7 +155,7 @@
 							@foreach($locationDataList as $val) 
 							<tr class="location-data-{{$val->id}}"> 
 								<td>{{$val->location}}</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-location" data-id="{{$val->id}}">Hapus</a></td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-location" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -199,7 +199,7 @@
 								<td>{{$val->instance}}</td> 
 								<td>{{strtoupper($val->interest_category)}}</td> 
 								<td>{{$val->expert_category}}</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Hapus</a></td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -251,7 +251,7 @@
 							@foreach($additionalDataList as $val) 
 							<tr class="additional-data-{{$val->id}}"> 
 								<td>{{$val->additional->title}}</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="{{$val->id}}">Hapus</a></td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -334,7 +334,7 @@
 						html += "<td>"+data.data.instance+"</td>";
 						html += "<td>"+data.data.interest_category+"</td>";
 						html += "<td>"+data.data.expert_category+"</td>";
-						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Delete</a></td>';
 						html += "</tr>";
 
 					$('.researcher-table').append(html);
@@ -385,7 +385,7 @@
 					var html = "";
 						html += "<tr class='additional-data-"+data.data.id+"'>";
 						html += "<td>"+data.data.additional.title+"</td>";
-						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="'+data.data.id+'">Delete</a></td>';
 						html += "</tr>";
 
 					$('.additional-table').append(html);
@@ -460,7 +460,7 @@
 					var html = "";
 						html += "<tr class='location-data-"+data.data.id+"'>";
 						html += "<td>"+data.data.location+"</td>";
-						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-location-data" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-location-data" data-id="'+data.data.id+'">Delete</a></td>';
 						html += "</tr>";
 
 					$('.location-table').append(html);

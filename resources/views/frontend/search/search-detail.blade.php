@@ -26,6 +26,8 @@
                                 <td>Penulis:</td>
                                 <td>
 								<?php
+								
+								// dd($model);
 								if ($model->category == 'penelitian') {
 								?>
 								@php($a = count($model->research->personel))

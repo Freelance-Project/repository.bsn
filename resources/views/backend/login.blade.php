@@ -14,9 +14,9 @@
                         <div class="clear break15"></div>
                        
                        <div>
-                            <div class="fl">
+					   {{--<div class="fl">
                                 <a class="forgot-password" style="color:#1076bc;font:11px/32px verdana;" href = '{{ url("login/forgot-password") }}'>Forgot password ?</a>
-                            </div>
+					   </div>--}}
                             <input type="submit" class="submit" value="Login"/>
                             <div class="clear break1"></div>
                         </div>

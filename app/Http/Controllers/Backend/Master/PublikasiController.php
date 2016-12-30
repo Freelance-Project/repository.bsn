@@ -14,6 +14,8 @@ use App\Models\Researcher;
 use App\Models\ResearcherTeam;
 use App\Models\AdditionalData;
 use App\Models\ResearchData;
+use App\Models\InterestGroup;
+use App\Models\Expertise;
 use Table;
 use App\Repositories\UploadArea;
 
@@ -73,6 +75,7 @@ class PublikasiController extends Controller
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
+			'description' => $request->conclusion,
 			'author_id' => \Auth::user()->id,
 			'category' => $request->category_article,
 			'status' => $request->status
@@ -142,16 +145,18 @@ class PublikasiController extends Controller
 		$resGroup = ResearchGroup::whereOtherId($model->id)->get();
 		$resStandard = ResearchStandard::whereOtherId($model->id)->get();
 		$researcher = Researcher::lists('name','id')->toArray();
-		$functional = ['p_utama'=>'Peneliti Utama','p_madya'=>'Peneliti Madya',
-					'p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama',
-					'non_p'=>'Non Peneliti'];
-		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
-					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
+		// $functional = ['p_utama'=>'Peneliti Utama','p_madya'=>'Peneliti Madya',
+					// 'p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama',
+					// 'non_p'=>'Non Peneliti'];
+		$position = ['penulis_1'=>'Penulis 1','penulis_2'=>'Penulis 2','penulis_3'=>'Penulis 3',
+					'penulis_4'=>'Penulis 4','penulis_5'=>'Penulis 5'];
+		$functional = InterestGroup::lists('name','id')->toArray();
+		$expert = Expertise::lists('name','id')->toArray();
 		$additionalData = AdditionalData::lists('title','id')->toArray();
-		$researcherTeam = ResearcherTeam::whereOtherId($model->id)->get();
+		$researcherTeam = ResearcherTeam::whereOtherId($model->id)->whereType('publikasi')->with('expert')->get();
 		$additionalDataList = ResearchData::whereOtherId($model->id)->get();
 		
-		// dd($resStandard);
+		// dd($researcherTeam);
 		return view('backend.master.publikasi.form' , [
 
 			'model' => $model,
@@ -165,6 +170,7 @@ class PublikasiController extends Controller
 			'new' =>true,
 			'additionalData' => $additionalData,
 			'additionalDataList' => $additionalDataList,
+			'expert' => $expert,
 		]);
 	}
 
@@ -184,6 +190,7 @@ class PublikasiController extends Controller
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
+			'description' => $request->conclusion,
 			'status' => $request->status
 		];
 			
@@ -264,8 +271,9 @@ class PublikasiController extends Controller
     public function getResearcher()
     {
     	// $other_id = request()->get('other_id');
-    	$data['position'] = request()->get('position');
-    	$data['functional'] = request()->get('functional');
+    	$data['writer'] = request()->get('writer');
+    	$data['interest_category'] = request()->get('interest_category');
+    	$data['expert_category'] = request()->get('expert_category');
     	$data['researcher_id'] = request()->get('researcher_id');
     	$data['instance'] = request()->get('instance');
     	$data['other_id'] = request()->get('other_id');
@@ -274,7 +282,7 @@ class PublikasiController extends Controller
     	if(request()->ajax()) {
 
 			$saveResearcher = ResearcherTeam::create($data);
-			$getData = ResearcherTeam::whereId($saveResearcher->id)->with('researcher')->first();
+			$getData = ResearcherTeam::whereId($saveResearcher->id)->with('researcher','expert')->first();
 			
 			if ($saveResearcher) return response()->json(['status'=>true, 'data'=>$getData]);
 			else return response()->json(['status'=>false]);

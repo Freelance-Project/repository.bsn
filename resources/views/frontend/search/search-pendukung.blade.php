@@ -51,7 +51,7 @@
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
-                            <h3><a href="{{url('search/detail/'.$val->slug)}}" title="">{{$val->title}}</a></h3>
+                            <h3>{{$val->title}}</h3>
                         </div>
                         <span class="clearfix borda"></span>
                     </article>

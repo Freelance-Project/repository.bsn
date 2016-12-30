@@ -83,6 +83,7 @@ class PenelitianController extends Controller
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
+			'description' => $request->conclusion,
 			'author_id' => \Auth::user()->id,
 			'category' => $request->category,
 			'status' => $request->status
@@ -197,6 +198,7 @@ class PenelitianController extends Controller
 			'title' => $request->title,
 			'year' => $request->year,
 			'intro' => $request->intro,
+			'description' => $request->conclusion,
 			'status' => $request->status
 		];
 			
