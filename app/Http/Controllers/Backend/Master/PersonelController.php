@@ -160,7 +160,10 @@ class PersonelController extends Controller
             $path = public_path('contents/excel/personel'). '/'.$fileTemplate['filename'];
 	    	
 	    	$savePerson = $this->uploadArea->parsePersonel($path);
-    		if ($savePerson) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+
+	    	$totalData = \Session::get('total_data');
+
+    		return redirect(urlBackendAction('index'))->withSuccess($totalData . ' data has been imported');
 		}
 
     	return redirect(urlBackendAction('index'))->withSuccess('Failed');

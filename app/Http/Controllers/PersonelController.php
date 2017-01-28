@@ -38,8 +38,8 @@ class PersonelController extends Controller
     public function getDetail($id)
     {
         $data['profile'] = $this->model->whereId($id)->first();
-        $data['research'] = ResearcherTeam::select('researcher_teams.*')->join('researches', 'researcher_teams.other_id','=','researches.id')->where('researcher_teams.researcher_id', $id)->where('researcher_teams.type','penelitian')->whereNull('researches.deleted_at')->get();
-        $data['publication'] = ResearcherTeam::select('researcher_teams.*')->join('publications', 'researcher_teams.other_id','=','publications.id')->where('researcher_teams.researcher_id', $id)->where('researcher_teams.type','publikasi')->whereNull('publications.deleted_at')->get();
+        $data['research'] = ResearcherTeam::select('researcher_teams.*')->join('researches', 'researcher_teams.other_id','=','researches.id')->where('researcher_teams.researcher_id', $id)->where('researcher_teams.type','penelitian')->whereNull('researches.deleted_at')->where('researches.status','publish')->get();
+        $data['publication'] = ResearcherTeam::select('researcher_teams.*')->join('publications', 'researcher_teams.other_id','=','publications.id')->where('researcher_teams.researcher_id', $id)->where('researcher_teams.type','publikasi')->whereNull('publications.deleted_at')->where('publications.status','publish')->get();
         
         // dd($data);
         // dd($data['research'][0]->research->title);

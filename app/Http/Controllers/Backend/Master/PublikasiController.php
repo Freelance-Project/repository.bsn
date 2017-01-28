@@ -349,7 +349,7 @@ class PublikasiController extends Controller
             $path = public_path('contents/excel/publikasi'). '/'.$fileTemplate['filename'];
 	    	
 	    	$savePublikasi = $this->uploadArea->parsePublikasi($path);
-	    	if ($savePublikasi) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+	    	return redirect(urlBackendAction('index'))->withSuccess(\Session::get('total_data'). ' data has been imported');
 		}
     	
 

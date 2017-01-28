@@ -99,16 +99,18 @@ class UploadArea
     		}
 
     		// dd($penelitian);
-    		
+    		$countData = 0;
     		foreach ($penelitian as $key => $val) {
     			
     			$savePenelitian = $this->articleContent($val, 'penelitian');
     			if ($savePenelitian) $countData++;
     		}
 
+    		\Session::put('total_data', $countData);
+
 		})->get();
 
-		return ['status'=>true, 'total'=>$countData];
+		return true;
 	}
 
 	public function parsePublikasi($path)
@@ -159,11 +161,14 @@ class UploadArea
     			
     		}
 
+    		$countData = 0;
     		foreach ($publikasi as $key => $val) {
     			
     			$savePublikasi = $this->articleContent($val, 'publikasi');
+    			if ($savePublikasi) $countData++; 
     		}
     		
+    		\Session::put('total_data', $countData);
 
 		})->get();
 
@@ -254,14 +259,17 @@ class UploadArea
     		}
 
     		// dd($personel);
+    		$countData = 0;
     		foreach ($personel as $key => $val) {
     			
     			$savePersonel = $this->researcher($val);
+    			if ($savePersonel) $countData++; 
     		}
     		
-
+    		\Session::put('total_data', $countData);
+		
 		})->get();
-
+		
 		return true;
 	}
 
@@ -288,12 +296,15 @@ class UploadArea
     		}
 
     		// dd($pendukung);
+    		$countData = 0;
     		foreach ($pendukung as $key => $val) {
     			
     			$savePendukung = $this->additionalData($val);
+    			if ($savePendukung > 0) $countData++; 
     		}
     		
-    		
+    		\Session::put('total_data', $countData);
+
 		})->get();
 
 		return true;
@@ -388,6 +399,7 @@ class UploadArea
 						
 					}
 					usleep(100);
+					return true;
 				}
 				
 				return false;
@@ -429,6 +441,7 @@ class UploadArea
 						
 					}
 					usleep(100);
+					return true;
 				}
 					
 				break;
@@ -522,19 +535,29 @@ class UploadArea
 			$training['researcher_id'] = $data['researcher_id'];
 			$training['name'] = $value;
 			if ($type == 'training') {
-				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_diklattraining'][$key];
+				// $training['time'] = $dataTraining['waktutanggal_pelaksanaan_diklattraining'][$key];
+				$dateEvent = explode('-', $dataTraining['waktutanggal_pelaksanaan_diklattraining'][$key]);
+				$parse = explode('/', trim($dateEvent[0]));
+				$parse1 = explode('/', trim($dateEvent[1]));
+				$training['start_date'] = $parse[2] . '-' . $parse[1] . '-' . $parse[0]; 
+				$training['end_date'] = $parse1[2] . '-' . $parse1[1] . '-' . $parse1[0];
 				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_diklattraining'][$key];
 				$training['sertificate'] = $certificate[$dataTraining['sertifikat_diklattraining'][$key]];
 				
 			} else {
-				$training['time'] = $dataTraining['waktutanggal_pelaksanaan_workshopseminar'][$key];
+				// $training['time'] = $dataTraining['waktutanggal_pelaksanaan_workshopseminar'][$key];
+				$dateEvent = explode('-', $dataTraining['waktutanggal_pelaksanaan_workshopseminar'][$key]);
+				$parse = explode('/', trim($dateEvent[0]));
+				$parse1 = explode('/', trim($dateEvent[1]));
+				$training['start_date'] = $parse[2] . '-' . $parse[1] . '-' . $parse[0]; 
+				$training['end_date'] = $parse1[2] . '-' . $parse1[1] . '-' . $parse1[0];
 				$training['organizer'] = $dataTraining['nama_penyelenggara_dan_tempat_workshopseminar'][$key];
 				$training['sertificate'] = $certificate[$dataTraining['sertifikat_workshopseminar'][$key]];
 				
 			}
 
 			$training['type'] = $type;
-
+			
 			ResearcherWorkshop::create($training);
 		}
 		

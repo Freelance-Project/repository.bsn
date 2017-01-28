@@ -209,7 +209,7 @@ class DataPendukungController extends Controller
             $path = public_path('contents/excel/pendukung'). '/'.$fileTemplate['filename'];
 	    	
 	    	$savePendukung = $this->uploadArea->parseDataPendukung($path);
-	    	if ($savePendukung) return redirect(urlBackendAction('index'))->withSuccess('Data has been imported');
+	    	return redirect(urlBackendAction('index'))->withSuccess(\Session::get('total_data') . ' data has been imported');
 		}
     	
     	return redirect(urlBackendAction('index'))->withSuccess('Failed');

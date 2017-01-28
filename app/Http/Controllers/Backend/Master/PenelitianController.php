@@ -53,7 +53,7 @@ class PenelitianController extends Controller
 					'p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama',
 					'non_p'=>'Non Peneliti'];
 		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
-					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
+					'sekretariat'=>'Sekretariat','pembimbing'=>'Pembimbing','lainnya'=>'Lainnya'];
 		$date = '';
 
 		
@@ -158,7 +158,7 @@ class PenelitianController extends Controller
 					'p_muda'=>'Peneliti Muda','p_pertama'=>'Peneliti Pertama',
 					'non_p'=>'Non Peneliti'];
 		$position = ['ketua'=>'ketua','wakil'=>'Wakil Ketua','anggota'=>'Anggota',
-					'sekretariat'=>'Sekretariat','lainnya'=>'Lainnya'];
+					'sekretariat'=>'Sekretariat','pembimbing'=>'Pembimbing','lainnya'=>'Lainnya'];
 		$additionalData = AdditionalData::lists('title','id')->toArray();
 		$researcherTeam = ResearcherTeam::whereOtherId($model->id)->get();
 		$additionalDataList = ResearchData::whereOtherId($model->id)->get();
@@ -212,7 +212,7 @@ class PenelitianController extends Controller
 			'conclusion' => $request->conclusion,
 			'recommendation_target' => $request->recommendation_target,
 			'recommendation' => $request->recommendation,
-			'location' => $request->location,
+			// 'location' => $request->location,
 			'created_at' => \Helper::dateToDb($request->date),
 			'status' => $request->status,
 		];
@@ -407,7 +407,7 @@ class PenelitianController extends Controller
 	    	
 	    	$savePenelitian = $this->uploadArea->parsePenelitian($path);
     		
-    		if ($savePenelitian['status']) return redirect(urlBackendAction('index'))->with('success',$savePenelitian['total'] . ' Data has been imported');
+    		return redirect(urlBackendAction('index'))->with('success',\Session::get('total_data') . ' data has been imported');
 		}
 
     	return redirect(urlBackendAction('index'))->with('warning','Failed');
