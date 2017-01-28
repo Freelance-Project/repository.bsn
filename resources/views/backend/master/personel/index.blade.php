@@ -22,8 +22,8 @@
                 <table class = 'table' id = 'tableNews'>
                     <thead>
                         <tr>
-                            <th width = '40%'>Title</th>
-                            <th width = '40%'>Intro</th>
+                            <th width = '40%'>Nama</th>
+                            <th width = '40%'>Email</th>
                             <th width = '20%'>Action</th>
                         </tr>
                     </thead>

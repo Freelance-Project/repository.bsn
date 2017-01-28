@@ -48,8 +48,12 @@
                         </div>
                         <div class="col-xs-12 col-sm-12 col-md-7 excerpet">
                             @foreach($val as $v)
-                            <label><a href="{{url('search/detail/'.$v->slug)}}" title="">{{$v->title}}</a></label>
-                            @endforeach
+							@if($data['class'] == 'pendukung')
+								<label>{{$v->title}} <span style="color:blue">[{{$v->intro}}]</span></label>
+                            @else
+								<label><a href="{{url('search/detail/'.$v->slug)}}" title="">{{$v->title}}</a></label>
+							@endif
+							@endforeach
                         </div>
                         <span class="clearfix borda"></span>
                     </article>

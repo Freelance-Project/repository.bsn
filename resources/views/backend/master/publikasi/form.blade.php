@@ -124,31 +124,41 @@
 					</div>
                     
 					<div class="form-group col-md-12">
-						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+						<button type="submit" class="btn btn-primary">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
 						<input type ='hidden' name='category_article' value='publikasi'>
 					</div>
 					
                     {!! Form::close() !!}
-
+					
                     @if($new)
 					<div class="form-group col-md-12">
 						<table class='table researcher-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Tim Peneliti (1-10 orang)</label> 
+						<label>Tim Penulis (1-5 orang)</label> 
 							<tr> 
-								<th>Nama Peneliti</th> 
-								<th>Jabatan Peneliti</th> 
-								<th>Jabatan Fungsional</th> 
+								<th>Nama Penulis</th> 
+								<th>Jabatan Penulis</th> 
 								<th>Asal Instansi</th> 
+								<th>Kelompok Minat</th> 
+								<th>Bidang Kepakaran</th> 
 								<th>Action</th>	
 							</tr> 
+							
 							@if($researcherTeam)
 							@foreach($researcherTeam as $val) 
 							<tr class="researcher-data-{{$val->id}}"> 
 								<td>{{$val->researcher->name}}</td> 
-								<td>{{$val->position}}</td> 
-								<td>{{$val->functional}}</td> 
+								<td>
+								<?php
+								if ($val->writer) {
+									$p = explode('_',$val->writer);
+									echo ucfirst($p[0]) . ' ' .$p[1];
+								} 
+								?>
+								</td> 
 								<td>{{$val->instance}}</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Hapus</a></td> 
+								<td>{{strtoupper($val->interest_category)}}</td> 
+								<td>{{ isset($val->expert->name) ?  $val->expert->name : ''}}</td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -157,24 +167,30 @@
 					
 					
 					<div class="form-group col-md-3">
-						<label>Nama Peneliti</label>
+						<label>Nama Penulis</label>
 						{!!  Form::select('penelitian_user_id',$researcher, null, ['class'=>'form-control r_id']) !!}
 					</div>
 					
-					<div class="form-group col-md-2">
-						<label>Jabatan Peneliti</label>
-						{!!  Form::select('jabatan_peneliti', $position, null, ['class'=>'form-control r_position']) !!}
+					<div class="form-group col-md-4">
+						<label>Jabatan Penulis</label>
+						{!!  Form::select('jabatan_peneliti', $position, null, ['class'=>'form-control r_writer']) !!}
 					</div>
 					
-					<div class="form-group col-md-3">
-						<label>Jabatan Fungsional Peneliti</label>
-						{!!  Form::select('jabatan_fungsional', $functional, null, ['class'=>'form-control r_functional']) !!}
-					</div>
-					
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-4">
 						<label>Asal Instansi</label>
 						{!!  Form::text('instansi',null ,['class' => 'form-control r_instance']) !!}
 					</div>
+					
+					<div class="form-group col-md-3">
+						<label>Kelompok Minat</label>
+						{!!  Form::select('kelompok_minat', $functional, null, ['class'=>'form-control r_interest']) !!}
+					</div>
+					
+					<div class="form-group col-md-3">
+						<label>Bidang Kepakaran</label>
+						{!!  Form::select('bidang_kepakaran', $expert, null, ['class'=>'form-control r_expert']) !!}
+					</div>
+					
 					<div class="form-group col-md-1">
 						<label>Action</label>
 						<button type="button" class="btn btn-primary save-researcher">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
@@ -183,7 +199,7 @@
 
 					<div class="form-group col-md-12">
 						<table class='table additional-table' style="border-collapse:collapse;background:#ffc" width="75%" border="1"> 
-						<label>Daftar Data Pendukung Penelitian</label> 
+						<label>Daftar Data Pendukung Publikasi</label> 
 							<tr> 
 								<th width="85%">File</th> 
 								<th width="15%">Action</th>	
@@ -192,7 +208,7 @@
 							@foreach($additionalDataList as $val) 
 							<tr class="additional-data-{{$val->id}}"> 
 								<td>{{$val->additional->title}}</td> 
-								<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="{{$val->id}}">Hapus</a></td> 
+								<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="{{$val->id}}">Delete</a></td> 
 							</tr>	
 							@endforeach
 							@endif
@@ -201,13 +217,13 @@
 					
 										
 					<div class="form-group col-md-10">
-						<label>Data Pendukung Penelitian</label>
+						<label>Data Pendukung Publikasi</label>
                         {!! Form::select('ref_data_pendukung_id' , $additionalData ,null, ['class' => 'form-control a_id']) !!}
 					</div>
 					
 					<div class="form-group col-md-2">
 						<label>Action</label>
-						<button type="button" class="btn btn-primary save-additional form-control">{{ !empty($model->id) ? 'Update' : 'Save' }}</button>
+						<button type="button" class="btn btn-primary save-additional form-control">{{ !empty($model->id) ? 'Save' : 'Save' }}</button>
 					</div>
 					
 					
@@ -236,8 +252,9 @@
   $(document).on('click', '.save-researcher', function(){
 
   		var researcher_id = $('.r_id').val();
-	  	var position = $('.r_position').val();
-	  	var functional = $('.r_functional').val();
+	  	var writer = $('.r_writer').val();
+	  	var interest_category = $('.r_interest').val();
+	  	var expert_category = $('.r_expert').val();
 	  	var instance = $('.r_instance').val();
 	  	var other_id = $('.p_id').val();
 	  	
@@ -246,8 +263,9 @@
 			url : basedomain +'/data-publikasi/researcher',
 			data : {
 				researcher_id : researcher_id,
-				position : position,
-				functional : functional,
+				writer : writer,
+				interest_category : interest_category,
+				expert_category : expert_category,
 				instance : instance,
 				other_id : other_id,
 			},
@@ -257,10 +275,13 @@
 					var html = "";
 						html += "<tr class='researcher-data-"+data.data.id+"'>";
 						html += "<td>"+data.data.researcher.name+"</td>";
-						html += "<td>"+data.data.position+"</td>";
-						html += "<td>"+data.data.functional+"</td>";
+						var writer = data.data.writer.split('_');
+						
+						html += "<td>"+writer[0]+" "+writer[1]+"</td>";
 						html += "<td>"+data.data.instance+"</td>";
-						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += "<td>"+data.data.interest_category.toUpperCase()+"</td>";
+						html += "<td>"+data.data.expert.name+"</td>";
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-researcher" data-id="'+data.data.id+'">Delete</a></td>';
 						html += "</tr>";
 
 					$('.researcher-table').append(html);
@@ -311,7 +332,7 @@
 					var html = "";
 						html += "<tr class='additional-data-"+data.data.id+"'>";
 						html += "<td>"+data.data.additional.title+"</td>";
-						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="'+data.data.id+'">Hapus</a></td>';
+						html += '<td><a href="javascript:void(0)" class="btn btn-danger delete-additional-data" data-id="'+data.data.id+'">Delete</a></td>';
 						html += "</tr>";
 
 					$('.additional-table').append(html);

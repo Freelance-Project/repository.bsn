@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Research;
 use App\Models\Researcher;
 use App\Models\Publication;
+use App\Models\InterestGroup;
+use App\Models\Expertise;
 
 class ResearcherTeam extends Model
 {
@@ -26,5 +28,10 @@ class ResearcherTeam extends Model
     public function publication()
     {
         return $this->belongsTo(Publication::class , 'other_id');
+    }
+	
+	public function expert()
+    {
+        return $this->belongsTo(Expertise::class , 'expert_category');
     }
 }
