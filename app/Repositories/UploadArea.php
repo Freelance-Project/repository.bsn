@@ -473,9 +473,13 @@ class UploadArea
 		foreach ($data['kepakaran'] as $key => $value) {
 			if ($value == "V") $expert[] = $this->getExpertise(false, ucfirst($key))->id;
 		}
-
+		foreach ($data['ketertarikan'] as $key => $value) {
+			// dd($key);
+			if ($value == "V") $interest[] = $this->getInterestGroup(false, $key)->id;
+		}
 
 		if (isset($expert) and count($expert) > 0) $person['expert_category'] = implode(',', $expert);
+		if (isset($interest) and count($interest) > 0) $person['interest_category'] = implode(',', $interest);
 		
 		if (!$this->isExistPerson($data['peneliti']['email'])) {
 			$savePerson = Researcher::create($person);
@@ -514,11 +518,26 @@ class UploadArea
 		return true;
 	}
 
-	public function getInterestGroup($id = false, $code=false)
+	public function getInterestGroup($id = false, $name=false)
 	{
+		$aliasName = ['mekanika'=>'MEK','lingkungan'=>'LS','pertanian'=>'PPK','kimia'=>'KP'];
 		if ($id) return InterestGroup::whereId($id)->first();
-		if ($code) return InterestGroup::whereCode($code)->first();
-		else return InterestGroup::get();
+		if ($name) {
+			$find = InterestGroup::whereCode($aliasName[$name])->first();
+			if (!$find) {
+				$expert['name'] = $name;
+				InterestGroup::create($expert);
+
+				$find = InterestGroup::whereName($aliasName[$name])->first();
+			}
+			
+			return $find;
+		} 
+		return false;
+
+		// if ($id) return InterestGroup::whereId($id)->first();
+		// if ($code) return InterestGroup::whereCode($code)->first();
+		// else return InterestGroup::get();
 	}
 
 	public function saveResearchTraining($data, $type='training')
